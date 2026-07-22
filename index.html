@@ -3,76 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ЛОКУС·УЯВИ</title>
+    <title>ЛОКУС•УЯВИ</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
     
     <style>
-
-/* Додаємо відносне позиціонування для секції, щоб прив'язати до неї світіння */
-.hero { position: relative; text-align: center; overflow: hidden; }
-
-/* Створюємо дві атмосферні плями */
-.hero::before, .hero::after {
-    content: '';
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(120px);
-    z-index: -1; /* Ховаємо під текст */
-    pointer-events: none;
-}
-
-/* Теплий теракотовий/персиковий відтінок зліва зверху */
-.hero::before {
-    top: -10%; left: -5%;
-    width: 50vw; height: 50vw;
-    background: rgba(217, 138, 108, 0.15); /* Ваш фірмовий акцентний колір, але напівпрозорий */
-}
-
-/* М'який фісташковий відтінок справа знизу */
-.hero::after {
-    bottom: -10%; right: -5%;
-    width: 60vw; height: 60vw;
-    background: rgba(163, 177, 155, 0.15);
-}
-
-.hero-editorial-image {
-
-    display: flex; /* 🌟 Вмикаємо Flexbox (ОБОВ'ЯЗКОВО) */
-    justify-content: center; /* Центрування по горизонталі */
-    align-items: center;
-
-    max-width: 740px; /* Невеликий розмір */
-    max-height: 50px; /* Невеликий розмір */
-    margin: 0 auto 40px; /* Відступ знизу до лейбла */
-    border-radius: 16px;
-    overflow: hidden;
-
-    box-shadow: 0 20px 40px rgba(0,0,0,0.05);
-    /* Ефект появи */
-    animation: floatUp 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-    opacity: 0;
-    transform: translateY(20px);
-}
-
-.hero-editorial-image img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    /* Знову ж таки, приглушуємо кольори для єдності стилю */
-    filter: grayscale(20%) sepia(10%); 
-}
-
-@keyframes floatUp {
-    to { opacity: 1; transform: translateY(0); }
-}
-
-
-
-
-
-        :root {
+:root {
     /* Кольори фону */
     --bg-page: #FCFCF9;
     --bg-card: #FFFFFF;
@@ -86,767 +24,313 @@
     --text-light: #F7F7F7;
     --accent-green: #687A6C;
     
-    /* Шрифти */
+    /* Шрифти та форми */
     --font-serif: 'Lora', serif;
     --font-sans: 'Inter', sans-serif;
-    
-    /* Форми (повертаємо заокруглення!) */
     --radius-card: 20px;
     --radius-btn: 100px;
-    
-    /* Анімації (повертаємо плавність) */
     --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
         
-        body {
-            font-family: var(--font-sans);
-            background-color: var(--bg-page);
-            color: var(--text-dark);
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-        }
-        body.no-scroll { overflow: hidden; } /* Блокування фонового скролу при відкритій панелі */
+body {
+    font-family: var(--font-sans);
+    background-color: var(--bg-page);
+    color: var(--text-dark);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+body.no-scroll { overflow: hidden; }
 
-        h1, h2, h3, h4, h5, .serif { font-family: var(--font-serif); font-weight: 500; }
-        a { text-decoration: none; color: inherit; }
-    
+h1, h2, h3, h4, h5, .serif { font-family: var(--font-serif); font-weight: 500; }
+a { text-decoration: none; color: inherit; }
 
-        .container { max-width: 1200px; margin: 0 auto; padding: 40px 50px 24px; }
+/* Зменшили відступи контейнера для мобільних екранів */
+.container { max-width: 1200px; margin: 0 auto; padding: 40px 24px 24px; }
         
-        .label {
-            font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
-            color: var(--text-muted); margin-bottom: 24px; display: flex; align-items: center; gap: 8px;
-        }
+.label {
+    font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--text-muted); margin-bottom: 24px; display: flex; align-items: center; gap: 8px; justify-content: flex-start;
+}
+.label.center { justify-content: center; }
 
-        /* --- Кнопки --- */
-        .btn {
-            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-            padding: 14px 28px; border-radius: var(--radius-btn); font-size: 14px;
-            font-weight: 500; cursor: pointer; border: 1px solid transparent; transition: var(--transition);
-        }
-        .btn-small { padding: 10px 20px; font-size: 13px; }
-        .btn-dark { background-color: var(--bg-dark); color: var(--text-light); }
-        .btn-dark:hover { transform: translateY(-2px); opacity: 0.9; }
-        .btn-outline { background-color: transparent; border-color: #D0D0D0; }
-        .btn-outline:hover { border-color: var(--text-dark); }
+/* --- Кнопки --- */
+.btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 14px 28px; border-radius: var(--radius-btn); font-size: 14px;
+    font-weight: 500; cursor: pointer; border: 1px solid transparent; transition: var(--transition);
+}
+.btn-small { padding: 10px 20px; font-size: 13px; }
+.btn-dark { background-color: var(--bg-dark); color: var(--text-light); }
+.btn-dark:hover { transform: translateY(-2px); opacity: 0.9; }
+.btn-outline { background-color: transparent; border-color: #D0D0D0; }
+.btn-outline:hover { border-color: var(--text-dark); }
+.btn-icon { width: 18px; height: 18px; fill: currentColor; transition: var(--transition); }
+.btn:hover .btn-icon { transform: scale(1.1); }
 
-        /* --- Плаваюча шапка (Desktop) --- */
+/* --- Плаваюча шапка (Desktop & Mobile) --- */
 .site-header { 
-    position: fixed; 
-    top: 24px; 
-    left: 50%; 
-    transform: translateX(-50%); 
-    width: calc(100% - 48px); /* Відступи по краях */
-    max-width: 1000px; 
+    position: fixed; top: 24px; left: 0; right: 0; margin: 0 auto; 
+    width: calc(100% - 48px); max-width: 1000px; 
     background: rgba(255, 255, 255, 0.85); 
-    backdrop-filter: blur(16px); 
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(0,0,0,0.05);
-    border-radius: 100px; /* Форма капсули */
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(0,0,0,0.05); border-radius: 100px; 
     padding: 12px 12px 12px 24px; 
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
-    z-index: 1000; 
-    box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+    display: flex; justify-content: space-between; align-items: center; 
+    z-index: 1000; box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+    transition: var(--transition);
 }
-
-/* --- Витончений логотип --- */
 .logo { 
-    font-family: var(--font-serif); 
-    font-size: 20px; 
-    font-weight: 400; /* Легша і дорожча товщина */
-    color: var(--text-dark); 
-    letter-spacing: 0.1em; /* Більше повітря між літерами */
-    text-transform: uppercase; 
-    display: flex;
-    align-items: center;
-    gap: 8px; /* Відстань між "ЛОКУС" та "уяви" */
+    font-family: var(--font-serif); font-size: 20px; font-weight: 400; 
+    color: var(--text-dark); letter-spacing: 0.1em; text-transform: uppercase; 
+    display: flex; align-items: center; gap: 8px; z-index: 1002;
 }
-.logo i { 
-    font-style: italic; 
-    color: var(--accent-green); /* Наш фірмовий приглушений зелений */
-    font-weight: 400; 
-    text-transform: lowercase; 
-    font-size: 22px; /* Трохи більший розмір для динаміки */
-    letter-spacing: 0;
-}
-
-/* --- Іконки всередині кнопок CTA --- */
-.btn-icon {
-    width: 18px; 
-    height: 18px; 
-    fill: currentColor; /* Іконка автоматично бере колір тексту кнопки */
-    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-}
-.btn:hover .btn-icon {
-    transform: scale(1.1); /* Легке збільшення іконки при наведенні */
-}
-
+.logo i { font-style: italic; color: var(--accent-green); text-transform: lowercase; font-size: 22px; letter-spacing: 0; }
 
 .main-nav { display: flex; gap: 32px; align-items: center; }
 .main-nav a { color: var(--text-muted); font-size: 12px; font-weight: 600; transition: var(--transition); text-transform: uppercase; letter-spacing: 0.15em; }
 .main-nav a:hover { color: var(--text-dark); }
-
-.header-actions { display: flex; align-items: center; gap: 16px; }
+.header-actions { display: flex; align-items: center; gap: 16px; z-index: 1002;}
 .burger-btn { display: none; }
 .mobile-only-btn { display: none; }
 
-/* --- Мобільна шапка та меню --- */
+/* Логіка мобільного меню (Розгортаємо саму шапку, щоб обійти баг з blur) */
 @media (max-width: 768px) {
-    .site-header { top: 16px; padding: 12px 16px 12px 20px; }
-    .desktop-only-btn { display: none; }
+    .site-header { top: 16px; width: calc(100% - 32px); padding: 12px 16px 12px 20px; }
+    .site-header.menu-open { 
+        width: 100%; top: 0; border-radius: 0; background: var(--bg-page); 
+        height: 100vh; flex-direction: column; align-items: stretch; padding: 20px;
+        backdrop-filter: none; -webkit-backdrop-filter: none; border: none;
+    }
+    .site-header.menu-open .header-actions { position: absolute; top: 16px; right: 20px; }
+    .site-header.menu-open .logo { position: absolute; top: 20px; left: 20px; }
     
-    /* Кнопка Гамбургер */
+    .desktop-only-btn { display: none; }
     .burger-btn { 
         display: flex; flex-direction: column; gap: 5px; 
         background: none; border: none; cursor: pointer; 
         width: 40px; height: 40px; justify-content: center; align-items: center;
-        z-index: 1001;
     }
-    .burger-btn span { width: 20px; height: 1.5px; background: var(--text-dark); transition: var(--transition); }
+    .burger-btn span { width: 24px; height: 1.5px; background: var(--text-dark); transition: var(--transition); }
     .burger-btn.open span:first-child { transform: translateY(3.2px) rotate(45deg); }
     .burger-btn.open span:last-child { transform: translateY(-3.2px) rotate(-45deg); }
 
-    /* Повноекранне мобільне меню */
-    .main-nav { 
-        position: fixed; top: 0; left: 0; width: 100%; height: 100vh; 
-        background: var(--bg-page); 
-        flex-direction: column; justify-content: center; 
-        opacity: 0; visibility: hidden; 
-        transition: var(--transition); 
-        padding: 40px;
+    .main-nav { display: none; }
+    .site-header.menu-open .main-nav { 
+        display: flex; flex-direction: column; justify-content: center; align-items: center; 
+        height: 100%; margin-top: 40px;
     }
-    .main-nav.open { opacity: 1; visibility: visible; }
-    
-    /* Великі красиві посилання для телефону */
-    .main-nav a:not(.btn) { font-family: var(--font-serif); font-size: 32px; color: var(--text-dark); margin-bottom: 16px; }
-    .mobile-only-btn { display: inline-flex; margin-top: 40px; width: 100%; }
+    .site-header.menu-open .main-nav a:not(.btn) { font-family: var(--font-serif); font-size: 32px; color: var(--text-dark); margin-bottom: 24px; letter-spacing: 0; text-transform: none;}
+    .mobile-only-btn { display: inline-flex; width: 100%; max-width: 280px; margin-top: 24px; }
 }
 
+/* --- Секції та розвороти --- */
+.section-fullscreen { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 120px 0 80px; }
+.hero { position: relative; text-align: center; overflow: hidden; }
+.hero::before, .hero::after { content: ''; position: absolute; border-radius: 50%; filter: blur(120px); z-index: -1; pointer-events: none; }
+.hero::before { top: -10%; left: -5%; width: 50vw; height: 50vw; background: rgba(217, 138, 108, 0.15); }
+.hero::after { bottom: -10%; right: -5%; width: 60vw; height: 60vw; background: rgba(163, 177, 155, 0.15); }
 
-        
-        .section-fullscreen { min-height: 80vh; display: flex; flex-direction: column; justify-content: center; padding: 10px 20px; }
-        .hero { text-align: center; }
-        .hero h1 { font-size: clamp(3rem, 7vw, 6.5rem); line-height: 1.05; margin-bottom: 32px; letter-spacing: -0.03em; }
-        .hero h1 i { color: var(--accent-green); font-style: italic; }
-        .hero p { max-width: 680px; margin: 0 auto 48px; font-size: 18px; color: var(--text-muted); }
-
-        /* --- Картки форматів на головній --- */
-        .formats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 24px; padding-bottom: 100px; }
-        .card { background: var(--bg-card); border: 1px solid #EAEAEA; border-radius: var(--radius-card); padding: 40px; display: flex; flex-direction: column; transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.5s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.5s ease; }
-
-.card:hover { 
-    transform: translateY(-4px); 
-    box-shadow: 0 16px 40px rgba(0,0,0,0.04); 
-    border-color: #D0D0D0; 
+/* Виправлено сплющене зображення */
+.hero-editorial-image {
+    max-width: 320px; height: 180px; margin: 0 auto 40px; border-radius: 16px; overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.05); animation: floatUp 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    opacity: 0; transform: translateY(20px);
 }
-        .card.dark { background: var(--bg-dark); color: var(--text-light); border-color: var(--bg-dark); }
-        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-        .card h3 { font-size: 36px; margin-bottom: 16px; letter-spacing: -0.02em; }
-        .card p { color: var(--text-muted); margin-bottom: 40px; flex-grow: 1; }
-        .card.dark p { color: #A0A0A0; }
-        .card-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #EAEAEA; padding-top: 24px; }
-        .card.dark .card-footer { border-color: #333; }
+.hero-editorial-image img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%) sepia(10%); }
+@keyframes floatUp { to { opacity: 1; transform: translateY(0); } }
 
-        /* ========================================================= */
-        /* OFF-CANVAS ПАНЕЛЬ (Виїжджає справа)                       */
-        /* ========================================================= */
-        .panel-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.4); backdrop-filter: blur(4px);
-            z-index: 999; opacity: 0; visibility: hidden; transition: var(--transition);
-        }
-        .panel-overlay.active { opacity: 1; visibility: visible; }
+.hero h1 { font-size: clamp(3rem, 7vw, 6.5rem); line-height: 1.05; margin-bottom: 24px; letter-spacing: -0.03em; }
+.hero h1 i { color: var(--accent-green); font-style: italic; }
+.hero p { max-width: 600px; margin: 0 auto 48px; font-size: 18px; color: var(--text-muted); }
 
-        .side-panel {
-            position: fixed; top: 0; right: -100%;
-            width: 100%; max-width: 800px; height: 100vh;
-            background: var(--bg-page); box-shadow: -10px 0 40px rgba(0,0,0,0.1);
-            z-index: 1000; overflow-y: auto; transition: right 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-        .side-panel.active { right: 0; }
-        
-        .panel-content { padding: 80px 64px; }
-        .close-panel {
-            position: absolute; top: 32px; right: 32px;
-            background: var(--bg-card); border: 1px solid #EAEAEA;
-            width: 48px; height: 48px; border-radius: 50%;
-            font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center;
-            transition: var(--transition); z-index: 10;
-        }
-        .close-panel:hover { background: #F0F0F0; }
-
-        .details-title { font-size: 56px; margin-bottom: 24px; letter-spacing: -0.02em; }
-        .details-subtitle { color: var(--text-muted); font-size: 18px; margin-bottom: 64px; }
-
-        /* Внутрішні блоки панелі */
-        .info-box { padding: 40px; border-radius: var(--radius-card); border: 1px solid #EAEAEA; background: var(--bg-card); margin-bottom: 24px;}
-        .info-box h4 { font-size: 28px; margin-bottom: 24px; }
-        .custom-list { list-style: none; }
-        .custom-list li { position: relative; padding-left: 24px; margin-bottom: 16px; color: var(--text-muted); }
-        .custom-list li::before { content: ''; position: absolute; left: 0; top: 10px; width: 6px; height: 6px; background: #A0A0A0; border-radius: 50%; }
-
-        /* FAQ (Акордеон) */
-        .faq-section { margin-top: 80px; }
-        .faq-section h2 { font-size: 40px; margin-bottom: 40px; }
-        details.faq-item { border-top: 1px solid #EAEAEA; padding: 24px 0; }
-        details.faq-item:last-of-type { border-bottom: 1px solid #EAEAEA; }
-        details.faq-item summary { list-style: none; font-weight: 500; font-size: 16px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-        details.faq-item summary::-webkit-details-marker { display: none; }
-        details.faq-item summary::after { content: '+'; font-size: 20px; color: var(--text-muted); font-weight: 300; transform: rotate(0); transition: 0.3s; }
-        details.faq-item[open] summary::after { transform: rotate(45deg); }
-        details.faq-item p { color: var(--text-muted); margin-top: 16px; font-size: 15px; }
-
-        /* Інші формати (Міні-картки) */
-        .other-formats { margin-top: 100px; }
-        .other-formats h2 { font-size: 40px; margin-bottom: 40px; }
-        .mini-cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
-        .mini-card { border: 1px solid #EAEAEA; background: var(--bg-card); padding: 24px; border-radius: 16px; display: flex; flex-direction: column; transition: var(--transition); cursor: pointer;}
-        .mini-card:hover { border-color: #D0D0D0; }
-        .mini-card .label { margin-bottom: 12px; font-size: 10px; }
-        .mini-card h4 { font-size: 20px; margin-bottom: 24px; font-family: var(--font-serif); }
-        .mini-card span { font-size: 12px; font-weight: 500; display: flex; align-items: center; gap: 8px; margin-top: auto; }
-
-        /* ========================================================= */
-/* ПРО АВТОРА ТА ФУТЕР (Головна сторінка)                    */
-/* ========================================================= */
-.about-section { padding: 120px 0; border-top: 1px solid #EAEAEA; }
-.about-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 80px; align-items: top; }
-
-.author-photo {
-    background-color: var(--bg-photo);
-    border-radius: 24px;
-    aspect-ratio: 3/4;
-    width: 100%;
-    display: flex; align-items: flex-end; justify-content: center;
-    overflow: hidden;
-    position: relative;
-}
-.author-photo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-}
-
-/* МАГІЯ: Цей клас рятує сітку від розтягування і повертає фотографію */
-.about-content {
-    min-width: 0; 
-}
-.about-content h2 { font-size: 48px; margin-bottom: 8px; }
-.about-content .subtitle { font-size: 14px; color: var(--text-muted); margin-bottom: 40px; display: block; }
-.about-content p { font-size: 18px; color: var(--text-muted); max-width: 600px; }
-
-        .site-footer {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 40px 24px; border-top: 1px solid #EAEAEA; font-size: 13px; color: var(--text-muted);
-        }
-        .footer-links { display: flex; gap: 24px; align-items: center; }
-        .social-icon { width: 20px; height: 20px; fill: currentColor; transition: var(--transition); }
-        .social-icon:hover { color: var(--text-dark); }
-
-        @media (max-width: 768px) {
-            .main-nav { display: none; }
-            .hero h1 { font-size: 3rem; }
-            .about-grid { grid-template-columns: 1fr; gap: 40px; }
-            .panel-content { padding: 64px 24px; }
-            .close-panel { top: 16px; right: 16px; }
-            .site-footer { flex-direction: column; gap: 24px; text-align: center; }
-        }
-
-
-        /* --- Нові стилі для розворотів та заголовків --- */
-.section-fullscreen { 
-    min-height: 100vh; /* Робить блок на всю висоту екрана */
-    display: flex; 
-    flex-direction: column; 
-    justify-content: center; 
-    padding: 80px 0; 
-}
-
-.philosophy-grid { 
-    display: grid; 
-    grid-template-columns: 1fr; 
-    gap: 24px; 
-}
-.philosophy-grid h2 { font-size: clamp(2.5rem, 4vw, 3rem); line-height: 1.2; margin-bottom: 24px; letter-spacing: -0.02em; }
-.philosophy-grid p { font-size: 18px; color: var(--text-muted); margin-bottom: 24px; }
-
-.section-header {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    margin-bottom: 64px;
-}
+/* Центрування заголовків на мобільному */
+.section-header { display: flex; flex-direction: column; gap: 16px; margin-bottom: 48px; text-align: center; align-items: center; }
 .section-header h2 { font-size: clamp(2.5rem, 5vw, 4rem); letter-spacing: -0.02em; line-height: 1.1; }
-.section-header p { color: var(--text-muted); font-size: 16px; line-height: 1.5; }
-
+.section-header p { color: var(--text-muted); font-size: 16px; line-height: 1.5; max-width: 400px;}
 @media (min-width: 768px) {
-    .philosophy-grid { grid-template-columns: 1fr 2fr; gap: 40px; align-items: flex-start; margin-left: 40px; }
-    .section-header { flex-direction: row; justify-content: space-between; align-items: flex-end; }
-    .section-header > div:first-child { flex: 2; }
+    .section-header { flex-direction: row; justify-content: space-between; align-items: flex-end; text-align: left; margin-bottom: 64px; }
+    .section-header > div:first-child { flex: 2; align-items: flex-start;}
     .section-header > div:last-child { flex: 1; max-width: 320px; padding-bottom: 12px; }
+    .section-header p { text-align: left; }
 }
 
+/* --- Картки форматів (Виправлено розрив сітки) --- */
+/* Замінили 400px на 280px, щоб влазило в мобільний */
+.formats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; padding-bottom: 100px; }
+.card { background: var(--bg-card); border: 1px solid #EAEAEA; border-radius: var(--radius-card); padding: 32px; display: flex; flex-direction: column; transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.5s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.5s ease; }
+.card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.04); border-color: #D0D0D0; }
+.card.dark { background: var(--bg-dark); color: var(--text-light); border-color: var(--bg-dark); }
+.card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+.card h3 { font-size: 32px; margin-bottom: 16px; letter-spacing: -0.02em; }
+.card p { color: var(--text-muted); margin-bottom: 32px; flex-grow: 1; }
+.card.dark p { color: #A0A0A0; }
+.card-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #EAEAEA; padding-top: 24px; flex-wrap: wrap; gap: 16px; }
+.card.dark .card-footer { border-color: #333; }
+.card-image { width: 100%; height: 180px; object-fit: cover; border-radius: 12px; margin-bottom: 24px; filter: grayscale(40%) sepia(10%) contrast(1.1); transition: filter 0.8s ease, transform 0.8s ease; }
+.card:hover .card-image { filter: grayscale(0%) sepia(0%) contrast(1); }
 
-
-/* --- БЛОК КУРСУ --- */
-.course-section { padding: 100px 0; }
-
-.course-card {
-    background-color: #DFE6DB; /* Фісташковий відтінок зі скриншоту */
-    border-radius: 24px;
-    padding: 64px;
-    position: relative;
-    overflow: hidden;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 64px;
-    align-items: center;
-}
-
-/* Теплий градієнтний відблиск у правому верхньому куті */
-.course-card::before {
-    content: ''; 
-    position: absolute; 
-    top: -50px; right: -50px;
-    width: 300px; height: 300px;
-    background: radial-gradient(circle, rgba(214,188,154,0.4) 0%, rgba(223,230,219,0) 70%);
-    border-radius: 50%; 
-    pointer-events: none;
-}
-
-.course-badge {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(255,255,255,0.6); 
-    border: 1px solid rgba(255,255,255,0.8);
-    padding: 8px 16px; border-radius: 100px;
-    font-size: 10px; font-weight: 600; letter-spacing: 0.1em; 
-    text-transform: uppercase; color: #666; margin-bottom: 32px;
-}
-
-.course-badge::before {
-    content: ''; width: 6px; height: 6px; background: #D68F6C; border-radius: 50%;
-}
-
-.course-card h2 { 
-    font-size: clamp(3rem, 5vw, 4rem); 
-    line-height: 1.1; margin-bottom: 24px; letter-spacing: -0.02em; 
-}
-.course-card h2 i { font-style: italic; font-weight: 400; }
-.course-card p { font-size: 16px; color: #4A554C; max-width: 480px; }
-
-.waitlist-box {
-    background: var(--bg-page);
-    border-radius: 20px; 
-    padding: 48px 40px; /* Додано більше повітря зверху та знизу */
-    box-shadow: 0 24px 60px rgba(0,0,0,0.05); /* Глибша, але м'якша тінь */
-    position: relative; z-index: 2;
-}
-
-.waitlist-box .label { margin-bottom: 16px; font-size: 10px; }
-.waitlist-form { display: flex; flex-direction: column; gap: 16px; }
-
-.waitlist-input {
-    width: 100%; padding: 16px 20px;
-    border: 1px solid #EAEAEA; border-radius: 100px;
-    font-family: inherit; font-size: 14px; outline: none; transition: var(--transition);
-}
-
-.waitlist-input:focus { border-color: var(--text-dark); }
-.waitlist-box p { font-size: 11px; color: var(--text-muted); margin-top: 16px; margin-bottom: 0; }
-
-@media (max-width: 900px) {
-    .course-card { grid-template-columns: 1fr; padding: 40px 24px; gap: 40px; }
-    .waitlist-box { padding: 32px 24px; }
-}
-
-
-
-/* --- Поява ліній (Hairline Reveal) --- */
-.draw-line {
-    position: relative;
-    border-top: none !important; /* Прибираємо стандартні рамки, якщо були */
-}
-.draw-line::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 1px;
-    background-color: #EAEAEA;
-    transition: width 1.2s cubic-bezier(0.25, 1, 0.5, 1);
-}
-/* Коли скрипт бачить блок, він додає клас in-view */
-.draw-line.in-view::before {
-    width: 100%;
-}
-
-/* Темні лінії для карток на темному фоні */
-.card.dark.draw-line::before { background-color: #333; }
-
-/* --- 3. Рух заголовків (Editorial Text Drift) --- */
-.drift-text {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 1s ease, transform 1s cubic-bezier(0.25, 1, 0.5, 1);
-}
-.drift-text.in-view {
-    opacity: 1;
-    transform: translateY(0);
-}
-/* Курсив (i) всередині заголовка випливає трохи пізніше для ефекту глибини */
-.drift-text i {
-    display: inline-block;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 1s ease 0.3s, transform 1s cubic-bezier(0.25, 1, 0.5, 1) 0.3s;
-}
-.drift-text.in-view i {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-
-
-
-
-
-.with-animated-lines {
-  position: relative;
-  overflow: hidden;
-}
-
-.decor-line {
-  position: absolute;
-  left: 0;
-  width: 100%;
-  pointer-events: none;
-  z-index: 0;
-}
-.decor-line.top { top: 10px; }
-.decor-line.bottom { bottom: 10px; }
-
-/* Налаштування плавності */
-.smooth-path {
-  fill: none;
-  stroke-linecap: round;
-  /* Підказуємо браузеру використовувати апаратне прискорення */
-  will-change: stroke-dashoffset; 
-  /* Сама анімація (2 секунди, м'яке прискорення і гальмування) */
-  transition: stroke-dashoffset 2s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-.with-animated-lines.is-visible .smooth-path {
-  stroke-dashoffset: 0 !important;
-}
-
-
-
-/* ========================================================= */
-/* ОСВІТА ТА КВАЛІФІКАЦІЯ (Горизонтальний скрол карток)     */
-/* ========================================================= */
-.credentials-wrapper {
-    margin-top: 48px;
-    width: 100%;
-}
-
-.credentials-scroll {
-    display: flex; /* Ряд карток */
-    flex-wrap: nowrap; /* Заборона перенесення на новий рядок */
-    gap: 16px;
-    width: 100%;
-    overflow-x: auto; /* Вмикаємо скрол */
-    padding-bottom: 24px; /* Місце для тіні при наведенні */
-    scroll-snap-type: x mandatory; /* Плавне дотягування до краю */
-    scrollbar-width: none; /* Ховаємо скролбар Firefox */
-    -webkit-overflow-scrolling: touch; /* Ідеальна плавність на iPhone */
-}
-.credentials-scroll::-webkit-scrollbar { display: none; } /* Ховаємо скролбар Safari/Chrome */
-
-.credential-card {
-    flex: 0 0 260px; /* Фіксована ширина картки: не стискається і не розтягується */
-    background: var(--bg-card);
-    border: 1px solid #EAEAEA;
-    border-radius: 16px;
-    padding: 24px;
-    scroll-snap-align: start;
-    display: flex;
-    flex-direction: column;
-    transition: var(--transition);
-    white-space: normal; /* Дозволяємо тексту переноситися */
-}
-.credential-card:hover { 
-    border-color: #D0D0D0; 
-    transform: translateY(-2px); /* Легка левітація при наведенні */
-    box-shadow: 0 10px 30px rgba(0,0,0,0.03); 
-}
-
-.credential-card .deg { font-family: var(--font-serif); font-size: 16px; margin-bottom: 8px; line-height: 1.3; color: var(--text-dark); }
-.credential-card .uni { font-size: 12px; color: var(--text-muted); line-height: 1.4; flex-grow: 1; }
-
-/* Статус (зелений текст) замість років */
-.credential-card .year { 
-    font-size: 11px; 
-    color: var(--accent-green); 
-    margin-top: auto; 
-    padding-top: 12px;
-    font-weight: 500; 
-    text-transform: uppercase; 
-    letter-spacing: 0.05em; 
-
-}
-
-
-/* ========================================================= */
-/* ВІДГУКИ (Стиль Stoic)                                     */
-/* ========================================================= */
-
-/* Адаптив для мобілок (щоб на телефонах відгуки теж мали поля по боках) */
+/* --- OFF-CANVAS ПАНЕЛЬ --- */
+.panel-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); z-index: 999; opacity: 0; visibility: hidden; transition: var(--transition); }
+.panel-overlay.active { opacity: 1; visibility: visible; }
+.side-panel { position: fixed; top: 0; right: -100%; width: 100%; max-width: 800px; height: 100vh; background: var(--bg-page); box-shadow: -10px 0 40px rgba(0,0,0,0.1); z-index: 1000; overflow-y: auto; transition: right 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); }
+.side-panel.active { right: 0; }
+.panel-content { padding: 80px 64px; }
+/* Закріпили хрестик, щоб не губився при скролі */
+.close-panel { position: fixed; top: 32px; right: 32px; background: var(--bg-card); border: 1px solid #EAEAEA; width: 48px; height: 48px; border-radius: 50%; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: var(--transition); z-index: 1010; }
+.close-panel:hover { background: #F0F0F0; }
 @media (max-width: 768px) {
-    .testimonials-section { padding: 60px 20px; }
+    .panel-content { padding: 80px 24px 64px; }
+    .close-panel { top: 16px; right: 16px; width: 40px; height: 40px;}
 }
 
+/* Типографіка в панелі */
+.details-title { font-size: clamp(2.5rem, 5vw, 3.5rem); margin-bottom: 24px; letter-spacing: -0.02em; line-height: 1.1;}
+.details-subtitle { color: var(--text-muted); font-size: 18px; margin-bottom: 48px; }
+.lead-text { font-family: var(--font-serif); font-size: 20px; line-height: 1.5; color: var(--text-dark); margin-bottom: 40px; }
+.elegant-img { width: 100%; max-height: 400px; object-fit: cover; border-radius: 16px; margin: 32px 0; filter: grayscale(10%) sepia(10%) contrast(1.05); opacity: 0.95; }
 
-/* 1. Загортаємо відгуки у загальний контейнер, щоб вони не липли до країв */
-.testimonials-section {
-    padding: 100px 50px; /* Додали бокові відступи як на головній */
-    max-width: 1200px;
-    margin: 0 auto;
-}
-.testimonials-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 24px;
-}
-/* 2. Робимо картки відгуків компактнішими (менше внутрішнього простору) */
-.testimonial-card {
-    background: var(--bg-card);
-    border: 1px solid #EAEAEA;
-    border-radius: var(--radius-card);
-    padding: 28px; /* Зменшили з 40px до 28px */
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-.testimonial-text {
-    font-size: 14px; /* Трохи менший, легший шрифт */
-    color: var(--text-dark);
-    line-height: 1.5;
-    flex-grow: 1;
-}
-.testimonial-author {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-.author-avatar {
-    width: 40px; height: 40px;
-    background: #EAEAEA;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 12px; font-weight: 600; color: var(--text-muted);
-}
-.author-info span { display: block; font-size: 13px; font-weight: 600; }
-.author-info small { color: var(--text-muted); font-size: 11px; }
+/* Компоненти панелі */
+.features-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin: 24px 0 48px; }
+@media (min-width: 600px) { .features-grid { grid-template-columns: 1fr 1fr; } }
+.feature-item { padding: 24px; background: #FAFAFA; border-radius: 16px; border: 1px solid #EAEAEA; transition: var(--transition); }
+.feature-item:hover { border-color: var(--accent-green); background: #F8FAF8; transform: translateY(-2px); }
+.feature-title { display: block; font-weight: 600; font-size: 14px; margin-bottom: 8px; color: var(--accent-green); }
+.feature-text { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
 
+.data-list { list-style: none; padding: 0; margin: 24px 0 48px; border-top: 1px solid #EAEAEA; }
+.data-list li { display: flex; flex-direction: column; padding: 20px 0; border-bottom: 1px solid #EAEAEA; font-size: 15px; gap: 8px;}
+@media (min-width: 600px) { 
+    .data-list li { flex-direction: row; align-items: flex-start; gap: 0; } 
+    .data-list li span:first-child { flex: 0 0 30%; margin-bottom: 0; padding-right: 20px; }
+    .data-list li span:last-child { flex: 1; text-align: left; line-height: 1.6; }
+}
+.data-list li span:first-child { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; }
+.data-list li span:last-child { font-weight: 500; color: var(--text-dark); }
 
-
-
-
-/* ========================================================= */
-/* КОМПОНЕНТИ ДЛЯ НАПОВНЕННЯ ТЕКСТУ (ЛЕГО-БЛОКИ)             */
-/* ========================================================= */
-.elegant-card { background: var(--bg-card); border-radius: 24px; padding: 40px; margin: 40px 0; box-shadow: 0 10px 40px rgba(0,0,0,0.02); border: 1px solid #F0F0F0; }
+.elegant-card { background: var(--bg-card); border-radius: 24px; padding: 32px; margin: 40px 0; border: 1px solid #F0F0F0; }
+@media (min-width: 768px) { .elegant-card { padding: 40px; } }
+.elegant-card.bg-sage { background-color: var(--bg-sage); border-color: #D3DCD0; }
+.elegant-card.bg-photo { background-color: var(--bg-photo); border-color: #E6E2D8; }
 .elegant-card h3 { font-family: var(--font-serif); font-size: 22px; margin: 32px 0 16px; color: var(--text-dark); }
 .elegant-card h3:first-child { margin-top: 0; }
 .elegant-list { list-style: none; margin: 24px 0; }
 .elegant-list li { position: relative; padding-left: 24px; margin-bottom: 16px; color: var(--text-muted); }
 .elegant-list li::before { content: ''; position: absolute; left: 0; top: 10px; width: 6px; height: 6px; background: #D0D0D0; border-radius: 50%; }
 .elegant-list strong { color: var(--text-dark); font-weight: 600; }
-.elegant-separator { height: 1px; background: #EAEAEA; margin: 48px 0; position: relative; overflow: hidden; }
-.elegant-separator::after { content: ''; position: absolute; top: 0; left: 0; width: 0; height: 100%; background: var(--text-muted); transition: width 1.5s cubic-bezier(0.25, 1, 0.5, 1); }
-.elegant-separator.in-view::after { width: 100px; }
-.btn-inline { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-serif); font-size: 20px; color: var(--text-dark); border-bottom: 1px solid var(--text-muted); padding-bottom: 4px; margin-top: 24px; transition: var(--transition); }
-.btn-inline:hover { gap: 16px; border-color: var(--text-dark); }
 .elegant-quote { border-left: 2px solid var(--accent-green); padding: 16px 0 16px 24px; margin: 32px 0; font-style: italic; color: var(--text-muted); font-size: 18px; }
 
-/* 1. Вступний акцентний текст */
-.lead-text { font-family: var(--font-serif); font-size: 20px; line-height: 1.5; color: var(--text-dark); margin-bottom: 40px;
-}
-/* 2. Сітка карток (Для правил безпеки) */
-.features-grid { display: grid; grid-template-columns: 1fr;  gap: 16px; margin: 24px 0 48px;
-}
-@media (min-width: 600px) { .features-grid { grid-template-columns: 1fr 1fr; } }
-.feature-item {  padding: 24px; background: #FAFAFA;  border-radius: 16px; border: 1px solid #EAEAEA; transition: var(--transition);
-}
-.feature-item:hover { border-color: #D0D0D0; background: var(--bg-card); }
-.feature-title { display: block; font-weight: 600; font-size: 14px; margin-bottom: 8px; color: var(--text-dark); }
-.feature-text { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+/* --- ПРО АВТОРА --- */
+.about-section { padding: 120px 0; border-top: 1px solid #EAEAEA; }
+.about-grid { display: grid; grid-template-columns: 1fr; gap: 40px; align-items: top; }
+@media (min-width: 768px) { .about-grid { grid-template-columns: 1fr 1.5fr; gap: 80px; } }
+.author-photo { background-color: var(--bg-photo); border-radius: 24px; aspect-ratio: 3/4; width: 100%; overflow: hidden; }
+.author-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.about-content { min-width: 0; } /* Рятує від Grid Blowout */
+.about-content h2 { font-size: clamp(2.5rem, 5vw, 3rem); margin-bottom: 8px; line-height: 1.1; }
+.about-content .subtitle { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; display: block; }
+.about-content p { font-size: 16px; color: var(--text-muted); max-width: 600px; line-height: 1.6; }
 
-/* 3. Таблиця даних (Для формату) */
-.data-list { list-style: none; padding: 0; margin: 24px 0 48px; border-top: 1px solid #EAEAEA; }
-.data-list li {
-    display: flex;
-    flex-direction: column;
-    padding: 20px 0;
-    border-bottom: 1px solid #EAEAEA;
-    font-size: 15px;
+/* Карусель карток (Освіта) */
+.credentials-wrapper { margin-top: 48px; width: 100%; }
+.credentials-scroll { 
+    display: flex; flex-wrap: nowrap; gap: 16px; width: 100%; overflow-x: auto; 
+    padding-bottom: 24px; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; 
 }
-@media (min-width: 600px) { 
-    .data-list li { flex-direction: row; align-items: flex-start; } 
-    /* Сірий термін завжди займає 30% ширини */
-    .data-list li span:first-child { flex: 0 0 30%; margin-bottom: 0; padding-right: 20px; }
-    /* Чорний текст займає решту 70% і вирівняний по лівому краю */
-    .data-list li span:last-child { flex: 1; text-align: left; line-height: 1.6; }
+.credentials-scroll::-webkit-scrollbar { display: none; }
+.credential-card { 
+    flex: 0 0 260px; background: var(--bg-card); border: 1px solid #EAEAEA; border-radius: 16px; 
+    padding: 24px; scroll-snap-align: start; display: flex; flex-direction: column; 
+    transition: var(--transition); white-space: normal; 
 }
-.data-list li span:first-child { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; }
-.data-list li span:last-child { font-weight: 500; color: var(--text-dark); }
+.credential-card:hover { border-color: #D0D0D0; transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
+.credential-card .deg { font-family: var(--font-serif); font-size: 16px; margin-bottom: 8px; line-height: 1.3; color: var(--text-dark); }
+.credential-card .uni { font-size: 12px; color: var(--text-muted); line-height: 1.4; flex-grow: 1; }
+.credential-card .year { font-size: 11px; color: var(--accent-green); margin-top: auto; padding-top: 16px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
 
+/* --- КУРС ТА WAITLIST --- */
+.course-section { padding: 80px 0; }
+.course-card { background-color: #DFE6DB; border-radius: 24px; padding: 40px 24px; position: relative; overflow: hidden; display: grid; grid-template-columns: 1fr; gap: 40px; align-items: center; }
+@media (min-width: 900px) { .course-card { grid-template-columns: 1fr 1fr; padding: 64px; gap: 64px; } }
+.course-card::before { content: ''; position: absolute; top: -50px; right: -50px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(214,188,154,0.4) 0%, rgba(223,230,219,0) 70%); border-radius: 50%; pointer-events: none; }
+.course-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.6); border: 1px solid rgba(255,255,255,0.8); padding: 8px 16px; border-radius: 100px; font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #666; margin-bottom: 24px; }
+.course-badge::before { content: ''; width: 6px; height: 6px; background: #D68F6C; border-radius: 50%; }
+.course-card h2 { font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1.1; margin-bottom: 16px; letter-spacing: -0.02em; }
+.course-card h2 i { font-style: italic; font-weight: 400; }
+.course-card p { font-size: 16px; color: #4A554C; max-width: 480px; }
+.waitlist-box { background: var(--bg-page); border-radius: 20px; padding: 32px 24px; box-shadow: 0 24px 60px rgba(0,0,0,0.05); position: relative; z-index: 2; }
+@media (min-width: 768px) { .waitlist-box { padding: 48px 40px; } }
+.waitlist-form { display: flex; flex-direction: column; gap: 16px; margin-top: 16px; }
+.waitlist-input { width: 100%; padding: 16px 20px; border: 1px solid #EAEAEA; border-radius: 100px; font-family: inherit; font-size: 14px; outline: none; transition: var(--transition); }
+.waitlist-input:focus { border-color: var(--text-dark); }
+.waitlist-box p { font-size: 11px; color: var(--text-muted); margin-top: 16px; margin-bottom: 0; }
 
+/* --- ВІДГУКИ --- */
+.testimonials-section { padding: 80px 0; max-width: 1200px; margin: 0 auto; }
+.testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; } /* Виправлено minmax для мобільного */
+.testimonial-card { background: var(--bg-card); border: 1px solid #EAEAEA; border-radius: var(--radius-card); padding: 28px; display: flex; flex-direction: column; gap: 20px; }
+.testimonial-text { font-size: 14px; color: var(--text-dark); line-height: 1.5; flex-grow: 1; }
+.testimonial-author { display: flex; align-items: center; gap: 12px; }
+.author-avatar { width: 40px; height: 40px; background: var(--bg-photo); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+.author-info span { display: block; font-size: 13px; font-weight: 600; }
+.author-info small { color: var(--text-muted); font-size: 11px; }
 
-/* --- Кольорові акценти для карток у content.js --- */
-.elegant-card.bg-sage {
-    background-color: var(--bg-sage);
-    border-color: #D3DCD0;
-}
-.elegant-card.bg-photo {
-    background-color: var(--bg-photo); /* Теплий молочний */
-    border-color: #E6E2D8;
-}
+/* --- ФІНАЛЬНИЙ ЗАКЛИК (CTA) --- */
+.final-cta-section { padding: 40px 0 80px; max-width: 1200px; margin: 0 auto; }
+.final-cta-card { background: var(--bg-sage); border-radius: 24px; padding: 56px 24px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+@media (min-width: 768px) { .final-cta-card { padding: 80px 40px; } }
+.final-cta-card h2 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 24px; letter-spacing: -0.02em; }
+.final-cta-card p { max-width: 540px; margin: 0 auto 32px; color: #4A554C; font-size: 16px; line-height: 1.6; }
+.cta-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; width: 100%; max-width: 300px;}
+.cta-buttons .btn { width: 100%; }
+@media (min-width: 600px) { .cta-buttons { flex-wrap: nowrap; max-width: none; } .cta-buttons .btn { width: auto; } }
 
-/* --- Анімація появи елементів під час скролу панелі --- */
-.panel-anim {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
-}
-.panel-anim.in-view {
-    opacity: 1;
-    transform: translateY(0);
-}
+/* --- ФУТЕР --- */
+.site-footer { display: flex; flex-direction: column; gap: 24px; justify-content: space-between; align-items: center; padding: 40px 0; border-top: 1px solid #EAEAEA; font-size: 13px; color: var(--text-muted); text-align: center; }
+@media (min-width: 768px) { .site-footer { flex-direction: row; text-align: left; } }
+.footer-links { display: flex; gap: 24px; align-items: center; }
+.social-icon { width: 20px; height: 20px; fill: currentColor; transition: var(--transition); }
+.social-icon:hover { color: var(--text-dark); }
 
-/* --- Жива лінія у панелі (SVG) --- */
-.panel-svg-line {
-    width: 100%;
-    height: 40px;
-    margin: 40px 0;
-    overflow: visible;
-}
+/* --- Анімації та декорації --- */
+.panel-anim { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1); }
+.panel-anim.in-view { opacity: 1; transform: translateY(0); }
+.panel-svg-line { width: 100%; height: 40px; margin: 40px 0; overflow: visible; }
+.panel-svg-line path { fill: none; stroke-linecap: round; stroke-dasharray: 1000; stroke-dashoffset: 1000; transition: stroke-dashoffset 2s cubic-bezier(0.25, 1, 0.5, 1); }
+.line-peach path { stroke: #D98A6C; stroke-width: 2.5; } 
+.line-green path { stroke: #A3B19B; stroke-width: 4; } 
+.line-thick-peach path { stroke: #D98A6C; stroke-width: 12; stroke-opacity: 0.4; } 
+.line-dark path { stroke: var(--text-dark); stroke-width: 1; } 
+.panel-anim.in-view .panel-svg-line path { stroke-dashoffset: 0 !important; }
+.btn-inline { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-serif); font-size: 20px; color: var(--text-dark); border-bottom: 1px solid var(--text-muted); padding-bottom: 4px; margin-top: 24px; transition: var(--transition); }
+.btn-inline:hover { gap: 16px; border-color: var(--text-dark); }
 
-/* Базові налаштування плавності */
-.panel-svg-line path {
-    fill: none;
-    stroke-linecap: round;
-    stroke-dasharray: 1000;
-    stroke-dashoffset: 1000;
-    transition: stroke-dashoffset 2s cubic-bezier(0.25, 1, 0.5, 1);
-}
+.draw-line { position: relative; border-top: none !important; }
+.draw-line::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 0; height: 1px; background-color: #EAEAEA; transition: width 1.2s cubic-bezier(0.25, 1, 0.5, 1); }
+.draw-line.in-view::before { width: 100%; }
+.card.dark.draw-line::before { background-color: #333; }
+.drift-text { opacity: 0; transform: translateY(30px); transition: opacity 1s ease, transform 1s cubic-bezier(0.25, 1, 0.5, 1); }
+.drift-text.in-view { opacity: 1; transform: translateY(0); }
+.drift-text i { display: inline-block; opacity: 0; transform: translateY(20px); transition: opacity 1s ease 0.3s, transform 1s cubic-bezier(0.25, 1, 0.5, 1) 0.3s; }
+.drift-text.in-view i { opacity: 1; transform: translateY(0); }
 
-/* Палітра ліній (Кольори та товщина) */
-.line-peach path { stroke: #D98A6C; stroke-width: 2.5; } /* Стандартна тонка теракотова */
-.line-green path { stroke: #A3B19B; stroke-width: 4; } /* Зелена (як на скриншоті) */
-.line-thick-peach path { stroke: #D98A6C; stroke-width: 12; stroke-opacity: 0.4; } /* Широка напівпрозора теракотова */
-.line-dark path { stroke: var(--text-dark); stroke-width: 1; } /* Тонка строга темна лінія */
-
-/* Анімація малювання */
-.panel-anim.in-view .panel-svg-line path {
-    stroke-dashoffset: 0 !important;
-}
-
-/* Трохи кольору при наведенні на правила простору */
-.feature-item:hover {
-    border-color: var(--accent-green);
-    background-color: #F8FAF8;
-    transform: translateY(-2px);
-}
-.feature-title { color: var(--accent-green); } /* Заголовки правил зеленим */
-
-
-/* --- Зображення всередині карток на головній --- */
-.card-image {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-    border-radius: 12px;
-    margin-bottom: 24px;
-    /* Створюємо глибокий, трохи знебарвлений журнальний настрій */
-    filter: grayscale(40%) sepia(10%) contrast(1.1);
-    transition: filter 0.8s ease, transform 0.8s ease;
-}
-
-/* При наведенні на картку фото оживає */
-.card:hover .card-image {
-    filter: grayscale(0%) sepia(0%) contrast(1);
-}
-
-/* --- Зображення всередині бокової панелі (Off-canvas) --- */
-.elegant-img {
-    width: 100%;
-    max-height: 400px;
-    object-fit: cover;
-    border-radius: 16px;
-    margin: 32px 0;
-    /* Легке приглушення, щоб текст залишався головним */
-    filter: grayscale(10%) sepia(10%) contrast(1.05);
-    opacity: 0.95;
-}
-
-
-
-
-
-/* --- Фінальний заклик (Soft CTA) --- */
-.final-cta-section {
-    padding: 40px 20px 120px; /* Великий відступ знизу перед футером */
-    max-width: 1200px;
-    margin: 0 auto;
-}
-.final-cta-card {
-    background: var(--bg-sage); /* Фірмовий фісташковий відтінок */
-    border-radius: 24px;
-    padding: 80px 40px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-.final-cta-card h2 {
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    margin-bottom: 24px;
-    letter-spacing: -0.02em;
-}
-.final-cta-card p {
-    max-width: 540px;
-    margin: 0 auto 40px;
-    color: #4A554C; /* Темно-зелений текст для контрасту */
-    font-size: 16px;
-    line-height: 1.6;
-}
-.cta-buttons {
-    display: flex;
-    gap: 16px;
-    justify-content: center;
-    flex-wrap: wrap; /* Щоб кнопки гарно ставали одна під одною на малих екранах */
-}
-
-@media (max-width: 768px) {
-    .final-cta-card { padding: 56px 24px; }
-    .cta-buttons { flex-direction: column; width: 100%; max-width: 300px; }
-    .cta-buttons .btn { width: 100%; }
-}
+.with-animated-lines { position: relative; overflow: hidden; }
+.decor-line { position: absolute; left: 0; width: 100%; pointer-events: none; z-index: 0; }
+.decor-line.top { top: 10px; }
+.decor-line.bottom { bottom: 10px; }
+.smooth-path { fill: none; stroke-linecap: round; will-change: stroke-dashoffset; transition: stroke-dashoffset 2s cubic-bezier(0.25, 1, 0.5, 1); }
+.with-animated-lines.is-visible .smooth-path { stroke-dashoffset: 0 !important; }
 
 
 
 
 
     </style>
+
+    <!-- Calendly widget -->
+<link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+<script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
 </head>
 <body>
 
@@ -857,7 +341,7 @@
     
     <nav class="main-nav" id="mobile-menu">
         <a href="#formats" class="menu-link">Формати</a>
-        <a href="#course" class="menu-link">Курс</a>
+        <a href="#course" class="menu-link">Курси</a>
         <a href="#about" class="menu-link">Про автора</a>
         <!-- Кнопка для мобільного меню (ховається на десктопі) -->
         <a href="#formats" class="btn btn-dark mobile-only-btn menu-link">Обрати формат &rarr;</a>
@@ -885,10 +369,9 @@
 
             <span class="label" style="justify-content: center;">Швидкі практики &middot; РОБОТА ЗІ СНАМИ &middot; Глибинна психологія &middot; Самодослідження</span>
             <h1 class="drift-text">Локус <i>УЯВИ</i> <br></h1>
-            <p>Простір, де мова підсвідомості стає зрозумілою. Тут можна швидко відновити рівновагу, або зануритись глибше, у сновидіння та патерни, що непомітно керують життям. Внутрішній хаос перетворюється на структуру, розмиті межі — на відчуття себе, а уява стає точкою опори в повсякденні.</p>
+            <p>Де внутрішній хаос перетворюється на структуру, розмиті межі — на відчуття себе, а уява стає точкою опори в повсякденні. Це простір, де мова підсвідомості стає зрозумілою. Тут можна швидко відновити рівновагу, або зануритись глибше, у сновидіння та патерни, що непомітно керують життям. </p>
             <div style="display: flex; gap: 16px; justify-content: center;">
                 <a href="#formats" class="btn btn-dark">Обрати формат &rarr;</a>
-                <a href="#about" class="btn btn-outline">Про автора</a>
             </div>
         </section>
 
@@ -903,8 +386,8 @@
 
   <div style="position: relative; z-index: 1;">
     <span class="label">✧ ФІЛОСОФІЯ ПРОСТОРУ</span>
-    <h2>Психіка — це територія, яку можна дослідити.</h2>
-    <p>У кожного з нас є внутрішні ресурси для подолання будь-якої кризи. Наша мета — надати вам доказові психологічні інструменти, щоб ви могли навести фокус, екологічно зустрітися зі своєю Тінню та інтегрувати приховані сили у повсякдення.</p>
+    <h2>Самодослідження та інтеграція</h2>
+    <p>Через роботу зі снами, ранкові медитації, захоплюючі діалоги з іншими та індивідуальну терапію ми відновлюємо зв'язок між свідомим та несвідомим. Кожен формат — від швидкої стабілізації до глибокого аналізу — створений для інтеграції вашого унікального досвіду, віднайдення міцної внутрішньої опори та повернення життєвого ресурсу в реальність.</p>
     <p>Усі формати роботи побудовані на принципах повної конфіденційності, дбайливості та системного підходу.</p>
   </div>
 
@@ -1190,7 +673,7 @@
                 «Це був мій перший досвід роботи зі сновидіннями. Те, що раніше здавалося просто набором картинок, виявилося чіткою відповіддю на мої щоденні тривоги. Дуже глибокий і безпечний простір.»
             </div>
             <div class="testimonial-author">
-                <div class="author-avatar">О</div>
+                <div class="author-avatar">⭐️</div>
                 <div class="author-info">
                     <span>Олена</span>
                     <small>Група «Спільна Ява»</small>
@@ -1203,7 +686,7 @@
                 «Еспресо-сесія врятувала мій тиждень. Усього 15 хвилин, ніякої води, чіткий фокус на тому, що робити зараз. Вийшов із зустрічі зі спокійною головою і ясним планом.»
             </div>
             <div class="testimonial-author">
-                <div class="author-avatar">М</div>
+                <div class="author-avatar">⭐️</div>
                 <div class="author-info">
                     <span>Максим</span>
                     <small>Еспресо-Сесія</small>
@@ -1216,7 +699,7 @@
                 «Я шукала системного підходу без езотерики. Аналітичні сесії допомогли мені нарешті побачити свої патерни збоку. Дуже вдячна за дбайливість та структуру.»
             </div>
             <div class="testimonial-author">
-                <div class="author-avatar">К</div>
+                <div class="author-avatar">⭐️</div>
                 <div class="author-info">
                     <span>Катерина</span>
                     <small>Аналітична робота</small>
@@ -1229,7 +712,7 @@
                 «Я шукала системного підходу без езотерики. Аналітичні сесії допомогли мені нарешті побачити свої патерни збоку. Дуже вдячна за дбайливість та структуру.»
             </div>
             <div class="testimonial-author">
-                <div class="author-avatar">К</div>
+                <div class="author-avatar">⭐️</div>
                 <div class="author-info">
                     <span>Катерина</span>
                     <small>Аналітична робота</small>
@@ -1315,7 +798,11 @@
             if (block.type === 'text')  return `<p class="details-subtitle panel-anim">${block.text}</p>`;
             if (block.type === 'h3')    return `<h3 class="panel-anim">${block.text}</h3>`;
             if (block.type === 'quote') return `<blockquote class="elegant-quote panel-anim">${block.text}</blockquote>`;
-            if (block.type === 'button') return `<a href="${block.link}" class="btn-inline panel-anim">${block.text} <span>&rarr;</span></a>`;
+            if (block.type === 'button') {
+    const targetAttr = block.target ? `target="${block.target}"` : '';
+    const clickAttr = block.onclick ? `onclick="${block.onclick}"` : '';
+    return `<a href="${block.link}" ${targetAttr} ${clickAttr} class="btn-inline panel-anim" style="margin-right: 24px;">${block.text} <span>&rarr;</span></a>`;
+}
             // НОВЕ: Інтеграція зображень
             if (block.type === 'image') return `<img src="${block.src}" alt="Atmosphere" class="elegant-img panel-anim">`;
             // Нова унікальна лінія (Генерується випадкова крива кожного разу)
@@ -1529,24 +1016,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
 <script>
     const burgerBtn = document.getElementById('burger-btn');
-    const mobileMenu = document.getElementById('mobile-menu');
+    const siteHeader = document.querySelector('.site-header');
     const menuLinks = document.querySelectorAll('.menu-link');
 
     // Відкриття/закриття меню
     burgerBtn.addEventListener('click', () => {
         burgerBtn.classList.toggle('open');
-        mobileMenu.classList.toggle('open');
-        document.body.classList.toggle('no-scroll'); // Блокуємо скрол фону
+        siteHeader.classList.toggle('menu-open');
+        document.body.classList.toggle('no-scroll'); // Блокуємо скрол сайту під меню
     });
 
     // Закриття меню при кліку на будь-яке посилання
     menuLinks.forEach(link => {
         link.addEventListener('click', () => {
             burgerBtn.classList.remove('open');
-            mobileMenu.classList.remove('open');
+            siteHeader.classList.remove('menu-open');
             document.body.classList.remove('no-scroll');
         });
     });
 </script>
+
+
 </body>
 </html>
