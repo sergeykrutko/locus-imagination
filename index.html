@@ -178,8 +178,30 @@ a { text-decoration: none; color: inherit; }
 .side-panel.active { right: 0; }
 .panel-content { padding: 80px 64px; }
 /* Закріпили хрестик, щоб не губився при скролі */
-.close-panel { position: fixed; top: 32px; right: 32px; background: var(--bg-card); border: 1px solid #EAEAEA; width: 48px; height: 48px; border-radius: 50%; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: var(--transition); z-index: 1010; }
+/* --- OFF-CANVAS ПАНЕЛЬ: Хрестик --- */
+.close-panel { 
+    position: fixed; top: 32px; right: 32px; 
+    background: var(--bg-card); border: 1px solid #EAEAEA; 
+    width: 48px; height: 48px; border-radius: 50%; 
+    font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; 
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); 
+    z-index: 1010; 
+    
+    /* Ховаємо хрестик за замовчуванням */
+    opacity: 0; 
+    visibility: hidden; 
+    transform: scale(0.8); 
+}
 .close-panel:hover { background: #F0F0F0; }
+
+/* Показуємо хрестик тільки тоді, коли панель активна */
+.side-panel.active .close-panel { 
+    opacity: 1; 
+    visibility: visible; 
+    transform: scale(1);
+    transition-delay: 0.3s; /* Чекаємо, поки виїде панель */
+}
+
 @media (max-width: 768px) {
     .panel-content { padding: 80px 24px 64px; }
     .close-panel { top: 16px; right: 16px; width: 40px; height: 40px;}
@@ -324,6 +346,38 @@ a { text-decoration: none; color: inherit; }
 
 
 
+/* ========================================================= */
+/* НОВІ ЕЛЕГАНТНІ КНОПКИ ДЛЯ КАРТОК ФОРМАТІВ                 */
+/* ========================================================= */
+
+/* --- Кнопки всередині панелей --- */
+.panel-btn {
+    margin-top: 32px;
+    margin-right: 16px; /* Відступ, якщо кнопок дві поруч */
+}
+
+/* ВАРІАНТ 1: Editorial (Журнальний) — великий курсив із засічками */
+.btn-editorial {
+    background: none; border: none; padding: 0;
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--font-serif); font-size: 20px; font-style: italic;
+    color: var(--accent-green); cursor: pointer;
+    transition: gap 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease;
+}
+.btn-editorial span { transition: transform 0.4s ease; font-style: normal; }
+.btn-editorial:hover { gap: 16px; opacity: 0.7; }
+
+/* ВАРІАНТ 2: Minimalist (Витончений) — капслок у тонкій рамці */
+.btn-minimal {
+    background: transparent; border: 1px solid #D0D0D0; border-radius: 100px;
+    padding: 14px 28px; display: inline-flex; align-items: center; justify-content: center;
+    font-family: var(--font-sans); font-size: 11px; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-dark); cursor: pointer; transition: all 0.4s ease;
+}
+.btn-minimal:hover { 
+    background: var(--text-dark); color: var(--text-light); border-color: var(--text-dark); 
+}
 
 
     </style>
@@ -367,9 +421,9 @@ a { text-decoration: none; color: inherit; }
     </div>
 
 
-            <span class="label" style="justify-content: center;">Швидкі практики &middot; РОБОТА ЗІ СНАМИ &middot; Глибинна психологія &middot; Самодослідження</span>
+            <span class="label" style="justify-content: center;">Дієві Практики &middot; РОБОТА ЗІ СНАМИ &middot; Глибиний аналіз </span>
             <h1 class="drift-text">Локус <i>УЯВИ</i> <br></h1>
-            <p>Де внутрішній хаос перетворюється на структуру, розмиті межі — на відчуття себе, а уява стає точкою опори в повсякденні. Це простір, де мова підсвідомості стає зрозумілою. Тут можна швидко відновити рівновагу, або зануритись глибше, у сновидіння та патерни, що непомітно керують життям. </p>
+            <p>Де хаос перетворюється на структуру, а уява стає твердою точкою опори в повсякденні. Це простір для тих, хто готовий почути мову власної підсвідомості. Від швидкого відновлення рівноваги до глибокого дослідження сновидінь та патернів, що непомітно керують вашим життям. </p>
             <div style="display: flex; gap: 16px; justify-content: center;">
                 <a href="#formats" class="btn btn-dark">Обрати формат &rarr;</a>
             </div>
@@ -386,9 +440,8 @@ a { text-decoration: none; color: inherit; }
 
   <div style="position: relative; z-index: 1;">
     <span class="label">✧ ФІЛОСОФІЯ ПРОСТОРУ</span>
-    <h2>Самодослідження та інтеграція</h2>
-    <p>Через роботу зі снами, ранкові медитації, захоплюючі діалоги з іншими та індивідуальну терапію ми відновлюємо зв'язок між свідомим та несвідомим. Кожен формат — від швидкої стабілізації до глибокого аналізу — створений для інтеграції вашого унікального досвіду, віднайдення міцної внутрішньої опори та повернення життєвого ресурсу в реальність.</p>
-    <p>Усі формати роботи побудовані на принципах повної конфіденційності, дбайливості та системного підходу.</p>
+    <h2>Символи та стани — це пряма мова вашої психіки.</h2>
+    <p>Тривога, внутрішні конфлікти або яскраві сновидіння не виникають випадково. Це спроби нашої підсвідомості вийти на зв'язок і вказати на те, що потребує уваги. Філософія "Локусу Уяви" полягає в тому, щоб перестати ігнорувати цей голос. Ми створюємо надійний простір, де ви можете безпечно вивчити свої глибинні мотиви та знайти в них джерело сили, а не загрозу.</p>
   </div>
 
   <!-- Нижня лінія -->
@@ -799,10 +852,21 @@ a { text-decoration: none; color: inherit; }
             if (block.type === 'h3')    return `<h3 class="panel-anim">${block.text}</h3>`;
             if (block.type === 'quote') return `<blockquote class="elegant-quote panel-anim">${block.text}</blockquote>`;
             if (block.type === 'button') {
-    const targetAttr = block.target ? `target="${block.target}"` : '';
-    const clickAttr = block.onclick ? `onclick="${block.onclick}"` : '';
-    return `<a href="${block.link}" ${targetAttr} ${clickAttr} class="btn-inline panel-anim" style="margin-right: 24px;">${block.text} <span>&rarr;</span></a>`;
-}
+                const targetAttr = block.target ? `target="${block.target}"` : '';
+                const clickAttr = block.onclick ? `onclick="${block.onclick}"` : '';
+                
+                // Визначаємо клас кнопки залежно від замовленого варіанту
+                let btnClass = "btn-inline"; // Базовий стиль (з підкресленням), якщо нічого не вказано
+                
+                if (block.variant === 'editorial') btnClass = "btn-editorial panel-btn";
+                if (block.variant === 'minimal') btnClass = "btn-minimal panel-btn";
+                if (block.variant === 'dark') btnClass = "btn btn-dark panel-btn"; // Класична чорна плашка
+
+                // Для editorial і inline додаємо стрілочку, для інших — ні (або за бажанням)
+                const arrow = (block.variant === 'editorial' || !block.variant) ? ' <span>&rarr;</span>' : '';
+
+                return `<a href="${block.link}" ${targetAttr} ${clickAttr} class="${btnClass} panel-anim">${block.text}${arrow}</a>`;
+            }
             // НОВЕ: Інтеграція зображень
             if (block.type === 'image') return `<img src="${block.src}" alt="Atmosphere" class="elegant-img panel-anim">`;
             // Нова унікальна лінія (Генерується випадкова крива кожного разу)

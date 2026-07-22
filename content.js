@@ -55,7 +55,7 @@ const myContent = {
             { label: "Доступ", value: "Посилання на кімнату є відкритим" }
         ]},
 
-        { type: "button", text: "Отримати посилання на канал", link: "#" }
+        { type: "button", text: "Отримати посилання на канал", link: "#" , variant: "minimal" }
     ],
 
 
@@ -110,12 +110,12 @@ const myContent = {
         ]},
 
         // Кнопка 1: Відкриває віджет Calendly прямо на сторінці
-        { type: "button", text: "Забронювати час", link: "#", onclick: "Calendly.initPopupWidget({url: 'https://calendly.com/sergey-s-krutko/espresso-meetings'});return false;" },
+        { type: "button", text: "Забронювати час", link: "#", onclick: "Calendly.initPopupWidget({url: 'https://calendly.com/sergey-s-krutko/espresso-meetings'});return false;", variant: "minimal" },
         
         // Кнопка 2: Альтернативний лінк у новому вікні
-       //  { type: "button", text: "Відкрити календар", link: "https://calendly.com/sergey-s-krutko/espresso-meetings", target: "_blank" }
+     //    { type: "button", text: "Відкрити календар", link: "https://calendly.com/sergey-s-krutko/espresso-meetings", variant: "dark"},
         
-        { type: "button", text: "Написати", link: "#", target: "_blank" }
+        { type: "button", text: "Написати", link: "#", target: "_blank", variant: "editorial"}
     ],
 
 
@@ -186,7 +186,7 @@ const myContent = {
         ]},
 
         // Вбудована елегантна кнопка
-        { type: "button", text: "Записатися на співбесіду", link: "#" }
+        { type: "button", text: "Записатися на співбесіду", link: "#", variant: "minimal"  }
     ],
 
 
@@ -257,7 +257,7 @@ const myContent = {
         // Фінальний заклик як цитата
         { type: "quote", text: "Якщо цей формат — те, чого зараз не вистачає, і є потреба розділити думки в безпечному колі, пишіть в особисті. Зідзвонимось на 10 хвилин для знайомства і закріпимо місце." },
 
-        { type: "button", text: "Написати для знайомства", link: "#" }
+        { type: "button", text: "Написати для знайомства", link: "#", variant: "minimal"  }
     ],
 
 
@@ -296,7 +296,7 @@ const myContent = {
         // Об'єднаний фінальний текст, який створює дуже правильний післясмак
         { type: "quote", text: "Найважливіші підказки часто сховані там, куди ми боїмося дивитися. Ваша підсвідомість вже знає відповіді, треба лише допомогти їй заговорити. Якщо якийсь сюжет не дає спокою або повторюється знову і знову — приходьте. Розплутаємо його разом." },
 
-        { type: "button", text: "Написати в дірект", link: "#" }
+        { type: "button", text: "Написати в дірект", link: "#", variant: "minimal"  }
     ],
 
 
@@ -335,7 +335,7 @@ const myContent = {
         // Цитата, яка підкреслює цінність формату
         { type: "quote", text: "Системна аналітична робота вимагає часу та зусиль, але саме вона дає найглибші, структурні зміни у сприйнятті себе та навколишнього світу." },
 
-        { type: "button", text: "Написати для деталей та запису", link: "#" }
+        { type: "button", text: "Написати для деталей та запису", link: "#", variant: "minimal"  }
     ]
 
 
