@@ -1,0 +1,1552 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ЛОКУС·УЯВИ</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+
+/* Додаємо відносне позиціонування для секції, щоб прив'язати до неї світіння */
+.hero { position: relative; text-align: center; overflow: hidden; }
+
+/* Створюємо дві атмосферні плями */
+.hero::before, .hero::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    z-index: -1; /* Ховаємо під текст */
+    pointer-events: none;
+}
+
+/* Теплий теракотовий/персиковий відтінок зліва зверху */
+.hero::before {
+    top: -10%; left: -5%;
+    width: 50vw; height: 50vw;
+    background: rgba(217, 138, 108, 0.15); /* Ваш фірмовий акцентний колір, але напівпрозорий */
+}
+
+/* М'який фісташковий відтінок справа знизу */
+.hero::after {
+    bottom: -10%; right: -5%;
+    width: 60vw; height: 60vw;
+    background: rgba(163, 177, 155, 0.15);
+}
+
+.hero-editorial-image {
+
+    display: flex; /* 🌟 Вмикаємо Flexbox (ОБОВ'ЯЗКОВО) */
+    justify-content: center; /* Центрування по горизонталі */
+    align-items: center;
+
+    max-width: 740px; /* Невеликий розмір */
+    max-height: 50px; /* Невеликий розмір */
+    margin: 0 auto 40px; /* Відступ знизу до лейбла */
+    border-radius: 16px;
+    overflow: hidden;
+
+    box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+    /* Ефект появи */
+    animation: floatUp 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.hero-editorial-image img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    /* Знову ж таки, приглушуємо кольори для єдності стилю */
+    filter: grayscale(20%) sepia(10%); 
+}
+
+@keyframes floatUp {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+
+
+
+        :root {
+    /* Кольори фону */
+    --bg-page: #FCFCF9;
+    --bg-card: #FFFFFF;
+    --bg-dark: #171514;
+    --bg-sage: #E3E9E0;
+    --bg-photo: #F4F1EA;
+    
+    /* Кольори тексту */
+    --text-dark: #1C1C19;
+    --text-muted: #666666;
+    --text-light: #F7F7F7;
+    --accent-green: #687A6C;
+    
+    /* Шрифти */
+    --font-serif: 'Lora', serif;
+    --font-sans: 'Inter', sans-serif;
+    
+    /* Форми (повертаємо заокруглення!) */
+    --radius-card: 20px;
+    --radius-btn: 100px;
+    
+    /* Анімації (повертаємо плавність) */
+    --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-page);
+            color: var(--text-dark);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        body.no-scroll { overflow: hidden; } /* Блокування фонового скролу при відкритій панелі */
+
+        h1, h2, h3, h4, h5, .serif { font-family: var(--font-serif); font-weight: 500; }
+        a { text-decoration: none; color: inherit; }
+    
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 50px 24px; }
+        
+        .label {
+            font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+            color: var(--text-muted); margin-bottom: 24px; display: flex; align-items: center; gap: 8px;
+        }
+
+        /* --- Кнопки --- */
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            padding: 14px 28px; border-radius: var(--radius-btn); font-size: 14px;
+            font-weight: 500; cursor: pointer; border: 1px solid transparent; transition: var(--transition);
+        }
+        .btn-small { padding: 10px 20px; font-size: 13px; }
+        .btn-dark { background-color: var(--bg-dark); color: var(--text-light); }
+        .btn-dark:hover { transform: translateY(-2px); opacity: 0.9; }
+        .btn-outline { background-color: transparent; border-color: #D0D0D0; }
+        .btn-outline:hover { border-color: var(--text-dark); }
+
+        /* --- Плаваюча шапка (Desktop) --- */
+.site-header { 
+    position: fixed; 
+    top: 24px; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    width: calc(100% - 48px); /* Відступи по краях */
+    max-width: 1000px; 
+    background: rgba(255, 255, 255, 0.85); 
+    backdrop-filter: blur(16px); 
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(0,0,0,0.05);
+    border-radius: 100px; /* Форма капсули */
+    padding: 12px 12px 12px 24px; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    z-index: 1000; 
+    box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+}
+
+/* --- Витончений логотип --- */
+.logo { 
+    font-family: var(--font-serif); 
+    font-size: 20px; 
+    font-weight: 400; /* Легша і дорожча товщина */
+    color: var(--text-dark); 
+    letter-spacing: 0.1em; /* Більше повітря між літерами */
+    text-transform: uppercase; 
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Відстань між "ЛОКУС" та "уяви" */
+}
+.logo i { 
+    font-style: italic; 
+    color: var(--accent-green); /* Наш фірмовий приглушений зелений */
+    font-weight: 400; 
+    text-transform: lowercase; 
+    font-size: 22px; /* Трохи більший розмір для динаміки */
+    letter-spacing: 0;
+}
+
+/* --- Іконки всередині кнопок CTA --- */
+.btn-icon {
+    width: 18px; 
+    height: 18px; 
+    fill: currentColor; /* Іконка автоматично бере колір тексту кнопки */
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.btn:hover .btn-icon {
+    transform: scale(1.1); /* Легке збільшення іконки при наведенні */
+}
+
+
+.main-nav { display: flex; gap: 32px; align-items: center; }
+.main-nav a { color: var(--text-muted); font-size: 12px; font-weight: 600; transition: var(--transition); text-transform: uppercase; letter-spacing: 0.15em; }
+.main-nav a:hover { color: var(--text-dark); }
+
+.header-actions { display: flex; align-items: center; gap: 16px; }
+.burger-btn { display: none; }
+.mobile-only-btn { display: none; }
+
+/* --- Мобільна шапка та меню --- */
+@media (max-width: 768px) {
+    .site-header { top: 16px; padding: 12px 16px 12px 20px; }
+    .desktop-only-btn { display: none; }
+    
+    /* Кнопка Гамбургер */
+    .burger-btn { 
+        display: flex; flex-direction: column; gap: 5px; 
+        background: none; border: none; cursor: pointer; 
+        width: 40px; height: 40px; justify-content: center; align-items: center;
+        z-index: 1001;
+    }
+    .burger-btn span { width: 20px; height: 1.5px; background: var(--text-dark); transition: var(--transition); }
+    .burger-btn.open span:first-child { transform: translateY(3.2px) rotate(45deg); }
+    .burger-btn.open span:last-child { transform: translateY(-3.2px) rotate(-45deg); }
+
+    /* Повноекранне мобільне меню */
+    .main-nav { 
+        position: fixed; top: 0; left: 0; width: 100%; height: 100vh; 
+        background: var(--bg-page); 
+        flex-direction: column; justify-content: center; 
+        opacity: 0; visibility: hidden; 
+        transition: var(--transition); 
+        padding: 40px;
+    }
+    .main-nav.open { opacity: 1; visibility: visible; }
+    
+    /* Великі красиві посилання для телефону */
+    .main-nav a:not(.btn) { font-family: var(--font-serif); font-size: 32px; color: var(--text-dark); margin-bottom: 16px; }
+    .mobile-only-btn { display: inline-flex; margin-top: 40px; width: 100%; }
+}
+
+
+        
+        .section-fullscreen { min-height: 80vh; display: flex; flex-direction: column; justify-content: center; padding: 10px 20px; }
+        .hero { text-align: center; }
+        .hero h1 { font-size: clamp(3rem, 7vw, 6.5rem); line-height: 1.05; margin-bottom: 32px; letter-spacing: -0.03em; }
+        .hero h1 i { color: var(--accent-green); font-style: italic; }
+        .hero p { max-width: 680px; margin: 0 auto 48px; font-size: 18px; color: var(--text-muted); }
+
+        /* --- Картки форматів на головній --- */
+        .formats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 24px; padding-bottom: 100px; }
+        .card { background: var(--bg-card); border: 1px solid #EAEAEA; border-radius: var(--radius-card); padding: 40px; display: flex; flex-direction: column; transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.5s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.5s ease; }
+
+.card:hover { 
+    transform: translateY(-4px); 
+    box-shadow: 0 16px 40px rgba(0,0,0,0.04); 
+    border-color: #D0D0D0; 
+}
+        .card.dark { background: var(--bg-dark); color: var(--text-light); border-color: var(--bg-dark); }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .card h3 { font-size: 36px; margin-bottom: 16px; letter-spacing: -0.02em; }
+        .card p { color: var(--text-muted); margin-bottom: 40px; flex-grow: 1; }
+        .card.dark p { color: #A0A0A0; }
+        .card-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #EAEAEA; padding-top: 24px; }
+        .card.dark .card-footer { border-color: #333; }
+
+        /* ========================================================= */
+        /* OFF-CANVAS ПАНЕЛЬ (Виїжджає справа)                       */
+        /* ========================================================= */
+        .panel-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4); backdrop-filter: blur(4px);
+            z-index: 999; opacity: 0; visibility: hidden; transition: var(--transition);
+        }
+        .panel-overlay.active { opacity: 1; visibility: visible; }
+
+        .side-panel {
+            position: fixed; top: 0; right: -100%;
+            width: 100%; max-width: 800px; height: 100vh;
+            background: var(--bg-page); box-shadow: -10px 0 40px rgba(0,0,0,0.1);
+            z-index: 1000; overflow-y: auto; transition: right 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .side-panel.active { right: 0; }
+        
+        .panel-content { padding: 80px 64px; }
+        .close-panel {
+            position: absolute; top: 32px; right: 32px;
+            background: var(--bg-card); border: 1px solid #EAEAEA;
+            width: 48px; height: 48px; border-radius: 50%;
+            font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: var(--transition); z-index: 10;
+        }
+        .close-panel:hover { background: #F0F0F0; }
+
+        .details-title { font-size: 56px; margin-bottom: 24px; letter-spacing: -0.02em; }
+        .details-subtitle { color: var(--text-muted); font-size: 18px; margin-bottom: 64px; }
+
+        /* Внутрішні блоки панелі */
+        .info-box { padding: 40px; border-radius: var(--radius-card); border: 1px solid #EAEAEA; background: var(--bg-card); margin-bottom: 24px;}
+        .info-box h4 { font-size: 28px; margin-bottom: 24px; }
+        .custom-list { list-style: none; }
+        .custom-list li { position: relative; padding-left: 24px; margin-bottom: 16px; color: var(--text-muted); }
+        .custom-list li::before { content: ''; position: absolute; left: 0; top: 10px; width: 6px; height: 6px; background: #A0A0A0; border-radius: 50%; }
+
+        /* FAQ (Акордеон) */
+        .faq-section { margin-top: 80px; }
+        .faq-section h2 { font-size: 40px; margin-bottom: 40px; }
+        details.faq-item { border-top: 1px solid #EAEAEA; padding: 24px 0; }
+        details.faq-item:last-of-type { border-bottom: 1px solid #EAEAEA; }
+        details.faq-item summary { list-style: none; font-weight: 500; font-size: 16px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        details.faq-item summary::-webkit-details-marker { display: none; }
+        details.faq-item summary::after { content: '+'; font-size: 20px; color: var(--text-muted); font-weight: 300; transform: rotate(0); transition: 0.3s; }
+        details.faq-item[open] summary::after { transform: rotate(45deg); }
+        details.faq-item p { color: var(--text-muted); margin-top: 16px; font-size: 15px; }
+
+        /* Інші формати (Міні-картки) */
+        .other-formats { margin-top: 100px; }
+        .other-formats h2 { font-size: 40px; margin-bottom: 40px; }
+        .mini-cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+        .mini-card { border: 1px solid #EAEAEA; background: var(--bg-card); padding: 24px; border-radius: 16px; display: flex; flex-direction: column; transition: var(--transition); cursor: pointer;}
+        .mini-card:hover { border-color: #D0D0D0; }
+        .mini-card .label { margin-bottom: 12px; font-size: 10px; }
+        .mini-card h4 { font-size: 20px; margin-bottom: 24px; font-family: var(--font-serif); }
+        .mini-card span { font-size: 12px; font-weight: 500; display: flex; align-items: center; gap: 8px; margin-top: auto; }
+
+        /* ========================================================= */
+/* ПРО АВТОРА ТА ФУТЕР (Головна сторінка)                    */
+/* ========================================================= */
+.about-section { padding: 120px 0; border-top: 1px solid #EAEAEA; }
+.about-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 80px; align-items: top; }
+
+.author-photo {
+    background-color: var(--bg-photo);
+    border-radius: 24px;
+    aspect-ratio: 3/4;
+    width: 100%;
+    display: flex; align-items: flex-end; justify-content: center;
+    overflow: hidden;
+    position: relative;
+}
+.author-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+/* МАГІЯ: Цей клас рятує сітку від розтягування і повертає фотографію */
+.about-content {
+    min-width: 0; 
+}
+.about-content h2 { font-size: 48px; margin-bottom: 8px; }
+.about-content .subtitle { font-size: 14px; color: var(--text-muted); margin-bottom: 40px; display: block; }
+.about-content p { font-size: 18px; color: var(--text-muted); max-width: 600px; }
+
+        .site-footer {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 40px 24px; border-top: 1px solid #EAEAEA; font-size: 13px; color: var(--text-muted);
+        }
+        .footer-links { display: flex; gap: 24px; align-items: center; }
+        .social-icon { width: 20px; height: 20px; fill: currentColor; transition: var(--transition); }
+        .social-icon:hover { color: var(--text-dark); }
+
+        @media (max-width: 768px) {
+            .main-nav { display: none; }
+            .hero h1 { font-size: 3rem; }
+            .about-grid { grid-template-columns: 1fr; gap: 40px; }
+            .panel-content { padding: 64px 24px; }
+            .close-panel { top: 16px; right: 16px; }
+            .site-footer { flex-direction: column; gap: 24px; text-align: center; }
+        }
+
+
+        /* --- Нові стилі для розворотів та заголовків --- */
+.section-fullscreen { 
+    min-height: 100vh; /* Робить блок на всю висоту екрана */
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    padding: 80px 0; 
+}
+
+.philosophy-grid { 
+    display: grid; 
+    grid-template-columns: 1fr; 
+    gap: 24px; 
+}
+.philosophy-grid h2 { font-size: clamp(2.5rem, 4vw, 3rem); line-height: 1.2; margin-bottom: 24px; letter-spacing: -0.02em; }
+.philosophy-grid p { font-size: 18px; color: var(--text-muted); margin-bottom: 24px; }
+
+.section-header {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-bottom: 64px;
+}
+.section-header h2 { font-size: clamp(2.5rem, 5vw, 4rem); letter-spacing: -0.02em; line-height: 1.1; }
+.section-header p { color: var(--text-muted); font-size: 16px; line-height: 1.5; }
+
+@media (min-width: 768px) {
+    .philosophy-grid { grid-template-columns: 1fr 2fr; gap: 40px; align-items: flex-start; margin-left: 40px; }
+    .section-header { flex-direction: row; justify-content: space-between; align-items: flex-end; }
+    .section-header > div:first-child { flex: 2; }
+    .section-header > div:last-child { flex: 1; max-width: 320px; padding-bottom: 12px; }
+}
+
+
+
+/* --- БЛОК КУРСУ --- */
+.course-section { padding: 100px 0; }
+
+.course-card {
+    background-color: #DFE6DB; /* Фісташковий відтінок зі скриншоту */
+    border-radius: 24px;
+    padding: 64px;
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+}
+
+/* Теплий градієнтний відблиск у правому верхньому куті */
+.course-card::before {
+    content: ''; 
+    position: absolute; 
+    top: -50px; right: -50px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(214,188,154,0.4) 0%, rgba(223,230,219,0) 70%);
+    border-radius: 50%; 
+    pointer-events: none;
+}
+
+.course-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,0.6); 
+    border: 1px solid rgba(255,255,255,0.8);
+    padding: 8px 16px; border-radius: 100px;
+    font-size: 10px; font-weight: 600; letter-spacing: 0.1em; 
+    text-transform: uppercase; color: #666; margin-bottom: 32px;
+}
+
+.course-badge::before {
+    content: ''; width: 6px; height: 6px; background: #D68F6C; border-radius: 50%;
+}
+
+.course-card h2 { 
+    font-size: clamp(3rem, 5vw, 4rem); 
+    line-height: 1.1; margin-bottom: 24px; letter-spacing: -0.02em; 
+}
+.course-card h2 i { font-style: italic; font-weight: 400; }
+.course-card p { font-size: 16px; color: #4A554C; max-width: 480px; }
+
+.waitlist-box {
+    background: var(--bg-page);
+    border-radius: 20px; 
+    padding: 48px 40px; /* Додано більше повітря зверху та знизу */
+    box-shadow: 0 24px 60px rgba(0,0,0,0.05); /* Глибша, але м'якша тінь */
+    position: relative; z-index: 2;
+}
+
+.waitlist-box .label { margin-bottom: 16px; font-size: 10px; }
+.waitlist-form { display: flex; flex-direction: column; gap: 16px; }
+
+.waitlist-input {
+    width: 100%; padding: 16px 20px;
+    border: 1px solid #EAEAEA; border-radius: 100px;
+    font-family: inherit; font-size: 14px; outline: none; transition: var(--transition);
+}
+
+.waitlist-input:focus { border-color: var(--text-dark); }
+.waitlist-box p { font-size: 11px; color: var(--text-muted); margin-top: 16px; margin-bottom: 0; }
+
+@media (max-width: 900px) {
+    .course-card { grid-template-columns: 1fr; padding: 40px 24px; gap: 40px; }
+    .waitlist-box { padding: 32px 24px; }
+}
+
+
+
+/* --- Поява ліній (Hairline Reveal) --- */
+.draw-line {
+    position: relative;
+    border-top: none !important; /* Прибираємо стандартні рамки, якщо були */
+}
+.draw-line::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 1px;
+    background-color: #EAEAEA;
+    transition: width 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+}
+/* Коли скрипт бачить блок, він додає клас in-view */
+.draw-line.in-view::before {
+    width: 100%;
+}
+
+/* Темні лінії для карток на темному фоні */
+.card.dark.draw-line::before { background-color: #333; }
+
+/* --- 3. Рух заголовків (Editorial Text Drift) --- */
+.drift-text {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s ease, transform 1s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.drift-text.in-view {
+    opacity: 1;
+    transform: translateY(0);
+}
+/* Курсив (i) всередині заголовка випливає трохи пізніше для ефекту глибини */
+.drift-text i {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s ease 0.3s, transform 1s cubic-bezier(0.25, 1, 0.5, 1) 0.3s;
+}
+.drift-text.in-view i {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+
+
+
+
+.with-animated-lines {
+  position: relative;
+  overflow: hidden;
+}
+
+.decor-line {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+.decor-line.top { top: 10px; }
+.decor-line.bottom { bottom: 10px; }
+
+/* Налаштування плавності */
+.smooth-path {
+  fill: none;
+  stroke-linecap: round;
+  /* Підказуємо браузеру використовувати апаратне прискорення */
+  will-change: stroke-dashoffset; 
+  /* Сама анімація (2 секунди, м'яке прискорення і гальмування) */
+  transition: stroke-dashoffset 2s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.with-animated-lines.is-visible .smooth-path {
+  stroke-dashoffset: 0 !important;
+}
+
+
+
+/* ========================================================= */
+/* ОСВІТА ТА КВАЛІФІКАЦІЯ (Горизонтальний скрол карток)     */
+/* ========================================================= */
+.credentials-wrapper {
+    margin-top: 48px;
+    width: 100%;
+}
+
+.credentials-scroll {
+    display: flex; /* Ряд карток */
+    flex-wrap: nowrap; /* Заборона перенесення на новий рядок */
+    gap: 16px;
+    width: 100%;
+    overflow-x: auto; /* Вмикаємо скрол */
+    padding-bottom: 24px; /* Місце для тіні при наведенні */
+    scroll-snap-type: x mandatory; /* Плавне дотягування до краю */
+    scrollbar-width: none; /* Ховаємо скролбар Firefox */
+    -webkit-overflow-scrolling: touch; /* Ідеальна плавність на iPhone */
+}
+.credentials-scroll::-webkit-scrollbar { display: none; } /* Ховаємо скролбар Safari/Chrome */
+
+.credential-card {
+    flex: 0 0 260px; /* Фіксована ширина картки: не стискається і не розтягується */
+    background: var(--bg-card);
+    border: 1px solid #EAEAEA;
+    border-radius: 16px;
+    padding: 24px;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    transition: var(--transition);
+    white-space: normal; /* Дозволяємо тексту переноситися */
+}
+.credential-card:hover { 
+    border-color: #D0D0D0; 
+    transform: translateY(-2px); /* Легка левітація при наведенні */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.03); 
+}
+
+.credential-card .deg { font-family: var(--font-serif); font-size: 16px; margin-bottom: 8px; line-height: 1.3; color: var(--text-dark); }
+.credential-card .uni { font-size: 12px; color: var(--text-muted); line-height: 1.4; flex-grow: 1; }
+
+/* Статус (зелений текст) замість років */
+.credential-card .year { 
+    font-size: 11px; 
+    color: var(--accent-green); 
+    margin-top: auto; 
+    padding-top: 12px;
+    font-weight: 500; 
+    text-transform: uppercase; 
+    letter-spacing: 0.05em; 
+
+}
+
+
+/* ========================================================= */
+/* ВІДГУКИ (Стиль Stoic)                                     */
+/* ========================================================= */
+
+/* Адаптив для мобілок (щоб на телефонах відгуки теж мали поля по боках) */
+@media (max-width: 768px) {
+    .testimonials-section { padding: 60px 20px; }
+}
+
+
+/* 1. Загортаємо відгуки у загальний контейнер, щоб вони не липли до країв */
+.testimonials-section {
+    padding: 100px 50px; /* Додали бокові відступи як на головній */
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+}
+/* 2. Робимо картки відгуків компактнішими (менше внутрішнього простору) */
+.testimonial-card {
+    background: var(--bg-card);
+    border: 1px solid #EAEAEA;
+    border-radius: var(--radius-card);
+    padding: 28px; /* Зменшили з 40px до 28px */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.testimonial-text {
+    font-size: 14px; /* Трохи менший, легший шрифт */
+    color: var(--text-dark);
+    line-height: 1.5;
+    flex-grow: 1;
+}
+.testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.author-avatar {
+    width: 40px; height: 40px;
+    background: #EAEAEA;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 600; color: var(--text-muted);
+}
+.author-info span { display: block; font-size: 13px; font-weight: 600; }
+.author-info small { color: var(--text-muted); font-size: 11px; }
+
+
+
+
+
+/* ========================================================= */
+/* КОМПОНЕНТИ ДЛЯ НАПОВНЕННЯ ТЕКСТУ (ЛЕГО-БЛОКИ)             */
+/* ========================================================= */
+.elegant-card { background: var(--bg-card); border-radius: 24px; padding: 40px; margin: 40px 0; box-shadow: 0 10px 40px rgba(0,0,0,0.02); border: 1px solid #F0F0F0; }
+.elegant-card h3 { font-family: var(--font-serif); font-size: 22px; margin: 32px 0 16px; color: var(--text-dark); }
+.elegant-card h3:first-child { margin-top: 0; }
+.elegant-list { list-style: none; margin: 24px 0; }
+.elegant-list li { position: relative; padding-left: 24px; margin-bottom: 16px; color: var(--text-muted); }
+.elegant-list li::before { content: ''; position: absolute; left: 0; top: 10px; width: 6px; height: 6px; background: #D0D0D0; border-radius: 50%; }
+.elegant-list strong { color: var(--text-dark); font-weight: 600; }
+.elegant-separator { height: 1px; background: #EAEAEA; margin: 48px 0; position: relative; overflow: hidden; }
+.elegant-separator::after { content: ''; position: absolute; top: 0; left: 0; width: 0; height: 100%; background: var(--text-muted); transition: width 1.5s cubic-bezier(0.25, 1, 0.5, 1); }
+.elegant-separator.in-view::after { width: 100px; }
+.btn-inline { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-serif); font-size: 20px; color: var(--text-dark); border-bottom: 1px solid var(--text-muted); padding-bottom: 4px; margin-top: 24px; transition: var(--transition); }
+.btn-inline:hover { gap: 16px; border-color: var(--text-dark); }
+.elegant-quote { border-left: 2px solid var(--accent-green); padding: 16px 0 16px 24px; margin: 32px 0; font-style: italic; color: var(--text-muted); font-size: 18px; }
+
+/* 1. Вступний акцентний текст */
+.lead-text { font-family: var(--font-serif); font-size: 20px; line-height: 1.5; color: var(--text-dark); margin-bottom: 40px;
+}
+/* 2. Сітка карток (Для правил безпеки) */
+.features-grid { display: grid; grid-template-columns: 1fr;  gap: 16px; margin: 24px 0 48px;
+}
+@media (min-width: 600px) { .features-grid { grid-template-columns: 1fr 1fr; } }
+.feature-item {  padding: 24px; background: #FAFAFA;  border-radius: 16px; border: 1px solid #EAEAEA; transition: var(--transition);
+}
+.feature-item:hover { border-color: #D0D0D0; background: var(--bg-card); }
+.feature-title { display: block; font-weight: 600; font-size: 14px; margin-bottom: 8px; color: var(--text-dark); }
+.feature-text { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+
+/* 3. Таблиця даних (Для формату) */
+.data-list { list-style: none; padding: 0; margin: 24px 0 48px; border-top: 1px solid #EAEAEA; }
+.data-list li {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0;
+    border-bottom: 1px solid #EAEAEA;
+    font-size: 15px;
+}
+@media (min-width: 600px) { 
+    .data-list li { flex-direction: row; align-items: flex-start; } 
+    /* Сірий термін завжди займає 30% ширини */
+    .data-list li span:first-child { flex: 0 0 30%; margin-bottom: 0; padding-right: 20px; }
+    /* Чорний текст займає решту 70% і вирівняний по лівому краю */
+    .data-list li span:last-child { flex: 1; text-align: left; line-height: 1.6; }
+}
+.data-list li span:first-child { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; }
+.data-list li span:last-child { font-weight: 500; color: var(--text-dark); }
+
+
+
+/* --- Кольорові акценти для карток у content.js --- */
+.elegant-card.bg-sage {
+    background-color: var(--bg-sage);
+    border-color: #D3DCD0;
+}
+.elegant-card.bg-photo {
+    background-color: var(--bg-photo); /* Теплий молочний */
+    border-color: #E6E2D8;
+}
+
+/* --- Анімація появи елементів під час скролу панелі --- */
+.panel-anim {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.panel-anim.in-view {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- Жива лінія у панелі (SVG) --- */
+.panel-svg-line {
+    width: 100%;
+    height: 40px;
+    margin: 40px 0;
+    overflow: visible;
+}
+
+/* Базові налаштування плавності */
+.panel-svg-line path {
+    fill: none;
+    stroke-linecap: round;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    transition: stroke-dashoffset 2s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Палітра ліній (Кольори та товщина) */
+.line-peach path { stroke: #D98A6C; stroke-width: 2.5; } /* Стандартна тонка теракотова */
+.line-green path { stroke: #A3B19B; stroke-width: 4; } /* Зелена (як на скриншоті) */
+.line-thick-peach path { stroke: #D98A6C; stroke-width: 12; stroke-opacity: 0.4; } /* Широка напівпрозора теракотова */
+.line-dark path { stroke: var(--text-dark); stroke-width: 1; } /* Тонка строга темна лінія */
+
+/* Анімація малювання */
+.panel-anim.in-view .panel-svg-line path {
+    stroke-dashoffset: 0 !important;
+}
+
+/* Трохи кольору при наведенні на правила простору */
+.feature-item:hover {
+    border-color: var(--accent-green);
+    background-color: #F8FAF8;
+    transform: translateY(-2px);
+}
+.feature-title { color: var(--accent-green); } /* Заголовки правил зеленим */
+
+
+/* --- Зображення всередині карток на головній --- */
+.card-image {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    /* Створюємо глибокий, трохи знебарвлений журнальний настрій */
+    filter: grayscale(40%) sepia(10%) contrast(1.1);
+    transition: filter 0.8s ease, transform 0.8s ease;
+}
+
+/* При наведенні на картку фото оживає */
+.card:hover .card-image {
+    filter: grayscale(0%) sepia(0%) contrast(1);
+}
+
+/* --- Зображення всередині бокової панелі (Off-canvas) --- */
+.elegant-img {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 16px;
+    margin: 32px 0;
+    /* Легке приглушення, щоб текст залишався головним */
+    filter: grayscale(10%) sepia(10%) contrast(1.05);
+    opacity: 0.95;
+}
+
+
+
+
+
+/* --- Фінальний заклик (Soft CTA) --- */
+.final-cta-section {
+    padding: 40px 20px 120px; /* Великий відступ знизу перед футером */
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.final-cta-card {
+    background: var(--bg-sage); /* Фірмовий фісташковий відтінок */
+    border-radius: 24px;
+    padding: 80px 40px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.final-cta-card h2 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin-bottom: 24px;
+    letter-spacing: -0.02em;
+}
+.final-cta-card p {
+    max-width: 540px;
+    margin: 0 auto 40px;
+    color: #4A554C; /* Темно-зелений текст для контрасту */
+    font-size: 16px;
+    line-height: 1.6;
+}
+.cta-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap; /* Щоб кнопки гарно ставали одна під одною на малих екранах */
+}
+
+@media (max-width: 768px) {
+    .final-cta-card { padding: 56px 24px; }
+    .cta-buttons { flex-direction: column; width: 100%; max-width: 300px; }
+    .cta-buttons .btn { width: 100%; }
+}
+
+
+
+
+
+    </style>
+</head>
+<body>
+
+    <!-- Оновлена плаваюча шапка -->
+<header class="site-header">
+    <!-- Логотип тепер більш витончений -->
+    <a href="#" class="logo">ЛОКУС <i>уяви</i></a>
+    
+    <nav class="main-nav" id="mobile-menu">
+        <a href="#formats" class="menu-link">Формати</a>
+        <a href="#course" class="menu-link">Курс</a>
+        <a href="#about" class="menu-link">Про автора</a>
+        <!-- Кнопка для мобільного меню (ховається на десктопі) -->
+        <a href="#formats" class="btn btn-dark mobile-only-btn menu-link">Обрати формат &rarr;</a>
+    </nav>
+    
+    <div class="header-actions">
+        <a href="#formats" class="btn btn-outline btn-small desktop-only-btn">Обрати формат</a>
+        <!-- Кнопка-гамбургер для мобільного -->
+        <button class="burger-btn" id="burger-btn" aria-label="Відкрити меню">
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+</header>
+
+    <div class="container">
+        <!-- Герой -->
+        <section class="section-fullscreen hero">
+
+            <!-- Додаємо зображення над текстом, але робимо його невеликим -->
+    <div class="hero-editorial-image">
+        <img src="img/hero-large.jpg" alt="Atmosphere">
+    </div>
+
+
+            <span class="label" style="justify-content: center;">Швидкі практики &middot; РОБОТА ЗІ СНАМИ &middot; Глибинна психологія &middot; Самодослідження</span>
+            <h1 class="drift-text">Локус <i>УЯВИ</i> <br></h1>
+            <p>Простір, де мова підсвідомості стає зрозумілою. Тут можна швидко відновити рівновагу, або зануритись глибше, у сновидіння та патерни, що непомітно керують життям. Внутрішній хаос перетворюється на структуру, розмиті межі — на відчуття себе, а уява стає точкою опори в повсякденні.</p>
+            <div style="display: flex; gap: 16px; justify-content: center;">
+                <a href="#formats" class="btn btn-dark">Обрати формат &rarr;</a>
+                <a href="#about" class="btn btn-outline">Про автора</a>
+            </div>
+        </section>
+
+
+        <!-- Блок: Філософія -->
+<section class="philosophy-section with-animated-lines" style="padding: 100px 20px; background: #FAFAFA;">
+
+  <!-- Верхня лінія (зверни увагу, атрибут d відсутній) -->
+  <svg class="decor-line top" viewBox="0 0 1000 100" preserveAspectRatio="none">
+    <path class="smooth-path" stroke="#A3B19B" stroke-width="4" />
+  </svg>
+
+  <div style="position: relative; z-index: 1;">
+    <span class="label">✧ ФІЛОСОФІЯ ПРОСТОРУ</span>
+    <h2>Психіка — це територія, яку можна дослідити.</h2>
+    <p>У кожного з нас є внутрішні ресурси для подолання будь-якої кризи. Наша мета — надати вам доказові психологічні інструменти, щоб ви могли навести фокус, екологічно зустрітися зі своєю Тінню та інтегрувати приховані сили у повсякдення.</p>
+    <p>Усі формати роботи побудовані на принципах повної конфіденційності, дбайливості та системного підходу.</p>
+  </div>
+
+  <!-- Нижня лінія -->
+  <svg class="decor-line bottom" viewBox="0 0 1000 120" preserveAspectRatio="none">
+    <path class="smooth-path" stroke="#D98A6C" stroke-width="12" opacity="0.4" />
+  </svg>
+
+</section>
+
+
+
+
+
+        <!-- Картки Форматів -->
+        <section id="formats" class="section-fullscreen">
+
+    <div class="section-header">
+        <div>
+            <span class="label">✧ ФОРМАТИ РОБОТИ</span>
+            <h1>Оберіть глибину занурення.</h1>
+        </div>
+        <div>
+            <h3>Від 15-хвилинної опори до системної аналітичної роботи.</h3>
+        </div>
+    </div>
+
+
+
+            <div class="formats-grid">
+
+
+                <div class="card">
+                    <div class="card-header"><span class="label" style="margin:0;">Практики інтроспекції</span></div>
+                    <!-- Ваше атмосферне фото -->
+                <img src="img/morning-meditation-large.jpg" alt="Ранкова База" class="card-image">
+                    <h3>Ранкова База</h3>
+                    <p>20 хвилин тиші та направленої уваги перед тим, як почнеться ваш день. Це короткі, доказові психологічні практики, які допомагають заземлитися, зібрати розфокусовані думки і знайти свою "базу" на сьогодні.</p>
+                    <div class="card-footer">
+                        <span class="price">20 хв &middot; безкоштовно / за донат</span>
+                        <!-- Кнопка відкриває панель -->
+                        <button class="btn btn-dark open-panel" data-target="panel-base">Деталі та розклад &rarr;</button>
+                    </div>
+                </div>
+
+
+                <div class="card">
+                    <div class="card-header"><span class="label" style="margin:0;">Швидка стабілізація</span></div>
+                    <img src="img/espresso-large.jpg" alt="Психо'Еспресо" class="card-image">
+                    <h3>Психо'Еспресо</h3>
+                    <p>15 хвилин концентрованої підтримки для повернення фокусу «тут і зараз». Ви обираєте вектор стану — ясність, зниження тривоги, контейнування злості.</p>
+                    <div class="card-footer">
+                        <span class="price">15 хв &middot; 200 грн</span>
+                        <!-- Кнопка відкриває панель -->
+                        <button class="btn btn-dark open-panel" data-target="panel-espresso">Деталі та запис &rarr;</button>
+                    </div>
+                </div>
+
+
+
+                <div class="card">
+                    <div class="card-header"><span class="label" style="margin:0;">група сновидінь</span></div>
+                    <img src="img/syava-large.jpg" alt="Спільна Ява" class="card-image">
+                    <h3>Спільна Ява</h3>
+                    <p> Безпечний простір, де ми спільно досліджуємо послання нашої підсвідомості. Вчимося аналізувати сон, почути власні глибинні потреби, безпечно взаємодіяти з власною Тінню та іншими образами сновидінь та брати їх прихований ресурс у реальне життя. </p>
+                    <div class="card-footer">
+                        <span class="price">2-3 год &middot; 1000 грн</span>
+                        <!-- Кнопка відкриває панель -->
+                        <button class="btn btn-dark open-panel" data-target="panel-syava">
+    Деталі та запис &rarr;
+</button>
+                    </div>
+                </div>
+
+
+                 <div class="card">
+                    <div class="card-header"><span class="label" style="margin:0; color: #A0A0A0;">легке спілкування на глибокі теми</span></div>
+                    <img src="img/dialogues-large.jpg" alt="Шершаві Діалоги" class="card-image">
+                    <h3>Шершаві Діалоги</h3>
+                    <p>Безпечний простір для глибокого спілкування на вічні та актуальні теми (від самотності до актуальних новин). Тут не потрібно когось переконувати. Це спільне дослідження складних питань через призму особистого досвіду, де можна отримати усвідомлений зворотний зв'язок, емоційний відгук і просто бути почутим.</p>
+                    <div class="card-footer">
+                        <span class="price">2 год &middot; 1р/тиждень</span>
+                        <button class="btn btn-dark open-panel" data-target="panel-dialogues" style="color: white; border-color: #555;">Деталі та запис &rarr;</button>
+                    </div>
+                </div>
+
+
+
+
+                <div class="card dark">
+                    <div class="card-header"><span class="label" style="margin:0; color: #A0A0A0;">Індивідуальні сновидські сесії (1:1)</span></div>
+                    <img src="img/vyawa-large.jpg" alt="Власна Ява" class="card-image">
+                    <h3>Власна Ява</h3>
+                    <p>Глибока персональна робота з посланнями вашої підсвідомості. Це безпечний простір, де наш діалог стає дзеркалом і провідником до ваших власних відповідей. Ми беремо ваш сон і крок за кроком розпаковуємо його через вашу особисту життєву історію, шукаючи приховані сенси та ресурси. Ідеально підходить для циклічних снів (тих, що сняться роками).</p>
+                    <div class="card-footer">
+                        <span class="price">50 хв &middot; за запитом</span>
+                        <button class="btn btn-outline open-panel" data-target="panel-pyava" style="color: white; border-color: #555;">Деталі та запис &rarr;</button>
+                    </div>
+                </div>
+
+
+               
+
+                <div class="card dark">
+                    <div class="card-header"><span class="label" style="margin:0; color: #A0A0A0;">індивідуальна терапія (1:1)</span></div>
+                    <img src="img/asessions-large.jpg" alt="Аналітичні Сесії" class="card-image">
+                    <h3>Аналітичні Сесії</h3>
+                    <p>Системний процес дослідження вашого життєвого сценарію. Робота з першопричинами станів та складними кризами.</p>
+                    <div class="card-footer">
+                        <span class="price">45 хв &middot; за запитом</span>
+                        <button class="btn btn-outline open-panel" data-target="panel-asessions" style="color: white; border-color: #555;">Деталі та запис &rarr;</button>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </section>
+
+
+
+
+        <!-- Секція Курсу -->
+<section id="course" class="course-section" >
+    <div class="course-card">
+        <!-- Ліва частина з текстом -->
+        <div>
+            <div class="course-badge">Курс у розробці</div>
+            <h2 class="drift-text">Архітектура<br><i>Самості.</i></h2>
+            <p>Фундаментальний модульний курс із глибинного самодослідження. Концентрат доказових практик для тих, хто заплутався, втратив орієнтири і готовий докласти зусиль для набуття власної внутрішньої опори. Ніхто не пройде цей шлях за вас.</p>
+        </div>
+        
+        <!-- Права частина з формою -->
+        <div class="waitlist-box">
+            <span class="label" style="margin-bottom: 16px; color: #888;">СПИСОК ОЧІКУВАННЯ</span>
+            <form class="waitlist-form" onsubmit="event.preventDefault();">
+                <input type="email" class="waitlist-input" placeholder="you@email.com" required>
+                <button type="submit" class="btn btn-dark" style="width: 100%;">Доєднатися &rarr;</button>
+            </form>
+            <p>Ми напишемо, щойно відкриється перший потік. Без спаму.</p>
+        </div>
+    </div>
+</section>
+
+
+
+
+<!-- Блок Про Автора -->
+<section id="about" class="about-section">
+    
+    <!-- ВЕРХНЯ ЧАСТИНА: Сітка (Фото зліва, текст і кваліфікація справа) -->
+    <div class="about-grid">
+        <div class="author-photo">
+            <!-- Заглушка для фото -->
+            <img src="sk_psy.png" alt="Сергій Крутько">
+        </div>
+        
+        <div class="about-content">
+            <span class="label">✧ ПРО АВТОРА</span>
+            <h2>Сергій Крутько</h2>
+            <span class="subtitle">Аналітично орієнтований психолог &middot; Магістр психології</span>
+            <p>У своїй роботі спираюся на інструменти юнгіанського аналізу, транзакційного аналізу та кризового консультування. Допомагаю перетворити емоційний хаос на чітку структуру та знайти внутрішні сенси.</p>
+
+            <!-- Карусель дипломів (Справа від фото) -->
+            <div class="credentials-wrapper">
+                <span class="label" style="margin-bottom: 16px;">✧ КВАЛІФІКАЦІЯ</span>
+                <div class="credentials-scroll">
+                    
+                    <div class="credential-card">
+                        <div>
+                            <div class="deg">Магістр психології</div>
+                            <div class="uni">Київський інститут сучасної психології та психотерапії</div>
+                        </div>
+                        <div class="year">2026</div>
+                    </div>
+
+                    <div class="credential-card">
+                        <div>
+                            <div class="deg">Юнгіанський аналіз</div>
+                            <div class="uni">Українська асоціація аналітичної психології (UAAP)</div>
+                        </div>
+                        <div class="year">В активному навчанні</div>
+                    </div>
+                    
+                </div>
+            </div> <!-- Кінець блоку кваліфікацій -->
+            
+        </div> <!-- Кінець about-content (правої колонки) -->
+    </div> <!-- Кінець about-grid (сітки) -->
+
+
+    <!-- НИЖНЯ ЧАСТИНА: Конференції (На всю ширину під фотографією) -->
+    <div class="credentials-wrapper" style="margin-top: 50px;">
+        <span class="label" style="margin-bottom: 16px;">✧ НАУКОВА РОБОТА, ФОКУС ДОСЛІДЖЕНЬ ТА КОНФЕРЕНЦІЇ</span>
+        <div class="credentials-scroll">
+
+
+            <div class="credential-card">
+                <div>
+                    <div class="deg">"ВПЛИВ СОМАТИЧНОГО ВТІЛЕННЯ ОБРАЗІВ СНОВИДІНЬ НА НЕЙРОАФЕКТИВНУ ДИНАМІКУ ТА АВТОНОМІЮ ЕҐО"</div>
+                    <div class="uni">Наукова стаття в журналі Наука і Освіта</div>
+                </div>
+                <div class="year"> готується до друку </div>
+            </div>
+       
+            <div class="credential-card">
+                <div>
+                    <div class="deg">"ПИТАННЯ ЩО ПРОБУДЖУЮТЬ ДУШУ"</div>
+                    <div class="uni">XIV Конференція Української групи розвитку (УААП) та Кафедри психології УКУ</div>
+                </div>
+                <div class="year">2026</div>
+            </div>
+
+            <div class="credential-card">
+                <div>
+                    <div class="deg">"СНОВИДІННЯ ЯК ПРОСТІР ПЕРЕЖИВАННЯ І ОПРАЦЮВАННЯ ТРАВМИ"</div>
+                    <div class="uni">Міжнародна науково-практична конференція</div>
+                </div>
+                <div class="year">2026</div>
+            </div>
+
+             <div class="credential-card">
+                <div>
+                    <div class="deg">"СИМВОЛІЧНІ ПАТЕРНИ СНОВИДІНЬ ЯК ІНДИКАТОР КОЛЕКТИВНИХ
+ПСИХОЛОГІЧНИХ ПРОЦЕСІВ В УМОВАХ ВІЙНИ"</div>
+                    <div class="uni">Публікація наукової статті в журналі Наука і Освіта</div>
+                </div>
+                <div class="year">1 випуск 2026</div>
+            </div>
+
+            <div class="credential-card">
+                <div>
+                    <div class="deg">"КОЛИ ЗАКІНЧИЛАСЬ ВІЙНА: СУЧАСНИЙ ПОГЛЯД ТА ПЕРЕОСМИСЛЕННЯ"</div>
+                    <div class="uni">Всеукраїнська науково-практична конференція</div>
+                </div>
+                <div class="year">2025</div>
+            </div>
+
+            <div class="credential-card">
+                <div>
+                    <div class="deg">"MAKING USE OF ACTIVE IMAGINATION WITHIN CLINICAL PRACTICE."</div>
+                    <div class="uni">with Maty Dougherty. <br> Irish Society of Jungian Analysts</div>
+                </div>
+                <div class="year">2025</div>
+            </div>
+
+            <div class="credential-card">
+                <div>
+                    <div class="deg">"A ROOM OF REQUIREMENT. IMAGINATION IN PSYCHOTHERAPEUTIC WORK WITH CHILDREN"</div>
+                    <div class="uni">International scientific and practical conference </div>
+                </div>
+                <div class="year">2025</div>
+            </div>
+
+            <div class="credential-card">
+                <div>
+                    <div class="deg">"ЛОГОТЕРАПІЯ ТА ЕКЗИСТЕНЦІЙНИЙ АНАЛІЗ У КАЗКОТЕРАПІЇ"</div>
+                    <div class="uni">Курс лекцій • Сенс як шлях до зцілення</div>
+                </div>
+                <div class="year">2025</div>
+            </div>
+
+        </div>
+    </div> <!-- Кінець блоку конференцій -->
+
+
+</section>
+
+
+    <!-- Секція Відгуків -->
+<section class="testimonials-section">
+    <div class="section-header draw-line">
+        <div>
+            <span class="label">✧ ВІДГУКИ</span>
+            <h2 class="drift-text">Досвід тих, хто вже спробував.</h2>
+        </div>
+    </div>
+
+    <div class="testimonials-grid">
+        
+        <div class="testimonial-card">
+            <div class="testimonial-text">
+                «Це був мій перший досвід роботи зі сновидіннями. Те, що раніше здавалося просто набором картинок, виявилося чіткою відповіддю на мої щоденні тривоги. Дуже глибокий і безпечний простір.»
+            </div>
+            <div class="testimonial-author">
+                <div class="author-avatar">О</div>
+                <div class="author-info">
+                    <span>Олена</span>
+                    <small>Група «Спільна Ява»</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="testimonial-card">
+            <div class="testimonial-text">
+                «Еспресо-сесія врятувала мій тиждень. Усього 15 хвилин, ніякої води, чіткий фокус на тому, що робити зараз. Вийшов із зустрічі зі спокійною головою і ясним планом.»
+            </div>
+            <div class="testimonial-author">
+                <div class="author-avatar">М</div>
+                <div class="author-info">
+                    <span>Максим</span>
+                    <small>Еспресо-Сесія</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="testimonial-card">
+            <div class="testimonial-text">
+                «Я шукала системного підходу без езотерики. Аналітичні сесії допомогли мені нарешті побачити свої патерни збоку. Дуже вдячна за дбайливість та структуру.»
+            </div>
+            <div class="testimonial-author">
+                <div class="author-avatar">К</div>
+                <div class="author-info">
+                    <span>Катерина</span>
+                    <small>Аналітична робота</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="testimonial-card">
+            <div class="testimonial-text">
+                «Я шукала системного підходу без езотерики. Аналітичні сесії допомогли мені нарешті побачити свої патерни збоку. Дуже вдячна за дбайливість та структуру.»
+            </div>
+            <div class="testimonial-author">
+                <div class="author-avatar">К</div>
+                <div class="author-info">
+                    <span>Катерина</span>
+                    <small>Аналітична робота</small>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</section>
+
+
+<!-- Фінальний м'який заклик -->
+<section class="final-cta-section">
+    <div class="final-cta-card draw-line">
+        <span class="label" style="justify-content: center;">✧ ЗАЛИШАЄМОСЬ НА ЗВ'ЯЗКУ</span>
+        <h2 class="drift-text">Простір для <i>роздумів.</i></h2>
+        <p>Глибинна робота потребує часу та внутрішньої готовності. Якщо ви поки не плануєте йти в терапію, але хочете зберегти контакт із собою — приєднуйтесь до мого Telegram-каналу. Там я ділюся практиками, есе та думками, які допомагають сповільнитися.</p>
+        
+        <div class="cta-buttons">
+    <!-- Telegram: Темна кнопка з іконкою та текстом -->
+    <a href="ПОСИЛАННЯ_НА_ТЕЛЕГРАМ" class="btn btn-dark">
+        <svg class="btn-icon" viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0a12 12 0 00-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 01.171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.892-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+        Telegram
+    </a>
+    
+    <!-- Instagram: Контурна кнопка з іконкою та текстом -->
+    <a href="ПОСИЛАННЯ_НА_INSTAGRAM" class="btn btn-outline">
+        <svg class="btn-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        Instagram
+    </a>
+</div>
+    </div>
+</section>
+
+
+
+    <!-- Футер -->
+    <footer class="site-footer">
+        <div>ЛОКУС &middot; УЯВИ &copy; 2026</div>
+        <div class="footer-links">
+            <!-- Instagram Icon -->
+            <a href="#" aria-label="Instagram">
+                <svg class="social-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+            </a>
+            <!-- Telegram Icon -->
+            <a href="#" aria-label="Telegram">
+                <svg class="social-icon" viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0a12 12 0 00-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 01.171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.892-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+            </a>
+            
+        </div>
+    </footer>
+
+
+
+
+   <!-- ========================================================= -->
+<!-- УНІВЕРСАЛЬНА ПАНЕЛЬ (Наповнюється з content.js)           -->
+<!-- ========================================================= -->
+<div class="panel-overlay" id="overlay"></div>
+
+<div class="side-panel" id="universal-panel">
+    <button class="close-panel" id="close-panel">&times;</button>
+    <div class="panel-content" id="dynamic-content">
+        <!-- Текст генеруватиметься скриптом сюди -->
+    </div>
+</div>
+
+<!-- Підключення вашого файлу з текстами -->
+<script src="content.js"></script>
+
+
+
+
+<script>
+    // 1. Оновлений генератор HTML
+    function buildHTML(blocks) {
+        return blocks.map(block => {
+            // Додаємо клас "panel-anim" до всіх елементів, щоб вони випливали при скролі
+            if (block.type === 'label') return `<span class="label panel-anim">${block.text}</span>`;
+            if (block.type === 'title') return `<h2 class="details-title panel-anim">${block.text}</h2>`;
+            if (block.type === 'lead')  return `<div class="lead-text panel-anim">${block.text}</div>`;
+            if (block.type === 'text')  return `<p class="details-subtitle panel-anim">${block.text}</p>`;
+            if (block.type === 'h3')    return `<h3 class="panel-anim">${block.text}</h3>`;
+            if (block.type === 'quote') return `<blockquote class="elegant-quote panel-anim">${block.text}</blockquote>`;
+            if (block.type === 'button') return `<a href="${block.link}" class="btn-inline panel-anim">${block.text} <span>&rarr;</span></a>`;
+            // НОВЕ: Інтеграція зображень
+            if (block.type === 'image') return `<img src="${block.src}" alt="Atmosphere" class="elegant-img panel-anim">`;
+            // Нова унікальна лінія (Генерується випадкова крива кожного разу)
+            // Нова унікальна лінія з підтримкою кольорів
+            if (block.type === 'line') {
+                const cp1X = 100 + Math.random() * 200;
+                const cp1Y = Math.random() * 40;
+                const cp2X = 400 + Math.random() * 200;
+                const cp2Y = Math.random() * 40;
+                const d = `M 0,20 C ${cp1X},${cp1Y} ${cp2X},${cp2Y} 800,20`;
+                
+                // Визначаємо клас кольору. Якщо колір не вказано, буде 'line-peach' за замовчуванням
+                const colorClass = block.color ? `line-${block.color}` : 'line-peach';
+                
+                return `
+                <div class="panel-anim">
+                    <svg class="panel-svg-line ${colorClass}" viewBox="0 0 800 40" preserveAspectRatio="none">
+                        <path d="${d}"></path>
+                    </svg>
+                </div>`;
+            }
+            
+            if (block.type === 'list') {
+                const lis = block.items.map(item => `<li>${item}</li>`).join('');
+                return `<ul class="elegant-list panel-anim">${lis}</ul>`;
+            }
+            
+            if (block.type === 'features') {
+                const cards = block.items.map(item => `
+                    <div class="feature-item">
+                        <span class="feature-title">✧ ${item.title}</span>
+                        <span class="feature-text">${item.text}</span>
+                    </div>
+                `).join('');
+                return `<div class="features-grid panel-anim">${cards}</div>`;
+            }
+
+            if (block.type === 'data') {
+                const rows = block.items.map(item => `
+                    <li><span>${item.label}</span> <span>${item.value}</span></li>
+                `).join('');
+                return `<ul class="data-list panel-anim">${rows}</ul>`;
+            }
+
+            if (block.type === 'card') {
+                // Додаємо можливість вказати колір картки з JSON (наприклад, color: "sage")
+                const colorClass = block.color ? `bg-${block.color}` : '';
+                return `<div class="elegant-card ${colorClass} panel-anim">${buildHTML(block.content)}</div>`;
+            }
+            return '';
+        }).join('');
+    }
+
+    // 2. Логіка відкриття та анімації
+    const overlay = document.getElementById('overlay');
+    const openBtns = document.querySelectorAll('.open-panel');
+    const body = document.body;
+    const universalPanel = document.getElementById('universal-panel');
+    const contentContainer = document.getElementById('dynamic-content');
+
+    openBtns.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('data-target');
+            
+            if (typeof myContent !== 'undefined' && myContent[targetId]) {
+                contentContainer.innerHTML = buildHTML(myContent[targetId]);
+                
+                universalPanel.classList.add('active');
+                overlay.classList.add('active');
+                body.classList.add('no-scroll');
+
+                // МАГІЯ СКРОЛУ В ПАНЕЛІ: Створюємо спостерігача саме для цієї панелі
+                setTimeout(() => {
+                    const panelObserver = new IntersectionObserver((entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                entry.target.classList.add('in-view');
+                                
+                                // Вираховуємо точну довжину щойно згенерованої SVG-лінії
+                                const path = entry.target.querySelector('path');
+                                if (path) {
+                                    const len = path.getTotalLength();
+                                    path.style.strokeDasharray = len;
+                                    path.style.strokeDashoffset = len;
+                                    // Маленька затримка для запуску малювання
+                                    setTimeout(() => path.style.strokeDashoffset = "0", 50);
+                                }
+                                
+                                panelObserver.unobserve(entry.target);
+                            }
+                        });
+                    }, { 
+                        root: universalPanel, // Слідкуємо за скролом ВСЕРЕДИНІ панелі
+                        threshold: 0.1 
+                    });
+
+                    // Чіпляємо спостерігача на всі нові елементи
+                    contentContainer.querySelectorAll('.panel-anim').forEach(el => {
+                        panelObserver.observe(el);
+                    });
+                }, 100);
+
+            } else {
+                console.warn('Текст для ' + targetId + ' не знайдено у content.js');
+            }
+        });
+    });
+
+    // 3. Логіка закриття
+    function closePanel() {
+        universalPanel.classList.remove('active');
+        overlay.classList.remove('active');
+        body.classList.remove('no-scroll');
+        setTimeout(() => { contentContainer.innerHTML = ''; }, 500); 
+    }
+
+    document.addEventListener('click', e => {
+        if (e.target.closest('.close-panel') || e.target === overlay) {
+            closePanel();
+        }
+    });
+</script>
+
+
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const scrollObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Прибрали зайві селектори
+        const animatedElements = document.querySelectorAll('.draw-line, .drift-text');
+        animatedElements.forEach(el => scrollObserver.observe(el));
+    });
+</script>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  
+  // Функція генерації випадкової кривої лінії
+  function generateRandomPath(isBottom) {
+    // Базова висота: верхня лінія вище, нижня нижче
+    const baseH = isBottom ? 80 : 30; 
+    
+    // Генеруємо випадкові контрольні точки для плавності
+    const startY = baseH + (Math.random() * 20 - 10);
+    const cp1X = 200 + Math.random() * 200;
+    const cp1Y = baseH + (Math.random() * 60 - 30);
+    const cp2X = 600 + Math.random() * 200;
+    const cp2Y = baseH + (Math.random() * 60 - 30);
+    const endY = baseH + (Math.random() * 20 - 10);
+
+    return `M -50,${startY} C ${cp1X},${cp1Y} ${cp2X},${cp2Y} 1050,${endY}`;
+  }
+
+  // Знаходимо всі лінії і готуємо їх
+  const lines = document.querySelectorAll('.smooth-path');
+  
+  lines.forEach(path => {
+    // 1. Визначаємо, чи це нижня чи верхня лінія, щоб задати правильний малюнок
+    const isBottom = path.closest('.decor-line').classList.contains('bottom');
+    
+    // 2. Задаємо унікальну випадкову форму
+    path.setAttribute('d', generateRandomPath(isBottom));
+    
+    // 3. Вимірюємо ТОЧНУ довжину щойно згенерованої лінії (головний секрет відсутності ривків)
+    const length = path.getTotalLength();
+    
+    // 4. Задаємо стилі для старту анімації
+    path.style.strokeDasharray = length;
+    path.style.strokeDashoffset = length;
+  });
+
+  // Налаштовуємо спостерігача скролу
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        // Додаємо затримку 100мс перед малюванням, щоб браузер встиг відрендерити блок
+        setTimeout(() => {
+          entry.target.classList.add('is-visible');
+        }, 100);
+      } else {
+        // Якщо хочеш, щоб стиралося при скролі вгору (якщо ні - видали рядок)
+        entry.target.classList.remove('is-visible');
+      }
+    });
+  }, { threshold: 0.2 });
+
+  document.querySelectorAll('.with-animated-lines').forEach(block => {
+    observer.observe(block);
+  });
+});
+
+</script>
+
+<script>
+    const burgerBtn = document.getElementById('burger-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuLinks = document.querySelectorAll('.menu-link');
+
+    // Відкриття/закриття меню
+    burgerBtn.addEventListener('click', () => {
+        burgerBtn.classList.toggle('open');
+        mobileMenu.classList.toggle('open');
+        document.body.classList.toggle('no-scroll'); // Блокуємо скрол фону
+    });
+
+    // Закриття меню при кліку на будь-яке посилання
+    menuLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            burgerBtn.classList.remove('open');
+            mobileMenu.classList.remove('open');
+            document.body.classList.remove('no-scroll');
+        });
+    });
+</script>
+</body>
+</html>
