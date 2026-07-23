@@ -30,9 +30,63 @@
     --radius-card: 20px;
     --radius-btn: 100px;
     --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+    --tint-1: #f4f8ea;
+    --tint-2: #fdf2e9;
+    --tint-3: #eff3fa;
+    --tint-4: #fbf3ec;
+    --tint-5: #f2f8fe;
+
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
+
+
+
+
+/* --- ТЕМНА ТЕМА --- */
+[data-theme="dark"] {
+    --bg-page: #151413;
+    --bg-card: #1C1A19;
+    --bg-dark: #2A2826;
+    --bg-sage: #1E221F;
+    --bg-photo: #22201E;
+    
+    /* ТЕМНІ ВЕРСІЇ НОВИХ ЗМІННИХ */
+    --header-bg: rgba(21, 20, 19, 0.85); /* Темна напівпрозора шапка */
+    --bg-alt: #1A1918;                   /* Темний фон для Філософії */
+    
+    /* Темні, глибокі відтінки для карток відгуків */
+    --tint-1: #232821; 
+    --tint-2: #2B231E; 
+    --tint-3: #1F2426; 
+    --tint-4: #28251E; 
+    --tint-5: #262422;
+    
+    --text-dark: #F2F0EB;
+    --text-muted: #8C8A88;
+    --text-light: #F7F7F7; /* ВИПРАВЛЕНО: Текст на кнопках залишається світлим! */
+    --accent-green: #9EAC9C;
+}
+
+/* Автоматична темна тема (якщо система в Dark Mode) */
+@media (prefers-color-scheme: dark) {
+    html:not([data-theme="light"]) {
+        --bg-page: #151413; --bg-card: #1C1A19; --bg-dark: #2A2826;
+        --bg-sage: #1E221F; --bg-photo: #22201E; --header-bg: rgba(21, 20, 19, 0.85);
+        --bg-alt: #1A1918; --tint-1: #1E201D; --tint-2: #221F1D; --tint-3: #1C1D1F;
+        --tint-4: #221F1B; --tint-5: #1E1F20;
+        --text-dark: #F2F0EB; 
+        --text-muted: #8C8A88; 
+        --text-light: #F7F7F7; /* ВИПРАВЛЕНО */
+        --accent-green: #9EAC9C;
+    }
+}
+
+
+
+
+
         
 body {
     font-family: var(--font-sans);
@@ -55,6 +109,10 @@ a { text-decoration: none; color: inherit; }
 }
 .label.center { justify-content: center; }
 
+
+
+
+
 /* --- Кнопки --- */
 .btn {
     display: inline-flex; align-items: center; justify-content: center; gap: 8px;
@@ -73,10 +131,10 @@ a { text-decoration: none; color: inherit; }
 .site-header { 
     position: fixed; top: 24px; left: 0; right: 0; margin: 0 auto; 
     width: calc(100% - 48px); max-width: 1000px; 
-    background: rgba(255, 255, 255, 0.85); 
+    background: var(--header-bg); /* ТЕПЕР ТУТ ЗМІННА */
     backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(0,0,0,0.05); border-radius: 100px; 
-    padding: 12px 12px 12px 24px; 
+    border: 1px solid rgba(128,128,128,0.1); /* Адаптивна рамка */
+    border-radius: 100px; padding: 12px 12px 12px 24px; 
     display: flex; justify-content: space-between; align-items: center; 
     z-index: 1000; box-shadow: 0 10px 40px rgba(0,0,0,0.05);
     transition: var(--transition);
@@ -88,7 +146,7 @@ a { text-decoration: none; color: inherit; }
 }
 .logo i { font-style: italic; color: var(--accent-green); text-transform: lowercase; font-size: 22px; letter-spacing: 0; }
 
-.main-nav { display: flex; gap: 32px; align-items: center; }
+.main-nav { display: flex; gap: 32px;  align-items: center; margin-left: auto; }
 .main-nav a { color: var(--text-muted); font-size: 12px; font-weight: 600; transition: var(--transition); text-transform: uppercase; letter-spacing: 0.15em; }
 .main-nav a:hover { color: var(--text-dark); }
 .header-actions { display: flex; align-items: center; gap: 16px; z-index: 1002;}
@@ -229,7 +287,7 @@ a { text-decoration: none; color: inherit; }
     width: 100%;
 }
 .card.dark .card-footer { border-color: #333; }
-.card-image { width: 100%; height: 180px; object-fit: cover; border-radius: 12px; margin-bottom: 24px; filter: grayscale(40%) sepia(10%) contrast(1.1); transition: filter 0.8s ease, transform 0.8s ease; }
+.card-image { width: 100%; height: 180px; object-fit: cover; border-radius: 12px; margin-bottom: 24px; filter: grayscale(40%) sepia(10%) contrast(1.1); transition: filter 0.8s ease, transform 0.8s ease; cursor: pointer; }
 .card:hover .card-image { filter: grayscale(0%) sepia(0%) contrast(1); }
 .price { padding-bottom: 20px; }
 
@@ -278,8 +336,18 @@ a { text-decoration: none; color: inherit; }
 /* Компоненти панелі */
 .features-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin: 24px 0 48px; }
 @media (min-width: 600px) { .features-grid { grid-template-columns: 1fr 1fr; } }
-.feature-item { padding: 24px; background: #FAFAFA; border-radius: 16px; border: 1px solid #EAEAEA; transition: var(--transition); }
-.feature-item:hover { border-color: var(--accent-green); background: #F8FAF8; transform: translateY(-2px); }
+.feature-item { 
+    padding: 24px; 
+    background: var(--bg-photo); /* ЗАМІСТЬ #FAFAFA */
+    border-radius: 16px; 
+    border: 1px solid rgba(128,128,128,0.1); 
+    transition: var(--transition); 
+}
+.feature-item:hover { 
+    border-color: var(--accent-green); 
+    background: var(--bg-sage); /* ЗАМІСТЬ #F8FAF8 */
+    transform: translateY(-2px); 
+}
 .feature-title { display: block; font-weight: 600; font-size: 14px; margin-bottom: 8px; color: var(--accent-green); }
 .feature-text { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
 
@@ -335,10 +403,18 @@ a { text-decoration: none; color: inherit; }
 
 /* --- КУРС ТА WAITLIST --- */
 .course-section { padding: 80px 0; }
-.course-card { background-color: #DFE6DB; border-radius: 24px; padding: 40px 24px; position: relative; overflow: hidden; display: grid; grid-template-columns: 1fr; gap: 40px; align-items: center; }
+.course-card { background-color: var(--bg-sage); border-radius: 24px; padding: 40px 24px; position: relative; overflow: hidden; display: grid; grid-template-columns: 1fr; gap: 40px; align-items: center; }
 @media (min-width: 900px) { .course-card { grid-template-columns: 1fr 1fr; padding: 64px; gap: 64px; } }
 .course-card::before { content: ''; position: absolute; top: -50px; right: -50px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(214,188,154,0.4) 0%, rgba(223,230,219,0) 70%); border-radius: 50%; pointer-events: none; }
-.course-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.6); border: 1px solid rgba(255,255,255,0.8); padding: 8px 16px; border-radius: 100px; font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #666; margin-bottom: 24px; }
+.course-badge { 
+    display: inline-flex; align-items: center; gap: 8px; 
+    background: var(--bg-card); /* Адаптивний фон */
+    border: 1px solid rgba(128,128,128,0.2); 
+    padding: 8px 16px; border-radius: 100px; font-size: 10px; font-weight: 600; 
+    letter-spacing: 0.1em; text-transform: uppercase; 
+    color: var(--text-dark); /* Адаптивний текст */
+    margin-bottom: 24px; 
+}
 .course-badge::before { content: ''; width: 6px; height: 6px; background: #D68F6C; border-radius: 50%; }
 .course-card h2 { font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1.1; margin-bottom: 16px; letter-spacing: -0.02em; }
 .course-card h2 i { font-style: italic; font-weight: 400; }
@@ -346,19 +422,89 @@ a { text-decoration: none; color: inherit; }
 .waitlist-box { background: var(--bg-page); border-radius: 20px; padding: 32px 24px; box-shadow: 0 24px 60px rgba(0,0,0,0.05); position: relative; z-index: 2; }
 @media (min-width: 768px) { .waitlist-box { padding: 48px 40px; } }
 .waitlist-form { display: flex; flex-direction: column; gap: 16px; margin-top: 16px; }
-.waitlist-input { width: 100%; padding: 16px 20px; border: 1px solid #EAEAEA; border-radius: 100px; font-family: inherit; font-size: 14px; outline: none; transition: var(--transition); }
+.waitlist-input { 
+    width: 100%; padding: 16px 20px; 
+    background: var(--bg-page); /* Додано адаптивний фон */
+    color: var(--text-dark);    /* Додано адаптивний текст */
+    border: 1px solid rgba(128,128,128,0.2); /* Адаптивна рамка */
+    border-radius: 100px; font-family: inherit; font-size: 14px; outline: none; transition: var(--transition); 
+}
 .waitlist-input:focus { border-color: var(--text-dark); }
 .waitlist-box p { font-size: 11px; color: var(--text-muted); margin-top: 16px; margin-bottom: 0; }
 
+
+
+
+
 /* --- ВІДГУКИ --- */
-.testimonials-section { padding: 80px 0; max-width: 1200px; margin: 0 auto; }
-.testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; } /* Виправлено minmax для мобільного */
-.testimonial-card { background: var(--bg-card); border: 1px solid #EAEAEA; border-radius: var(--radius-card); padding: 28px; display: flex; flex-direction: column; gap: 20px; }
-.testimonial-text { font-size: 14px; color: var(--text-dark); line-height: 1.5; flex-grow: 1; }
-.testimonial-author { display: flex; align-items: center; gap: 12px; }
-.author-avatar { width: 40px; height: 40px; background: var(--bg-photo); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; }
-.author-info span { display: block; font-size: 13px; font-weight: 600; }
-.author-info small { color: var(--text-muted); font-size: 11px; }
+.testimonials-section { 
+    padding: 80px 0; 
+    max-width: 1200px; 
+    margin: 0 auto; 
+    overflow: hidden; 
+}
+
+/* Горизонтальний скрол */
+.testimonials-grid { 
+    display: flex; 
+    flex-wrap: nowrap; 
+    gap: 24px; 
+    overflow-x: auto; 
+    padding-bottom: 40px; 
+    scroll-snap-type: x mandatory; 
+    scrollbar-width: none; 
+    -webkit-overflow-scrolling: touch; 
+}
+.testimonials-grid::-webkit-scrollbar { display: none; }
+
+.testimonial-card { 
+    flex: 0 0 320px; /* Трохи ширші картки */
+    scroll-snap-align: start; 
+    border-radius: 24px; 
+    padding: 32px; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 24px; 
+    border: 1px solid rgba(128,128,128,0.08); 
+    transition: transform 0.4s ease;
+}
+@media (min-width: 768px) {
+    .testimonial-card { flex: 0 0 400px; }
+}
+
+.testimonial-card:hover { transform: translateY(-4px); }
+
+/* Підтягуємо інтенсивні відтінки */
+.testimonial-card:nth-child(5n+1) { background: var(--tint-1); }
+.testimonial-card:nth-child(5n+2) { background: var(--tint-2); }
+.testimonial-card:nth-child(5n+3) { background: var(--tint-3); }
+.testimonial-card:nth-child(5n+4) { background: var(--tint-4); }
+.testimonial-card:nth-child(5n+5) { background: var(--tint-5); }
+
+.testimonial-text { 
+    font-size: 15px; 
+    color: var(--text-dark); 
+    line-height: 1.6; 
+    font-style: italic; 
+    opacity: 0.9; 
+    flex-grow: 1; 
+}
+
+.testimonial-author { 
+    display: flex; align-items: center; gap: 12px; 
+    padding-top: 16px; border-top: 1px solid rgba(128,128,128,0.1); 
+}
+.author-avatar { 
+    width: 40px; height: 40px; 
+    background: var(--bg-card); 
+    color: var(--accent-green);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+    font-family: var(--font-serif); font-size: 18px; font-style: italic;
+    border: 1px solid rgba(128,128,128,0.1);
+}
+.author-info span { display: block; font-size: 14px; font-weight: 600; color: var(--text-dark); }
+
+
 
 /* --- ФІНАЛЬНИЙ ЗАКЛИК (CTA) --- */
 .final-cta-section { padding: 40px 0 80px; max-width: 1200px; margin: 0 auto; }
@@ -402,7 +548,7 @@ a { text-decoration: none; color: inherit; }
 .with-animated-lines { position: relative; overflow: hidden; }
 .decor-line { position: absolute; left: 0; width: 100%; pointer-events: none; z-index: 0; }
 .decor-line.top { top: 10px; }
-.decor-line.bottom { bottom: 40px; }
+.decor-line.bottom { bottom: 10px; }
 .smooth-path { fill: none; stroke-linecap: round; will-change: stroke-dashoffset; transition: stroke-dashoffset 2s cubic-bezier(0.25, 1, 0.5, 1); }
 .with-animated-lines.is-visible .smooth-path { stroke-dashoffset: 0 !important; }
 
@@ -445,7 +591,7 @@ a { text-decoration: none; color: inherit; }
 
 /* --- ФІЛОСОФІЯ (МАНІФЕСТ) --- */
 .philosophy-content {
-    max-width: 740px; /* Ідеальна ширина для легкого читання */
+    max-width: 900px; /* Ідеальна ширина для легкого читання */
     margin: 0 auto; /* Центруємо весь блок рівно посередині екрана */
     text-align: center; /* Центруємо сам текст */
     position: relative;
@@ -464,6 +610,7 @@ a { text-decoration: none; color: inherit; }
     color: var(--text-muted); 
     margin-bottom: 38px; 
     line-height: 1.6; 
+    text-align: justify; /* Вирівнювання тексту по ширині для елегантного вигляду */
 }
 
 
@@ -600,6 +747,18 @@ a { text-decoration: none; color: inherit; }
 }
 
 
+html:has(:target) {
+  scroll-behavior: smooth;
+}
+
+#philosophy {
+  scroll-margin-top: 100px; /* Змініть 80px на потрібну вам величину поправки */
+}
+
+#course {
+  scroll-margin-top: 100px; /* Змініть 80px на потрібну вам величину поправки */
+}
+
     </style>
 
     <!-- Calendly widget -->
@@ -618,10 +777,19 @@ a { text-decoration: none; color: inherit; }
         <a href="#course" class="menu-link">Курси</a>
         <a href="#about" class="menu-link">Про автора</a>
         <!-- Кнопка для мобільного меню (ховається на десктопі) -->
-        <a href="#formats" class="btn btn-dark mobile-only-btn menu-link">Обрати вимір &rarr;</a>
+        <a href="#formats" class="btn btn-dark mobile-only-btn menu-link">Виміри &rarr;</a>
     </nav>
     
     <div class="header-actions">
+
+        <!-- Кнопка перемикання теми -->
+    <button id="theme-toggle" style="background: none; border: none; cursor: pointer; color: var(--text-dark); padding: 28px; ">
+        <!-- Іконка (за замовчуванням місяць) -->
+        <svg id="theme-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+    </button>
+
        <div style="display: flex; gap: 16px; justify-content: center;">
     <a href="#philosophy" class="btn"> &rarr;</a>
 </div> 
@@ -634,8 +802,8 @@ a { text-decoration: none; color: inherit; }
 </header>
 
     <div class="container">
-        <!-- Герой -->
-        <section class="section-fullscreen hero">
+<!-- Герой -->
+<section class="section-fullscreen hero">
 
             <!-- Додаємо зображення над текстом, але робимо його невеликим -->
     <div class="hero-editorial-image">
@@ -646,9 +814,6 @@ a { text-decoration: none; color: inherit; }
             <span class="label" style="justify-content: center;"> Практики &middot; РОБОТА ЗІ СНАМИ &middot; Глибинний аналіз </span>
             <h1 class="drift-text">Локус <i>УЯВИ</i> <br></h1>
             <p>Де хаос перетворюється на структуру, а уява стає твердою точкою опори в повсякденні. Це простір для тих, хто шукає вихід із замкненого кола, прагне зрозуміти мову свого підсвідомого і готовий до справжньої зустрічі із собою. </p>
-            <div style="display: flex; gap: 16px; justify-content: center;">
-                <a href="#formats" class="btn btn-dark">Обрати вимір &rarr;</a>
-            </div>
 
             <div class="scroll-indicator">
     <svg width="12" height="50" viewBox="0 0 12 50" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
@@ -660,7 +825,7 @@ a { text-decoration: none; color: inherit; }
 
        <!-- Блок: Філософія -->
 <!-- Додано id="philosophy" та збільшено padding до 160px -->
-<section id="philosophy" class="philosophy-section with-animated-lines" style="padding: 160px 20px; background: #FAFAFA;">
+<section id="philosophy" class="philosophy-section with-animated-lines" style="padding: 160px 20px; background: var(--bg-alt);">
 
   <!-- Верхня лінія -->
   <svg class="decor-line top" viewBox="0 0 1000 100" preserveAspectRatio="none">
@@ -668,16 +833,17 @@ a { text-decoration: none; color: inherit; }
   </svg>
 
   <!-- Новий контейнер-обгортка для тексту -->
-  <div class="philosophy-content">
+ <div class="philosophy-content">
     <span class="label center" style="justify-content: center;">✧ ФІЛОСОФІЯ ПРОСТОРУ</span>
-    <h2>Символи та стани – це мова нашої психіки.</h2>
+    <h2>Символ – це <em>форма</em> наших внутрішніх станів.</h2>
 
-   <p> Тривога, внутрішні конфлікти або яскраві сновидіння не виникають випадково. Це спроби нашого несвідомого вийти на зв'язок і вказати на те, що потребує уваги. Філософія «Локусу Уяви» полягає в тому, щоб перестати ігнорувати цей голос і перетворити його на джерело вашої внутрішньої сили.
+    <p>Тривога, внутрішні конфлікти або яскраві сновидіння не виникають випадково. Це спроби нашого несвідомого вийти на зв'язок: через складні стани воно подає сигнали, а через розуміння символів ми розкриваємо їхню суть. Філософія «Локусу Уяви» полягає в тому, щоб перестати ігнорувати цей голос і перетворити його на <strong>джерело вашої внутрішньої сили</strong>.</p>
 
-     <br>   Головна мета цієї роботи – ваша цілісність. Відчуття глибокої опори, розуміння, що з вами все гаразд, і здатність впевнено зустрічати реальність – так, щоб у ній завжди залишалося місце для ваших бажань, радості та розвитку. </p>
-
+    <p>Головна мета цієї роботи – <strong>ваша цілісність</strong>. Відчуття глибокої опори, розуміння, <strong>що з вами все гаразд</strong>, і здатність впевнено зустрічати реальність – так, щоб у ній завжди залишалося місце для ваших бажань, радості та розвитку.</p>
 </div>
-
+<div style="display: flex; gap: 16px; justify-content: center;">
+                <a href="#formats" class="btn btn-dark">Обрати вимір &rarr;</a>
+            </div>
   <!-- Нижня лінія -->
   <svg class="decor-line bottom" viewBox="0 0 1000 120" preserveAspectRatio="none">
     <path class="smooth-path" stroke="#D98A6C" stroke-width="12" opacity="0.4" />
@@ -724,7 +890,7 @@ a { text-decoration: none; color: inherit; }
                 <div class="card">
                     <div class="card-header"><span class="label" style="margin:0;">Практики інтроспекції</span></div>
                     <!-- Ваше атмосферне фото -->
-                <img src="img/morning-meditation-large.jpg" alt="Ранкова База" class="card-image">
+                <img src="img/morning-meditation-large.jpg" alt="Ранкова База" class="card-image open-panel" data-target="panel-base">
                     <h3>Ранкова База</h3>
                     <p>20 хвилин тиші та спрямованої уваги перед тим, як розпочнеться ваш день. Це короткі доказові практики, що допомагають заземлитися, зібрати розфокусовані думки та віднайти внутрішню опору на сьогодні.</p>
                     <span class="price">20 хв &middot; безкоштовно / донат</span>
@@ -744,7 +910,7 @@ a { text-decoration: none; color: inherit; }
 
                 <div class="card dark">
                     <div class="card-header"><span class="label" style="margin:0;">Швидка стабілізація</span></div>
-                    <img src="img/espresso-large.jpg" alt="Психо'Еспресо" class="card-image">
+                    <img src="img/espresso-large.jpg" alt="Еспресо-Сесії" class="card-image open-panel" data-target="panel-espresso">
                     <h3>Еспресо-Сесії</h3>
                     <p>15 хвилин, повністю присвячені вашому стану. Це безпечний простір, де напруга та емоційний хаос перетворюються на один глибокий видих. Тут можна швидко повернути ясність, відчути тверду землю під ногами та віднайти тишу, з якою легше рухатися далі.</p>
                     <span class="price">15 хв &middot; 200 грн</span>
@@ -760,7 +926,7 @@ a { text-decoration: none; color: inherit; }
 
                  <div class="card">
                     <div class="card-header"><span class="label" style="margin:0; color: #A0A0A0;">легке спілкування на глибокі теми</span></div>
-                    <img src="img/dialogues-large.jpg" alt="Шершаві Діалоги" class="card-image">
+                    <img src="img/dialogues-large.jpg" alt="Шершаві Діалоги" class="card-image open-panel" data-target="panel-dialogues">
                     <h3>Шершаві Діалоги</h3>
                     <p>Простір для чесного спілкування про сьогодення. Це спільне дослідження живих і складних питань через призму особистого досвіду. Місце, де можна отримати усвідомлений зворотний зв'язок, розділити емоції та бути по-справжньому почутим.</p>
                     <span class="price">900 грн / місяць </span>
@@ -775,7 +941,7 @@ a { text-decoration: none; color: inherit; }
 
                 <div class="card dark">
                     <div class="card-header"><span class="label" style="margin:0; color: #A0A0A0;">Індивідуальні сновидські сесії (1:1)</span></div>
-                    <img src="img/vyawa-large.jpg" alt="Власна Ява" class="card-image">
+                    <img src="img/vyawa-large.jpg" alt="Власна Ява" class="card-image open-panel" data-target="panel-pyava">
                     <h3>Власна Ява</h3>
                     <p>Глибока персональна робота з посланнями вашого несвідомого. Тут наш діалог стає провідником до ваших власних відповідей. Ми беремо ваш сон і дбайливо досліджуємо його крізь призму життєвої історії, вивільняючи приховані сенси та ресурси. Особливо цінно для циклічних снів, що повторюються роками.</p>
                      <span class="price">50 хв &middot; за запитом</span>
@@ -790,7 +956,7 @@ a { text-decoration: none; color: inherit; }
 
                 <div class="card">
                     <div class="card-header"><span class="label" style="margin:0;">група сновидінь</span></div>
-                    <img src="img/syava-large.jpg" alt="Спільна Ява" class="card-image">
+                    <img src="img/syava-large.jpg" alt="Спільна Ява" class="card-image open-panel" data-target="panel-syava">
                     <h3>Спільна Ява</h3>
                     <p> Груповий простір для дослідження послань несвідомого. Ми вчимося аналізувати власні сни, безпечно взаємодіяти з Тінню та інтегрувати прихований ресурс образів у реальне життя. Робота спирається на авторський синтез глибинної психотерапії та нейробіології, що дозволяє почути свої справжні потреби.</p>
                      <span class="price">2-3 год &middot; 1000 грн</span>
@@ -807,7 +973,7 @@ a { text-decoration: none; color: inherit; }
 
                 <div class="card dark">
                     <div class="card-header"><span class="label" style="margin:0; color: #A0A0A0;">індивідуальна терапія (1:1)</span></div>
-                    <img src="img/asessions-large.jpg" alt="Аналітичні Сесії" class="card-image">
+                    <img src="img/asessions-large.jpg" alt="Аналітичні Сесії" class="card-image open-panel" data-target="panel-asessions">
                     <h3>Аналітичні Сесії</h3>
                     <p>Глибинний та послідовний процес дослідження вашого несвідомого. Це системна робота з життєвими сценаріями, першопричинами складних станів та кризами. Формат для тих, хто готовий до тривалих змін, відновлення цілісності та по-справжньому глибокого знайомства зі своїм Я.</p>
                     <span class="price">45 хв &middot; 1-2 рази на тиждень</span>
@@ -980,11 +1146,9 @@ a { text-decoration: none; color: inherit; }
 
     <!-- Секція Відгуків -->
 <section class="testimonials-section">
-    <div class="section-header draw-line">
-        <div>
-            <span class="label">✧ ВІДГУКИ</span>
-            <h2 class="drift-text">Досвід тих, хто вже спробував.</h2>
-        </div>
+    <div class="testimonials-header" style="text-align: center; margin-bottom: 56px;">
+        <span class="label" style="justify-content: center;">✧ ВІДГУКИ</span>
+        <h2 class="drift-text" style="font-size: clamp(3rem, 6vw, 4.5rem); margin-top: 26px; line-height: 1.1;">Досвід спільної роботи</h2>
     </div>
 
     <div class="testimonials-grid">
@@ -994,7 +1158,7 @@ a { text-decoration: none; color: inherit; }
                 «Процес взаємодії дуже цікаво направляє та розкриває приховані сенси. Запис сну на диктофон одразу після пробудження дозволяє повністю зберегти всі деталі та краще зануритися у потрібний стан під час аналізу.»
             </div>
             <div class="testimonial-author">
-                <div class="author-avatar">⭐️</div>
+                <div class="author-avatar">І</div>
                 <div class="author-info">
                     <span>Ірина</span>
                     <small> </small>
@@ -1007,7 +1171,7 @@ a { text-decoration: none; color: inherit; }
                 «Дослідження снів дає відчуття легкості, а відповіді на внутрішні запитання з'являються самі собою. Метод допомагає поглянути на життєві ситуації під зовсім іншим кутом, що приносить помітне душевне полегшення та викликає сильний інтерес продовжувати практику!»
             </div>
             <div class="testimonial-author">
-                <div class="author-avatar">⭐️</div>
+                <div class="author-avatar">О</div>
                 <div class="author-info">
                     <span>Ольга</span>
                     <small> </small>
@@ -1020,7 +1184,7 @@ a { text-decoration: none; color: inherit; }
                 «Взаємодія з глибинними образами сновидінь допомагає робити корисні висновки щодо свого життя. А розбір сновидінь на диво цікава штука.»
             </div>
             <div class="testimonial-author">
-                <div class="author-avatar">⭐️</div>
+                <div class="author-avatar">Б</div>
                 <div class="author-info">
                     <span>Богдан</span>
                     <small> </small>
@@ -1033,7 +1197,7 @@ a { text-decoration: none; color: inherit; }
                 «Робота дає можливість подивитися на частини сновидіння з іншого боку без тиску та зайвих думок. Завдання відчуваються як наповнююча медитація та глибока внутрішня робота, навіть коли для аналізу є лише окремі фрагменти сну.»
             </div>
             <div class="testimonial-author">
-                <div class="author-avatar">⭐️</div>
+                <div class="author-avatar">І</div>
                 <div class="author-info">
                     <span>Ірина</span>
                     <small> </small>
@@ -1047,7 +1211,7 @@ a { text-decoration: none; color: inherit; }
                 «Робота зі сновидіннями допомагає виявити щирі почуття, знайти важливі зв'язки та вивільнити глибокі емоції. Досвід відчувається емоційно насиченим, звільняючим та життєствердним!»
             </div>
             <div class="testimonial-author">
-                <div class="author-avatar">⭐️</div>
+                <div class="author-avatar">О</div>
                 <div class="author-info">
                     <span>Олексій</span>
                     <small> </small>
@@ -1062,11 +1226,15 @@ a { text-decoration: none; color: inherit; }
 
 <!-- Фінальний м'який заклик -->
 <section class="final-cta-section">
-    <div class="final-cta-card draw-line">
+    
+    <div class="final-cta-card">
+
         <span class="label" style="justify-content: center;">✧ ЗАЛИШАЄМОСЬ НА ЗВ'ЯЗКУ</span>
-        <h2 class="drift-text">Простір для <i>роздумів.</i></h2>
-        <p>Робота з підсвідомим потребує часу та внутрішньої готовності. Якщо ви ще не обрали формат, який підходить вам саме зараз, але хочете бути на звʼязку – приєднуйтесь до мого Instagram або Telegram-каналу. Там я ділюся новинами, дієвими практиками, есеями та думками. Усім тим, що допомагає відновити зв'язок із власною Самістю – тим внутрішнім центром, який завжди залишається неушкодженим і прагне до цілісності.</p>
         
+        <h2 class="drift-text">Простір для <i>роздумів.</i></h2>
+
+        <p>Робота з підсвідомим потребує часу та внутрішньої готовності. Якщо ви ще не обрали формат, який підходить вам саме зараз, але хочете бути на звʼязку – приєднуйтесь до мого Instagram або Telegram-каналу. Там я ділюся новинами, дієвими практиками, есеями та думками. Усім тим, що допомагає відновити зв'язок із власною Самістю – тим внутрішнім центром, який завжди залишається неушкодженим і прагне до цілісності.</p>
+      
         <div class="cta-buttons">
     <!-- Telegram: Темна кнопка з іконкою та текстом -->
     <a href="ПОСИЛАННЯ_НА_ТЕЛЕГРАМ" class="btn btn-dark">
@@ -1079,7 +1247,9 @@ a { text-decoration: none; color: inherit; }
         <svg class="btn-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
         Instagram
     </a>
+    
 </div>
+
     </div>
 </section>
 
@@ -1501,6 +1671,52 @@ document.addEventListener("DOMContentLoaded", () => {
 
 <!-- Скрипт для форм Tally -->
 <script async src="https://tally.so/widgets/embed.js"></script>
+
+
+
+
+<script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    
+    // Перевіряємо, чи є збережена тема
+    const currentTheme = localStorage.getItem('theme');
+    
+    // Іконка сонця для темної теми
+    const sunIcon = '<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>';
+    // Іконка місяця для світлої теми
+    const moonIcon = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
+
+    // Застосовуємо збережену тему при завантаженні
+    if (currentTheme) {
+        document.documentElement.setAttribute('data-theme', currentTheme);
+        if (currentTheme === 'dark') {
+            themeIcon.innerHTML = sunIcon;
+        }
+    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        themeIcon.innerHTML = sunIcon;
+    }
+
+    // Логіка перемикання
+    themeToggle.addEventListener('click', () => {
+        let theme = document.documentElement.getAttribute('data-theme');
+        
+        // Якщо тема не задана вручну, перевіряємо системну
+        if (!theme) {
+            theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+
+        if (theme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'light');
+            localStorage.setItem('theme', 'light');
+            themeIcon.innerHTML = moonIcon;
+        } else {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+            themeIcon.innerHTML = sunIcon;
+        }
+    });
+</script>
 
 
 
