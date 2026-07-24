@@ -1298,8 +1298,8 @@ html {
                     <!-- Ваше атмосферне фото -->
                 <img src="img/morning-meditation-large.jpg" alt="Ранкова База" class="card-image open-panel" data-target="panel-base">
                     <h3>Ранкова База</h3>
-                    <p>20 хвилин тиші та спрямованої уваги перед тим, як розпочнеться ваш день. Це короткі доказові практики, що допомагають заземлитися, зібрати розфокусовані думки та віднайти внутрішню опору на сьогодні.</p>
-                    <span class="price">20 хв &middot; безкоштовно / донат</span>
+                    <p>15 хвилин тиші та спрямованої уваги перед тим, як розпочнеться ваш день. Це короткі доказові практики, що допомагають заземлитися, зібрати розфокусовані думки та віднайти внутрішню опору на сьогодні.</p>
+                    <span class="price">15 хв &middot; безкоштовно / донат</span>
                     <div class="card-footer">
                         
                         <!-- Кнопка відкриває панель -->
@@ -2063,6 +2063,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Слухаємо Calendly
     window.addEventListener('message', function(e) {
+        // 1. Логіка при успішному записі
         if (e.data.event && e.data.event === 'calendly.event_scheduled') {
             if (typeof Calendly !== 'undefined') Calendly.closePopupWidget();
             const universalPanel = document.getElementById('universal-panel');
@@ -2072,7 +2073,24 @@ document.addEventListener("DOMContentLoaded", () => {
             
             setTimeout(() => { openPaymentModal(true, 'iban'); }, 400); 
         }
+
+        // 2. ФІКС ЗУМУ ДЛЯ iOS: Логіка при закритті віджета Calendly
+        if (e.data.event && e.data.event === 'calendly.popup_closed') {
+            const viewport = document.querySelector('meta[name="viewport"]');
+            if (viewport) {
+                const originalContent = viewport.getAttribute('content');
+                
+                // Примусово скидаємо масштаб до 1.0, що змушує iOS Safari віддалити екран
+                viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
+                
+                // Повертаємо ваші оригінальні налаштування viewport за мить
+                setTimeout(() => {
+                    viewport.setAttribute('content', originalContent);
+                }, 300);
+            }
+        }
     });
+    
 </script>
 
 
@@ -2127,18 +2145,6 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
 
 
-<script>
-    window.addEventListener('message', function(e) {
-        // Коли Calendly закривається
-        if (e.data.event && e.data.event === 'calendly.popup_closed') {
-            const viewportMeta = document.querySelector('meta[name="viewport"]');
-            if (viewportMeta) {
-                // Трюк для скидання зуму Safari
-                viewportMeta.content = 'width=device-width, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0';
-            }
-        }
-    });
-</script>
 
 
 </body>

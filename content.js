@@ -11,7 +11,7 @@ const myContent = {
         { type: "image", src: "img/morning-meditation-large.jpg" },
         
         // Вступний акцентний текст
-        { type: "lead",  text: "20 хвилин тиші та спрямованої уваги перед тим, як почнеться ваш день. Це короткі, доказові психологічні практики, які допомагають заземлитися, зібрати розфокусовані думки і віднайти внутрішню опору на сьогодні." },
+        { type: "lead",  text: "15 хвилин тиші та спрямованої уваги перед тим, як почнеться ваш день. Це короткі, доказові психологічні практики, які допомагають заземлитися, зібрати розфокусовані думки і віднайти внутрішню опору на сьогодні." },
         
         { type: "line" },
         
@@ -48,8 +48,8 @@ const myContent = {
         { type: "h3", text: "Формат" },
         // Зрозуміла табличка
         { type: "data", items: [
-            { label: "Розклад", value: "Вівторок та Четвер о 8:00" },
-            { label: "Тривалість", value: "20 хвилин" },
+            { label: "Розклад", value: "Вівторок та Середа о 7:00" },
+            { label: "Тривалість", value: "15 хвилин" },
             { label: "Локація", value: "Онлайн (Google Meet)" },
             { label: "Вартість", value: "Вільний донат (за відчуттям цінності)" },
             { label: "Доступ", value: "Посилання на кімнату є відкритим" }
@@ -132,10 +132,10 @@ const myContent = {
         ]},
 
         // Кнопка 1: Відкриває віджет Calendly прямо на сторінці
-        { type: "button", text: "Забронювати час", link: "#", onclick: "Calendly.initPopupWidget({url: 'https://calendly.com/sergey-s-krutko/espresso-meetings?hide_gdpr_banner=1&hide_event_type_details=1'});return false;", variant: "minimal" },
+        { type: "button", text: "Забронювати час", link: "#", onclick: "Calendly.initPopupWidget({url: 'https://calendly.com/sergey-s-krutko/espresso-meetings?hide_gdpr_banner=1&hide_event_type_details=1'});return false;", variant: "dark" },
         
         
-        { type: "button", text: "Задати питання", link: "https://t.me/locusuyavy", target: "_blank", variant: "dark"},
+        { type: "button", text: "Задати питання", link: "https://t.me/locusuyavy", target: "_blank", variant: "minimal"},
 
         // Кнопка 2: Виклик реквізитів вручну
 { 
