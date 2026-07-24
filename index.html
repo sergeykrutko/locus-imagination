@@ -11,7 +11,21 @@
     
     <style>
 
+        
 
+/* Блокуємо скрол та зум основного сайту під час роботи Calendly */
+body:has(.calendly-overlay) {
+    overflow: hidden !important;
+    overscroll-behavior: none !important; /* Забороняє ефект "гумки" притягування країв на iOS */
+    touch-action: none !important; /* Блокує свайпи та зум щипком */
+}
+
+/* Захищаємо кнопки від впливу touch-action, щоб не ламався текст і кліки */
+body:has(.calendly-overlay) button,
+body:has(.calendly-overlay) .btn,
+body:has(.calendly-overlay) a {
+    touch-action: manipulation !important;
+}
 
 :root {
     color-scheme: light dark; /* Цей рядок блокує "самодіяльність" браузера */
@@ -2090,7 +2104,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
     });
-    
+
 </script>
 
 
