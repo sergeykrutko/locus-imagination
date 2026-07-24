@@ -743,13 +743,19 @@ a { text-decoration: none; color: inherit; }
     background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
     z-index: 2000; display: flex; align-items: center; justify-content: center;
     opacity: 0; visibility: hidden; transition: var(--transition);
+    padding: 20px !important; /* Створює обов'язкове повітря від країв екрана */
+    box-sizing: border-box !important;
 }
 .payment-overlay.active { opacity: 1; visibility: visible; }
 .payment-card {
     background: var(--bg-sage); border-radius: 24px; padding: 40px;
-    width: 90%; max-width: 480px; text-align: center; position: relative;
+    width: 100%; max-width: 400px; text-align: center; position: relative;
     transform: translateY(20px); transition: var(--transition);
     border: 1px solid var(--accent-green); box-shadow: 0 24px 60px rgba(0,0,0,0.15);
+    
+    padding: 28px 20px !important; /* М'які відступи всередині */
+    border-radius: 24px !important;
+    box-sizing: border-box !important;
 }
 .payment-overlay.active .payment-card { transform: translateY(0); }
 /* 3. Модальне вікно оплати та IBAN (було #EAEAEA та #F0F0F0) */
@@ -1145,16 +1151,17 @@ html {
 
 
 
-/* --- ФІКС ДЛЯ CALENDLY ТА iOS SAFARI --- */
-/* 1. Блокуємо подвійний тап (зум) на всіх кнопках */
-.btn {
-    touch-action: manipulation;
+/* Блокування автоматичного зуму в iOS Safari */
+html, body {
+    -webkit-text-size-adjust: 100%;
 }
 
-/* 2. Ховаємо шапку сайту, коли відкритий віджет Calendly, 
-      щоб Safari не ламав верстку */
-body:has(.calendly-overlay) .site-header {
-    display: none !important;
+@media (max-width: 768px) {
+    /* Розмір шрифту 16px на мобільному блокує автовпливання екрана під час кліку */
+    .btn {
+        font-size: 16px !important;
+        touch-action: manipulation;
+    }
 }
 
 
@@ -1166,6 +1173,7 @@ body:has(.calendly-overlay) .site-header {
 <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
 <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
 <!-- Calendly badge widget end -->
+
 
 
 
@@ -1321,7 +1329,7 @@ body:has(.calendly-overlay) .site-header {
                         
                         <!-- Кнопка відкриває панель --> 
                         <button class="btn btn-outline open-panel" data-target="panel-espresso" style="color: white; border-color: #555;">Деталі &rarr;</button>
-                        <button class="btn btn-outline" style="color: white; border-color: #555;" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/sergey-s-krutko/espresso-meetings'});return false;">Запис</button>
+                        <button class="btn btn-outline" style="color: white; border-color: #555;" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/sergey-s-krutko/espresso-meetings?hide_gdpr_banner=1&hide_event_type_details=1'}); return false;">Запис</button>
                     
                     </div>
                 </div>

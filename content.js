@@ -132,7 +132,7 @@ const myContent = {
         ]},
 
         // Кнопка 1: Відкриває віджет Calendly прямо на сторінці
-        { type: "button", text: "Забронювати час", link: "#", onclick: "Calendly.initPopupWidget({url: 'https://calendly.com/sergey-s-krutko/espresso-meetings'});return false;", variant: "minimal" },
+        { type: "button", text: "Забронювати час", link: "#", onclick: "Calendly.initPopupWidget({url: 'https://calendly.com/sergey-s-krutko/espresso-meetings?hide_gdpr_banner=1&hide_event_type_details=1'});return false;", variant: "minimal" },
         
         
         { type: "button", text: "Задати питання", link: "https://t.me/locusuyavy", target: "_blank", variant: "dark"},
