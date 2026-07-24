@@ -11,6 +11,7 @@
     
     <style>
 :root {
+    color-scheme: light dark; /* Цей рядок блокує "самодіяльність" браузера */
     --bg-page: #FCFCF9;
     --bg-card: #FFFFFF;
     --bg-dark: #171514;
@@ -155,22 +156,20 @@ a { text-decoration: none; color: inherit; }
 }
 .theme-toggle-btn:hover { opacity: 1; background: var(--bg-sage); }
 
+/* --- ВИТОНЧЕНА СТРІЛКА В ШАПЦІ --- */
 .arrow-btn {
-    color: var(--text-dark); text-decoration: none; font-size: 18px;
-    opacity: 0.5; transition: var(--transition); padding: 8px;
-    display: flex; align-items: center; justify-content: center;
+    width: 36px; 
+    height: 36px; 
+    border-radius: 50%;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    border: 1px solid transparent; /* Підготовка до появи рамки */
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
-.arrow-btn:hover { opacity: 1; transform: translateX(4px); }
-
-/* --- Вирівнювання мобільного меню --- */
-@media (max-width: 768px) {
-    .desktop-only-btn { display: none !important; }
-    
-    /* Фіксуємо розташування хрестика та місяця при відкритому меню */
-    .site-header.menu-open .header-actions { 
-        position: absolute; top: 16px; right: 16px; 
-        display: flex; align-items: center; gap: 4px; 
-    }
+.arrow-btn:hover {
+    border-color: var(--border-color); /* З'являється тонка рамка */
+    transform: translateX(4px); 
 }
 
 
@@ -178,64 +177,30 @@ a { text-decoration: none; color: inherit; }
 .logo { font-family: var(--font-serif); font-size: 20px; font-weight: 400; color: var(--text-dark); letter-spacing: 0.1em; text-transform: uppercase; display: flex; align-items: center; gap: 8px; z-index: 1002; }
 .logo i { font-style: italic; color: var(--accent-green); text-transform: lowercase; font-size: 22px; letter-spacing: 0; }
 .main-nav { display: flex; gap: 32px;  align-items: center; margin-left: auto; }
-.main-nav a { color: var(--text-muted); font-size: 12px; font-weight: 600; transition: var(--transition); text-transform: uppercase; letter-spacing: 0.15em; }
+/* --- ПРЕМІАЛЬНИЙ ХОВЕР ДЛЯ МЕНЮ (ДЕСКТОП) --- */
+.main-nav a { 
+    position: relative; 
+    padding-bottom: 4px; /* Місце для лінії */
+}
+.main-nav a::after {
+    content: ''; 
+    position: absolute;
+    width: 0; 
+    height: 1px;
+    bottom: 0; 
+    left: 50%;
+    background-color: var(--text-dark);
+    transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    transform: translateX(-50%);
+}
+.main-nav a:hover::after { 
+    width: 100%; 
+}
 .main-nav a:hover { color: var(--text-dark); }
 .header-actions { display: flex; align-items: center; gap: 12px; z-index: 1002;}
 .burger-btn { display: none; }
 .mobile-only-btn { display: none; }
 
-/* Ідеальне мобільне меню */
-@media (max-width: 768px) {
-    /* Точна посадка шапки без вилізання за екран */
-    .site-header { 
-        top: 12px; 
-        left: 16px; 
-        right: 16px; 
-        width: auto; /* Прибираємо конфлікт ширини */
-        max-width: none; 
-    }
-    
-    .site-header.menu-open { 
-        position: fixed;
-        top: 0; left: 0; right: 0; bottom: 0;
-        width: 100vw; 
-        height: 100vh; 
-        border-radius: 0; 
-        background: var(--bg-page); 
-        padding: 20px;
-        box-sizing: border-box;
-    }
-    
-    /* Фіксуємо розташування кнопок вгорі */
-    .site-header.menu-open .header-actions { position: absolute; top: 16px; right: 16px; display: flex; align-items: center; gap: 16px; }
-    .site-header.menu-open .logo { position: absolute; top: 22px; left: 20px; }
-    
-    .desktop-only-btn { display: none; }
-    .burger-btn { 
-        display: flex; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; 
-        width: 40px; height: 40px; justify-content: center; align-items: center;
-    }
-    .burger-btn span { width: 24px; height: 1.5px; background: var(--text-dark); transition: var(--transition); }
-    .burger-btn.open span:first-child { transform: translateY(3.2px) rotate(45deg); }
-    .burger-btn.open span:last-child { transform: translateY(-3.2px) rotate(-45deg); }
-
-    .main-nav { display: none; }
-    .site-header.menu-open .main-nav { 
-        display: flex; flex-direction: column; justify-content: center; align-items: center; 
-        height: 100%; margin-top: 40px; width: 100%;
-    }
-    .site-header.menu-open .main-nav a:not(.btn) { font-family: var(--font-serif); font-size: 32px; color: var(--text-dark); margin-bottom: 24px; letter-spacing: 0; text-transform: none;}
-/* Контрастна кнопка у відкритому меню */
-    .mobile-only-btn { 
-        display: inline-flex; 
-        width: 100%; 
-        max-width: 280px; 
-        margin-top: 24px; 
-        background-color: var(--text-dark) !important; 
-        color: var(--bg-page) !important;
-        border: none;
-    }    
-}
 
 /* --- Секції та розвороти --- */
 .section-fullscreen { 
@@ -328,7 +293,25 @@ a { text-decoration: none; color: inherit; }
 
 /* --- Картки форматів (Виправлено розрив сітки) --- */
 /* Замінили 400px на 280px, щоб влазило в мобільний */
-.formats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; padding-bottom: 100px; }
+/* --- Картки форматів --- */
+.formats-grid { 
+    display: grid; 
+    gap: 24px; 
+    padding-bottom: 100px; 
+    grid-template-columns: 1fr; /* Телефони: 1 картка в ряд */
+}
+
+@media (min-width: 768px) {
+    .formats-grid { 
+        grid-template-columns: repeat(2, 1fr); /* Планшети: 2 картки в ряд */
+    }
+}
+
+@media (min-width: 1024px) {
+    .formats-grid { 
+        grid-template-columns: repeat(3, 1fr); /* Десктоп: строго 3 картки в ряд */
+    }
+}
 .card { background: var(--bg-card); border: 1px solid #EAEAEA; border-radius: var(--radius-card); padding: 32px; display: flex; flex-direction: column; transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.5s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.5s ease; }
 .card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.04); border-color: #D0D0D0; }
 .card.dark { background: var(--bg-dark); color: var(--text-light); border-color: var(--bg-dark); }
@@ -394,11 +377,6 @@ a { text-decoration: none; color: inherit; }
     transition-delay: 0.3s; /* Чекаємо, поки виїде панель */
 }
 
-@media (max-width: 768px) {
-    .panel-content { padding: 80px 24px 64px; }
-    .close-panel { top: 16px; right: 16px; width: 40px; height: 40px;}
-}
-
 /* Типографіка в панелі */
 .details-title { font-size: clamp(2.5rem, 5vw, 3.5rem); margin-bottom: 24px; letter-spacing: -0.02em; line-height: 1.1;}
 .details-subtitle { color: var(--text-muted); font-size: 18px; margin-bottom: 48px; }
@@ -439,10 +417,44 @@ a { text-decoration: none; color: inherit; }
 .elegant-card.bg-photo { background-color: var(--bg-photo); border-color: #E6E2D8; }
 .elegant-card h3 { font-family: var(--font-serif); font-size: 22px; margin: 32px 0 16px; color: var(--text-dark); }
 .elegant-card h3:first-child { margin-top: 0; }
-.elegant-list { list-style: none; margin: 24px 0; }
-.elegant-list li { position: relative; padding-left: 24px; margin-bottom: 16px; color: var(--text-muted); }
-.elegant-list li::before { content: ''; position: absolute; left: 0; top: 10px; width: 6px; height: 6px; background: #D0D0D0; border-radius: 50%; }
-.elegant-list strong { color: var(--text-dark); font-weight: 600; }
+/* --- ВИТОНЧЕНІ СПИСКИ --- */
+.elegant-list { 
+    list-style: none; 
+    margin: 24px 0; 
+}
+
+.elegant-list li { 
+    position: relative; 
+    padding-left: 24px; /* Даємо трохи більше простору від крапки до тексту */
+    margin-bottom: 18px !important; /* Більше повітря між самими пунктами */
+    color: var(--text-muted); 
+}
+
+/* Робимо крапочки акцентними та ідеально рівними */
+.elegant-list li::before { 
+    content: ''; 
+    position: absolute; 
+    left: 0; 
+    top: 9px; /* Ідеальне оптичне центрування відносно тексту 15px */
+    width: 5px; /* Робимо крапку витонченішою */
+    height: 5px; 
+    background: var(--accent-green); /* Використовуємо ваш фірмовий колір замість базового сірого */
+    border-radius: 50%; 
+}
+
+/* Золоте правило для тексту, виділеного жирним у списках */
+.elegant-list strong { 
+    color: var(--text-dark); 
+    font-weight: 600; 
+    letter-spacing: -0.01em; /* Жирний текст завжди має бути трохи щільнішим */
+}
+
+/* --- ПОВІТРЯ ДЛЯ ВЕРХНІХ ЛЕЙБЛІВ --- */
+/* Щоб лейбл у панелі не злипався, коли переноситься на кілька рядків */
+.panel-content .label {
+    line-height: 1.5;
+    margin-bottom: 24px;
+}
 .elegant-quote { border-left: 2px solid var(--accent-green); padding: 16px 0 16px 24px; margin: 32px 0; font-style: italic; color: var(--text-muted); font-size: 18px; }
 
 /* --- ПРО АВТОРА --- */
@@ -490,7 +502,11 @@ a { text-decoration: none; color: inherit; }
 .course-badge::before { content: ''; width: 6px; height: 6px; background: #D68F6C; border-radius: 50%; }
 .course-card h2 { font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1.1; margin-bottom: 16px; letter-spacing: -0.02em; }
 .course-card h2 i { font-style: italic; font-weight: 400; }
-.course-card p { font-size: 16px; color: #4A554C; max-width: 480px; }
+.course-card p { 
+    font-size: 16px; 
+    color: var(--text-muted); /* Замінили #4A554C */
+    max-width: 480px; 
+}
 /* 2. Блок "Список очікування" (додали рамку для контрасту) */
 .waitlist-box { 
     background: var(--bg-page); 
@@ -594,7 +610,13 @@ a { text-decoration: none; color: inherit; }
 .final-cta-card { background: var(--bg-sage); border-radius: 24px; padding: 56px 24px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; }
 @media (min-width: 768px) { .final-cta-card { padding: 80px 40px; } }
 .final-cta-card h2 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 24px; letter-spacing: -0.02em; }
-.final-cta-card p { max-width: 540px; margin: 0 auto 32px; color: #4A554C; font-size: 16px; line-height: 1.6; }
+.final-cta-card p { 
+    max-width: 540px; 
+    margin: 0 auto 32px; 
+    color: var(--text-muted); /* Замінили #4A554C */
+    font-size: 16px; 
+    line-height: 1.6; 
+}
 .cta-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; width: 100%; max-width: 300px;}
 .cta-buttons .btn { width: 100%; }
 @media (min-width: 600px) { .cta-buttons { flex-wrap: nowrap; max-width: none; } .cta-buttons .btn { width: auto; } }
@@ -679,6 +701,7 @@ a { text-decoration: none; color: inherit; }
     text-align: center; /* Центруємо сам текст */
     position: relative;
     z-index: 1;
+    background: transparent !important;
 }
 
 .philosophy-content h2 { 
@@ -701,7 +724,7 @@ a { text-decoration: none; color: inherit; }
 .philosophy-section {
     margin-top: 90px;
     padding: 170px 20px; /* Адекватний відступ для комп'ютера */
-    background: var(--bg-alt); /* Повернули фон, який забрали з HTML */
+    
     position: relative;
 }
 
@@ -711,25 +734,6 @@ a { text-decoration: none; color: inherit; }
 /* Піднімаємо нижню лінію до тексту */
 .decor-line.bottom { bottom: 10px; }
 
-
-/* --- МОБІЛЬНА АДАПТАЦІЯ --- */
-@media (max-width: 768px) {
-    /* Робимо блок компактним на телефоні */
-    .philosophy-section {
-        margin-top: 70px;
-        padding: 100px 20px 100px; 
-    }
-    
-    /* Даємо стрілочці над блоком трохи місця знизу */
-    .scroll-indicator {
-        margin-bottom: 32px;
-    }
-
-    /* Скасовуємо justify, щоб уникнути "дірок" між словами на вузькому екрані */
-    .philosophy-content p { 
-        text-align: left !important; 
-    }
-}
 
 
 
@@ -811,20 +815,6 @@ a { text-decoration: none; color: inherit; }
 .copy-btn:hover { opacity: 0.7; }
 
 
-
-/* --- ГЛОБАЛЬНІ МОБІЛЬНІ ПРАВКИ --- */
-@media (max-width: 750px) {
-    /* 1. Зменшуємо загальний масштаб на 5-10% */
-    html {
-        font-size: 90%; 
-    }
-    
-    /* 2. Додатковий відступ знизу, щоб меню не накладалося на текст */
-    body.menu-open {
-        overflow: hidden; /* Блокує скрол основної сторінки, коли відкрите меню/панель */
-    }
-}
-
 /* --- ПРАВКИ МОДАЛЬНОГО ВІКНА (ОПЛАТА) --- */
 .payment-card {
     width: 92%;
@@ -869,52 +859,240 @@ a { text-decoration: none; color: inherit; }
 }
 
 
-html:has(:target) {
+html {
   scroll-behavior: smooth;
 }
 
+#formats {
+  scroll-margin-top: 80px;
+}
+
 #philosophy {
-  scroll-margin-top: 100px; /* Змініть 80px на потрібну вам величину поправки */
+  scroll-margin-top: 100px; 
 }
 
 #course {
-  scroll-margin-top: 100px; /* Змініть 80px на потрібну вам величину поправки */
+  scroll-margin-top: 100px; 
 }
 
 
 
+/* --- !!! Елегантна адаптація типографіки для телефонів --- */
 
-
-
-/* --- Елегантна адаптація типографіки для телефонів --- */
 @media (max-width: 768px) {
-    /* Робимо заголовки компактнішими */
-    h2, .drift-text, .section-header h2 { font-size: clamp(2rem, 8vw, 2.5rem) !important; line-height: 1.2; }
-    .hero h1 { font-size: clamp(2.8rem, 10vw, 3.5rem); }
+
+    /* ========================================= */
+    /* 1. ШАПКА ТА МОБІЛЬНЕ МЕНЮ                 */
+    /* ========================================= */
+    .site-header { 
+        top: 12px; 
+        left: 16px; 
+        right: 16px; 
+        width: auto; 
+        max-width: none; 
+    }
     
-    /* Зменшуємо шрифти в картках */
+    .site-header.menu-open { 
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        width: 100vw; 
+        height: 100vh; 
+        border-radius: 0; 
+        background: var(--bg-page); 
+        padding: 20px;
+        box-sizing: border-box;
+    }
+    
+    /* Фіксуємо розташування місяця та бургера */
+    .site-header.menu-open .header-actions { 
+        position: absolute; 
+        top: 16px; 
+        right: 16px; 
+        display: flex; 
+        align-items: center; 
+        gap: 4px; 
+    }
+    
+    .site-header.menu-open .logo { 
+        position: absolute; 
+        top: 22px; 
+        left: 20px; 
+    }
+    
+    .desktop-only-btn { 
+        display: none !important; 
+    }
+
+    .burger-btn { 
+        display: flex; flex-direction: column; gap: 5px; 
+        background: none; border: none; cursor: pointer; 
+        width: 40px; height: 40px; justify-content: center; align-items: center;
+    }
+    .burger-btn span { width: 24px; height: 1.5px; background: var(--text-dark); transition: var(--transition); }
+    .burger-btn.open span:first-child { transform: translateY(3.2px) rotate(45deg); }
+    .burger-btn.open span:last-child { transform: translateY(-3.2px) rotate(-45deg); }
+
+    .main-nav { display: none; }
+    .site-header.menu-open .main-nav { 
+        display: flex; flex-direction: column; justify-content: center; align-items: center; 
+        height: 100%; margin-top: 40px; width: 100%;
+    }
+    .site-header.menu-open .main-nav a:not(.btn) { 
+        font-family: var(--font-serif); font-size: 32px; color: var(--text-dark); 
+        margin-bottom: 24px; letter-spacing: 0; text-transform: none;
+    }
+
+    /* Контрастна кнопка у відкритому меню */
+    .mobile-only-btn { 
+        display: inline-flex; width: 100%; max-width: 280px; margin-top: 24px; 
+        background-color: var(--text-dark) !important; 
+        color: var(--bg-page) !important; border: none;
+    }    
+
+    /* ========================================= */
+    /* 2. ГЕРОЙ (ПЕРШИЙ ЕКРАН)                   */
+    /* ========================================= */
+    .section-fullscreen.hero {
+        min-height: 100dvh; 
+        padding: 20px 16px 0px; 
+        justify-content: center;
+    }
+
+    .hero-editorial-image {
+        max-width: 260px; height: 140px; margin-bottom: 24px; 
+    }
+
+    .hero .label { margin-bottom: 20px; }
+    
+    .hero h1 { font-size: 38px !important; margin-bottom: 16px; }
+
+    .hero p {
+        font-size: 15px !important; line-height: 1.5;
+        margin-bottom: 24px; padding: 0 10px; 
+    }
+    
+    .scroll-indicator {
+        margin-top: 20px; margin-bottom: 5px; padding-top: 10px;
+        transform: scale(0.8); 
+    }
+
+    /* ========================================= */
+    /* 3. ТИПОГРАФІКА ТА ЗАГАЛЬНІ ЕЛЕМЕНТИ       */
+    /* ========================================= */
+    h2, .drift-text, .section-header h2 { 
+        font-size: clamp(2rem, 8vw, 2.5rem) !important; line-height: 1.2; 
+    }
+    
     .card h3 { font-size: 26px; }
     .card p, .section-header p, .philosophy-content p { font-size: 15px; }
-    
-    /* Картки відгуків */
-    .testimonial-card { padding: 24px; flex: 0 0 280px; gap: 16px; }
-    .testimonial-text { font-size: 14px; }
-    
-    /* Оверлей панелі */
-    .details-title { font-size: 32px !important; }
-    .lead-text { font-size: 16px; }
-    .panel-content { padding: 60px 20px 40px; }
 
-    /* Акуратний журнальний текст на телефоні */
+    /* ========================================= */
+    /* 4. ВСТУП ДО ФОРМАТІВ (ГЛИБИНИ)            */
+    /* ========================================= */
+    .section-intro { display: flex; flex-direction: column; align-items: center; }
+    .section-intro .label { justify-content: center; text-align: center; }
+    .section-header { align-items: center; text-align: center; }
+
+    /* Ідеально відцентрована вузька колонка тексту */
     .section-header p { 
         font-size: 16px !important; 
         line-height: 1.5; 
-        text-align: justify;
-        
-        max-width: 98%;
+        max-width: 320px; 
+        margin: 0 auto;   
+        text-align: center; 
     }
 
+    /* ========================================= */
+    /* 5. КАРТКИ ТА ПАНЕЛІ                       */
+    /* ========================================= */
+    
+    /* --- ВІДГУКИ --- */
+    .testimonial-card { padding: 24px; flex: 0 0 280px; gap: 16px; }
+    .testimonial-text { font-size: 14px; }
+    
+    /* --- ТИПОГРАФІКА В ПАНЕЛІ (Виправляємо списки та розміри) --- */
+    .details-title { font-size: 32px !important; }
+    
+    /* ДОДАНО: .elegant-list li, щоб списки теж адаптувалися */
+    .lead-text, .details-subtitle, .elegant-quote, .elegant-list li { 
+        font-size: 15px !important; 
+        line-height: 1.6; 
+    }
+    
+    /* Оптимізуємо сам список, щоб крапка не відбирала багато місця зліва */
+    .elegant-list li {
+        padding-left: 20px;
+        margin-bottom: 12px;
+    }
+    
+    .panel-content h3 { font-size: 22px !important; margin: 24px 0 16px; }
+    
+    /* --- ПОВІТРЯ ПО КРАЯХ --- */
+    /* Збільшили бічні відступи з 20px до 26px, щоб текст не липнув до екрана */
+    .panel-content { padding: 60px 26px 40px; } 
+    
+    .close-panel { top: 16px; right: 16px; width: 40px; height: 40px; }
+
+    /* --- ЕЛЕГАНТНІ КНОПКИ В ПАНЕЛІ --- */
+    /* Замість хаосу, складаємо їх в ідеальний стовпчик на всю ширину */
+    .panel-btn {
+        display: flex !important;
+        width: 100% !important; /* Кожна кнопка на всю ширину екрана */
+        margin: 0 0 12px 0 !important; /* Однаковий відступ знизу */
+        justify-content: center;
+        box-sizing: border-box;
+        
+        /* Уніфікуємо текст, щоб вони виглядали як один гармонійний набір */
+        font-size: 12px !important;
+        letter-spacing: 0.1em !important;
+        text-transform: uppercase !important;
+    }
+    
+    /* Даємо більший відступ перед найпершою кнопкою, щоб відділити від тексту */
+    .panel-btn:first-of-type {
+        margin-top: 32px !important;
+    }
+
+    /* ========================================= */
+    /* 6. ФІЛОСОФІЯ                              */
+    /* ========================================= */
+    .philosophy-section {
+        margin-top: 70px;
+        padding: 100px 20px; 
+    }
+    .philosophy-content p { 
+        text-align: left !important; 
+    }
+    /* ========================================= */
+    /* 7. ВІДСТУПИ МІЖ СЕКЦІЯМИ НА ТЕЛЕФОНІ      */
+    /* ========================================= */
+    
+    /* Прибираємо гігантську порожнечу (100px) після карток форматів */
+    .formats-grid { 
+        padding-bottom: 40px; 
+    } 
+
+    /* Підтягуємо блок Курсу ближче до форматів */
+    .course-section { 
+        padding: 20px 0 60px !important; 
+    } 
+
+    .about-section { 
+        padding: 60px 0 20px !important; 
+    }
+    
+    /* Делікатна лінія ТІЛЬКИ тут, бо це перехід між суцільним текстом і заголовком */
+    .testimonials-section {
+        padding: 60px 0 20px !important; 
+        border-top: 1px solid var(--border-color); 
+    }
+    
+    /* Підтягуємо Фінальний заклик ближче до відгуків */
+    .final-cta-section { 
+        padding: 20px 0 80px !important; 
+    }
 }
+
 
 
 
@@ -1837,41 +2015,41 @@ document.addEventListener("DOMContentLoaded", () => {
     const themeToggle = document.getElementById('theme-toggle');
     const themeIcon = document.getElementById('theme-icon');
     
-    // Перевіряємо, чи є збережена тема
-    const currentTheme = localStorage.getItem('theme');
-    
-    // Іконка сонця для темної теми
     const sunIcon = '<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>';
-    // Іконка місяця для світлої теми
     const moonIcon = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
 
-    // Застосовуємо збережену тему при завантаженні
-    if (currentTheme) {
-        document.documentElement.setAttribute('data-theme', currentTheme);
-        if (currentTheme === 'dark') {
-            themeIcon.innerHTML = sunIcon;
-        }
-    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        themeIcon.innerHTML = sunIcon;
+    // Головна функція для зміни теми
+    function setTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+        themeIcon.innerHTML = theme === 'dark' ? sunIcon : moonIcon;
     }
 
-    // Логіка перемикання
-    themeToggle.addEventListener('click', () => {
-        let theme = document.documentElement.getAttribute('data-theme');
-        
-        // Якщо тема не задана вручну, перевіряємо системну
-        if (!theme) {
-            theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-        }
+    // Слухаємо налаштування телефону (Android/iOS)
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    
+    // Перевіряємо, чи користувач вже обирав тему раніше
+    const savedTheme = localStorage.getItem('theme');
 
-        if (theme === 'dark') {
-            document.documentElement.setAttribute('data-theme', 'light');
-            localStorage.setItem('theme', 'light');
-            themeIcon.innerHTML = moonIcon;
-        } else {
-            document.documentElement.setAttribute('data-theme', 'dark');
-            localStorage.setItem('theme', 'dark');
-            themeIcon.innerHTML = sunIcon;
+    // При завантаженні сторінки
+    if (savedTheme) {
+        setTheme(savedTheme);
+    } else {
+        // Якщо ще не обирав – слухаємося системи
+        setTheme(systemPrefersDark.matches ? 'dark' : 'light');
+    }
+
+    // Ручне перемикання кнопкою
+    themeToggle.addEventListener('click', () => {
+        const current = document.documentElement.getAttribute('data-theme');
+        setTheme(current === 'dark' ? 'light' : 'dark');
+    });
+
+    // Моментальна реакція, якщо користувач змінив тему в налаштуваннях телефону
+    systemPrefersDark.addEventListener('change', (e) => {
+        // Змінюємо тему слідом за телефоном, ТІЛЬКИ якщо користувач не перемикав її вручну на сайті
+        if (!localStorage.getItem('theme')) { 
+            setTheme(e.matches ? 'dark' : 'light');
         }
     });
 </script>
