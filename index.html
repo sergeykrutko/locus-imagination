@@ -1145,12 +1145,31 @@ html {
 
 
 
+/* --- ФІКС ДЛЯ CALENDLY ТА iOS SAFARI --- */
+/* 1. Блокуємо подвійний тап (зум) на всіх кнопках */
+.btn {
+    touch-action: manipulation;
+}
+
+/* 2. Ховаємо шапку сайту, коли відкритий віджет Calendly, 
+      щоб Safari не ламав верстку */
+body:has(.calendly-overlay) .site-header {
+    display: none !important;
+}
+
+
+
     </style>
 
-    <!-- Calendly widget -->
+
+<!-- Calendly badge widget begin -->
 <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
 <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
-</head>
+<!-- Calendly badge widget end -->
+
+
+
+
 <body>
 
     <!-- Оновлена плаваюча шапка -->
@@ -1283,7 +1302,7 @@ html {
                         <!-- Кнопка відкриває панель -->
                         
                 
-                         <button class="btn btn-dark" onclick="openPaymentModal(false, 'mono', 'https://send.monobank.ua/jar/413enuYobE'); return false;">Лінк</button>
+                         <button class="btn btn-dark" onclick="openPaymentModal(false, 'mono', 'https://send.monobank.ua/jar/413enuYobE'); return false;">Доєднатися 🪷</button>
                       
                         <button class="btn btn-dark open-panel" data-target="panel-base">Деталі &rarr;</button>
                        
@@ -1968,72 +1987,78 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function openPaymentModal(isAfterBooking, paymentType = 'iban', monoLink = '') {
-        const successText = document.getElementById('booking-success-text');
-        const descriptionText = document.getElementById('payment-description');
-        const contentBox = document.getElementById('dynamic-payment-content');
+    const successText = document.getElementById('booking-success-text');
+    const descriptionText = document.getElementById('payment-description');
+    const contentBox = document.getElementById('dynamic-payment-content');
+    
+    // Налаштовуємо верхні тексти
+    if (isAfterBooking) {
+        successText.style.display = 'block';
+        descriptionText.innerText = "Для остаточного підтвердження сесії, будь ласка, здійсніть оплату (200 грн) протягом 2 годин.";
+        descriptionText.style.display = 'block';
+    } else {
+        successText.style.display = 'none';
         
-        // Налаштовуємо верхні тексти
-        if (isAfterBooking) {
-            successText.style.display = 'block';
-            descriptionText.innerText = "Для остаточного підтвердження сесії, будь ласка, здійсніть оплату (200 грн) протягом 2 годин.";
-        } else {
-            successText.style.display = 'none';
-            descriptionText.innerText = paymentType === 'mono' ? "Ранкова База відкрита для всіх. Якщо ви відчуваєте цінність, ви можете залишити донат будь-якого розміру." : "Реквізити для оплати послуг простору.";
-        }
-        
-        // Генеруємо вміст та НИЖНІ ТЕКСТИ
+        // Для донату повністю приховуємо стандартний опис
         if (paymentType === 'mono') {
-            // ВАРІАНТ ДОНАТУ (Без вимоги чека)
-            contentBox.innerHTML = `
-
-            
-                <div style="background: var(--bg-card); padding: 24px; border-radius: 16px; margin: 24px 0; border: 1px solid #EAEAEA; text-align: center;">
-                    <span style="display: block; font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 16px;">Вдячність простору</span>
-                   <button class="btn btn-outline" style="width: 100%; border-radius: 100px; margin-bottom: 12px;" onclick="window.open('https://meet.google.com/syx-tgcn-jzd', '_blank')">Доєднатися до практики</button>
-                
-                    <a href="${monoLink}" target="_blank" class="btn btn-dark" style="width: 100%; border-radius: 100px;">Поповнити Банку  💛 &rarr;</a>
-                    </div>
-        
-                <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 0;">Будь-який ваш внесок допомагає підтримувати та розвивати цей простір. Дякую!</p>
-            `;
-        } else { 
-            // ВАРІАНТ IBAN (Оплата послуг + Telegram)
-            contentBox.innerHTML = `
-                
-
-
-
-                        <div class="iban-box" style="background: var(--bg-card); padding: 24px; border-radius: 16px; margin: 24px 0; border: 1px solid #EAEAEA; text-align: left;">
-            
-            <span style="display: block; font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px;">Отримувач</span>
-            <div style="font-weight: 500; font-size: 15px; margin-bottom: 16px; color: var(--text-dark);">Крутько Сергій</div>
-            
-            <!-- НОВИЙ БЛОК: Призначення платежу -->
-            <span style="display: block; font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px;">Призначення платежу</span>
-            <div style="font-weight: 500; font-size: 15px; margin-bottom: 16px; color: var(--text-dark);">Оплата за консультацію</div>
-            
-            <span style="display: block; font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em;">За реквізитами IBAN:</span>
-            <div class="iban-row" style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 8px; flex-wrap: wrap; gap: 12px;">
-                <div style="font-family: monospace; font-size: 15px; font-weight: 600; color: var(--text-dark); word-break: break-all;">UA583 2200 1000 0026 0013 5004 9607</div>
-                <button class="copy-btn" id="copy-btn" onclick="copyIBAN()" style="background: none; border: none; font-family: var(--font-sans); font-size: 12px; font-weight: 600; color: var(--accent-green); cursor: pointer; display: flex; align-items: center; gap: 6px; padding: 0; text-transform: uppercase; letter-spacing: 0.05em;">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                    <span>Копіювати</span>
-                </button>
-            </div>
-        </div>
-
-
-
-
-
-
-                <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 24px;">Після оплати, будь ласка, просто напишіть мені, щоб я підтвердив надходження.</p>
-                <a href="https://t.me/ВАШ_ТЕЛЕГРАМ" class="btn btn-dark" target="_blank" style="width: 100%;">Написати в Telegram &rarr;</a>
-            `;
+            descriptionText.style.display = 'none';
+        } else {
+            descriptionText.innerText = "Реквізити для оплати послуг простору.";
+            descriptionText.style.display = 'block';
         }
-        
-        document.getElementById('payment-modal').classList.add('active');
     }
+    
+    // Генеруємо вміст
+    if (paymentType === 'mono') {
+        // ОНОВЛЕНИЙ АТМОСФЕРНИЙ ДИЗАЙН (З відступом та новими кнопками)
+        contentBox.innerHTML = `
+            <!-- Атмосферне зображення з відступом від хрестика -->
+            <div style="width: 100%; height: 240px; border-radius: 16px; overflow: hidden; margin-top: 28px; margin-bottom: 24px; border: 1px solid var(--border-color);">
+                <img src="img/morning-meditation-large.jpg" alt="Ранкова практика" style="width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%) sepia(10%); display: block;">
+            </div>
+
+            <div style="margin-bottom: 24px; text-align: center;">
+                <h3 style="font-family: var(--font-serif); font-size: 26px; color: var(--text-dark); margin-bottom: 12px; margin-top: 0; letter-spacing: -0.02em;">Відкрита практика</h3>
+                <p style="font-size: 15px; color: var(--text-muted); line-height: 1.6; margin-bottom: 0;">Ранкова База відкрита для всіх. Якщо ця зустріч допомагає вам віднайти рівновагу, ви можете підтримати простір донатом.</p>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+                <!-- Кремова кнопка "Доєднатися" -->
+                <a href="https://meet.google.com/syx-tgcn-jzd" target="_blank" class="btn" style="width: 100%; border-radius: 100px; padding: 16px; font-size: 15px; background-color: var(--bg-photo); color: var(--text-dark); border: 1px solid #E6E2D8;">Доєднатися до зустрічі &rarr;</a>
+                
+                <!-- Чорна кнопка "Донат" -->
+                <a href="${monoLink}" target="_blank" class="btn btn-dark" style="width: 100%; border-radius: 100px; padding: 16px; font-size: 15px;">Поповнити Банку 💛</a>
+            </div>
+
+            <p style="font-size: 13px; color: var(--text-muted); margin-top: 24px; margin-bottom: 0;">Дякую за довіру та спільний час!</p>
+        `;
+    } else { 
+        // ВАРІАНТ IBAN
+        contentBox.innerHTML = `
+            <div class="iban-box" style="background: var(--bg-card); padding: 24px; border-radius: 16px; margin: 24px 0; border: 1px solid var(--border-color); text-align: left;">
+                <span style="display: block; font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px;">Отримувач</span>
+                <div style="font-weight: 500; font-size: 15px; margin-bottom: 16px; color: var(--text-dark);">Крутько Сергій</div>
+                
+                <span style="display: block; font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px;">Призначення платежу</span>
+                <div style="font-weight: 500; font-size: 15px; margin-bottom: 16px; color: var(--text-dark);">Оплата за консультацію</div>
+                
+                <span style="display: block; font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em;">За реквізитами IBAN:</span>
+                <div class="iban-row" style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 8px; flex-wrap: wrap; gap: 12px;">
+                    <div style="font-family: monospace; font-size: 15px; font-weight: 600; color: var(--text-dark); word-break: break-all;">UA583 2200 1000 0026 0013 5004 9607</div>
+                    <button class="copy-btn" id="copy-btn" onclick="copyIBAN()" style="background: none; border: none; font-family: var(--font-sans); font-size: 12px; font-weight: 600; color: var(--accent-green); cursor: pointer; display: flex; align-items: center; gap: 6px; padding: 0; text-transform: uppercase; letter-spacing: 0.05em;">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        <span>Копіювати</span>
+                    </button>
+                </div>
+            </div>
+
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 24px;">Після оплати, будь ласка, просто напишіть мені, щоб я підтвердив надходження.</p>
+            <a href="https://t.me/locusuyavy" class="btn btn-dark" target="_blank" style="width: 100%;">Написати в Telegram &rarr;</a>
+        `;
+    }
+    
+    document.getElementById('payment-modal').classList.add('active');
+}
 
     function closePaymentModal() { document.getElementById('payment-modal').classList.remove('active'); }
 
