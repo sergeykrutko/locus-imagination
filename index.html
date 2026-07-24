@@ -11,20 +11,19 @@
     
     <style>
 
-        
 
-/* Блокуємо скрол та зум основного сайту під час роботи Calendly */
-body:has(.calendly-overlay) {
-    overflow: hidden !important;
-    overscroll-behavior: none !important; /* Забороняє ефект "гумки" притягування країв на iOS */
-    touch-action: none !important; /* Блокує свайпи та зум щипком */
+
+/* Фікс розмірів для модального вікна Calendly */
+.calendly-popup {
+    max-width: 100vw !important;
+    box-sizing: border-box !important;
 }
 
-/* Захищаємо кнопки від впливу touch-action, щоб не ламався текст і кліки */
-body:has(.calendly-overlay) button,
-body:has(.calendly-overlay) .btn,
-body:has(.calendly-overlay) a {
-    touch-action: manipulation !important;
+/* Запобігаємо успадкуванню дрібного шрифту, яке тригерить зум iOS */
+.calendly-overlay,
+.calendly-inline-widget,
+body:has(.calendly-overlay) {
+    font-size: 16px !important;
 }
 
 :root {
