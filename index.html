@@ -2,7 +2,7 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, shrink-to-fit=no">
     <title>Аналітичний простір | Локус•УЯВИ</title>
     <link rel="icon" type="image/x-icon" sizes="any" href="favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -10,6 +10,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
     
     <style>
+
+
+
 :root {
     color-scheme: light dark; /* Цей рядок блокує "самодіяльність" браузера */
     --bg-page: #FCFCF9;
@@ -2123,6 +2126,19 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 </script>
 
+
+<script>
+    window.addEventListener('message', function(e) {
+        // Коли Calendly закривається
+        if (e.data.event && e.data.event === 'calendly.popup_closed') {
+            const viewportMeta = document.querySelector('meta[name="viewport"]');
+            if (viewportMeta) {
+                // Трюк для скидання зуму Safari
+                viewportMeta.content = 'width=device-width, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0';
+            }
+        }
+    });
+</script>
 
 
 </body>
