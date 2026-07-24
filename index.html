@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, shrink-to-fit=no">
     <title>Аналітичний простір | Локус•УЯВИ</title>
-    <link rel="icon" type="image/x-icon" sizes="any" href="favicon.ico">
+    <!-- Стандартна іконка для сучасних браузерів -->
+<link rel="icon" type="image/png" href="favicon.png?v=2">
+
+<!-- Іконка для збереження на домашній екран iPhone/iPad (дуже важливо для iOS) -->
+<link rel="apple-touch-icon" href="favicon.png?v=2">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
@@ -851,7 +855,7 @@ a { text-decoration: none; color: inherit; }
 
 .scroll-indicator {
     margin-top: 40px; /* Даємо їй трохи більше простору від кнопки */
-    color: #888888; /* М'який сірий колір, щоб вона не кричала */
+    color: #878585; /* М'який сірий колір, щоб вона не кричала */
     animation: breatheDown 3s infinite ease-in-out;
     display: flex;
     justify-content: center;
@@ -864,7 +868,7 @@ a { text-decoration: none; color: inherit; }
     }
     50% { 
         transform: translateY(10px); /* М'яко опускається на 10px */
-        opacity: 0.59; /* Стає чіткішою */
+        opacity: 0.8; /* Стає чіткішою */
     }
 }
 
@@ -1300,7 +1304,7 @@ html {
                 <img src="img/morning-meditation-large.jpg" alt="Ранкова База" class="card-image open-panel" data-target="panel-base">
                     <h3>Ранкова База</h3>
                     <p>15 хвилин тиші та спрямованої уваги перед тим, як розпочнеться ваш день. Це короткі доказові практики, що допомагають заземлитися, зібрати розфокусовані думки та віднайти внутрішню опору на сьогодні.</p>
-                    <span class="price">15 хв &middot; безкоштовно / донат</span>
+                    <span class="price">15 хв &middot; безкоштовно</span>
                     <div class="card-footer">
                         
                         <!-- Кнопка відкриває панель -->
@@ -1336,7 +1340,7 @@ html {
                     <img src="img/dialogues-large.jpg" alt="Шершаві Діалоги" class="card-image open-panel" data-target="panel-dialogues">
                     <h3>Шершаві Діалоги</h3>
                     <p>Простір для чесного спілкування про сьогодення. Це спільне дослідження живих і складних питань через призму особистого досвіду. Місце, де можна отримати усвідомлений зворотний зв'язок, розділити емоції та бути по-справжньому почутим.</p>
-                    <span class="price">900 грн / місяць </span>
+                    <span class="price">Зустрічі раз на тиждень </span>
                     <div class="card-footer">
                         
                         <button class="btn btn-dark open-panel" data-target="panel-dialogues" style="color: white; border-color: #555;">Детальніше &rarr;</button>
@@ -1366,7 +1370,7 @@ html {
                     <img src="img/syava-large.jpg" alt="Спільна Ява" class="card-image open-panel" data-target="panel-syava">
                     <h3>Спільна Ява</h3>
                     <p> Груповий простір для дослідження послань несвідомого. Ми вчимося аналізувати власні сни, безпечно взаємодіяти з Тінню та інтегрувати прихований ресурс образів у реальне життя. Робота спирається на авторський синтез глибинної психотерапії та нейробіології, що дозволяє почути свої справжні потреби.</p>
-                     <span class="price">2-3 год &middot; 1000 грн</span>
+                     <span class="price">до 3 год &middot; 1000 грн</span>
                     <div class="card-footer">
                        
                         <!-- Кнопка відкриває панель -->
@@ -2046,12 +2050,13 @@ document.addEventListener("DOMContentLoaded", () => {
             <!-- Компактніший текст -->
             <div style="margin-bottom: 16px; text-align: center;">
                 <h3 style="font-family: var(--font-serif); font-size: 22px; color: var(--text-dark); margin-bottom: 8px; margin-top: 0; letter-spacing: -0.01em;">Відкрита практика</h3>
+                <p style="font-size: 14px; font-weight: 800; color: var(--text-muted); line-height: 1.5; margin-bottom: 0;">Розклад: понеділок, середа, пʼятниця о 7:00</p>
                 <p style="font-size: 14px; color: var(--text-muted); line-height: 1.5; margin-bottom: 0;">Ранкова База відкрита для всіх. Якщо ця зустріч допомагає вам віднайти рівновагу, ви можете підтримати простір донатом.</p>
             </div>
 
             <!-- Кнопки з меншими відступами (padding: 12px замість 16px) -->
             <div style="display: flex; flex-direction: column; gap: 10px;">
-                <a href="https://meet.google.com/syx-tgcn-jzd" target="_blank" class="btn" style="width: 100%; border-radius: 100px; padding: 12px; font-size: 14px; background-color: var(--bg-photo); color: var(--text-dark); border: 1px solid #E6E2D8;">Доєднатися до зустрічі &rarr;</a>
+                <a href="https://meet.google.com/syx-tgcn-jzd" target="_blank" class="btn" style="width: 100%; border-radius: 100px; padding: 12px; font-size: 14px; background-color: var(--bg-photo); color: var(--text-dark); border: 1px solid #E6E2D8;">Доєднатися до практики &rarr;</a>
                 
                 <a href="${monoLink}" target="_blank" class="btn btn-dark" style="width: 100%; border-radius: 100px; padding: 12px; font-size: 14px;">Поповнити Банку 💛</a>
             </div>
