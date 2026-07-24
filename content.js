@@ -132,7 +132,13 @@ const myContent = {
         ]},
 
         // Кнопка 1: Відкриває віджет Calendly прямо на сторінці
-        { type: "button", text: "Забронювати час", link: "#", onclick: "Calendly.initPopupWidget({url: 'https://calendly.com/sergey-s-krutko/espresso-meetings?hide_gdpr_banner=1&hide_event_type_details=1'});return false;", variant: "dark" },
+        { 
+    type: "button", 
+    text: "Забронювати час", 
+    link: "#", 
+    onclick: "document.querySelector('[data-target=\\'panel-booking-espresso\\']').click(); return false;", 
+    variant: "dark" 
+},
         
         
         { type: "button", text: "Задати питання", link: "https://t.me/locusuyavy", target: "_blank", variant: "minimal"},
@@ -145,6 +151,16 @@ const myContent = {
     variant: "minimal", 
     onclick: "openPaymentModal(false, 'iban'); return false;" 
 }
+
+],
+
+// БРОНЮВАННЯ ЕСПРЕСО-СЕСІЇ (НОВИЙ БЛОК)
+    "panel-booking-espresso": [
+        { type: "label", text: "Бронювання часу Еспресо-Сесії" },
+     //   { type: "title", text: "Еспресо-Сесії" },
+     
+        { type: "calendly", url: "https://calendly.com/sergey-s-krutko/espresso-meetings?hide_event_type_details=1&hide_gdpr_banner=1'" },
+         //  { type: "text", text: "Оберіть зручний для вас час. Після запису ви отримаєте реквізити для оплати." }
     ],
 
 
