@@ -135,7 +135,7 @@ const myContent = {
         { type: "button", text: "Забронювати час", link: "#", onclick: "Calendly.initPopupWidget({url: 'https://calendly.com/sergey-s-krutko/espresso-meetings'});return false;", variant: "minimal" },
         
         
-        { type: "button", text: "Задати питання", link: "#", target: "_blank", variant: "dark"},
+        { type: "button", text: "Задати питання", link: "https://t.me/locusuyavy", target: "_blank", variant: "dark"},
 
         // Кнопка 2: Виклик реквізитів вручну
 { 
@@ -215,7 +215,7 @@ const myContent = {
         ]},
 
         // Вбудована елегантна кнопка
-        { type: "button", text: "Записатися на співбесіду", link: "#", variant: "minimal"  }
+        { type: "button", text: "Записатися на співбесіду", link: "https://t.me/locusuyavy", target: "_blank", variant: "minimal"  }
     ],
 
 
@@ -286,7 +286,7 @@ const myContent = {
         // Фінальний заклик як цитата
         { type: "quote", text: "Якщо цей формат – те, чого зараз не вистачає, і є потреба розділити думки в безпечному колі, пишіть в особисті. Зідзвонимось на 10 хвилин для знайомства і закріпимо місце." },
 
-        { type: "button", text: "Записатися на співбесіду", link: "#", variant: "minimal"  }
+        { type: "button", text: "Записатися на співбесіду", link: "https://t.me/locusuyavy", target: "_blank", variant: "minimal"  }
     ],
 
 
@@ -325,7 +325,7 @@ const myContent = {
         // Об'єднаний фінальний текст, який створює дуже правильний післясмак
         { type: "quote", text: "Найважливіші підказки часто сховані там, куди ми боїмося дивитися. Ваша підсвідомість вже знає відповіді, треба лише допомогти їй заговорити. Якщо якийсь сюжет не дає спокою або повторюється знову і знову – приходьте. Розплутаємо його разом." },
 
-        { type: "button", text: "Написати в дірект", link: "#", variant: "minimal"  }
+        { type: "button", text: "Написати в дірект", link: "https://t.me/locusuyavy", target: "_blank", variant: "minimal"  }
     ],
 
 
@@ -364,7 +364,7 @@ const myContent = {
         // Цитата, яка підкреслює цінність формату
         { type: "quote", text: "Системна аналітична робота вимагає часу та зусиль, але саме вона дає найглибші, структурні зміни у сприйнятті себе та навколишнього світу." },
 
-        { type: "button", text: "Написати в дірект", link: "#", variant: "minimal"  }
+        { type: "button", text: "Написати в дірект", link: "https://t.me/locusuyavy", target: "_blank", variant: "minimal"  }
     ]
 
 
