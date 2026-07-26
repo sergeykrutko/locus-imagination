@@ -745,6 +745,11 @@ a { text-decoration: none; color: inherit; }
 
 
 
+
+
+
+/* --ВІДРЕДАГУВАТИ!!!-- */
+
 /* --- МОДАЛЬНЕ ВІКНО ОПЛАТИ (З'являється після Calendly) --- */
 .payment-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -774,8 +779,9 @@ a { text-decoration: none; color: inherit; }
     color: var(--text-dark);
     width: 32px; height: 32px; border-radius: 50%;
     font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: var(--transition);
+    z-index: 10;
 }
-.payment-close:hover { background: var(--bg-sage); }
+.payment-close:hover { background: white; }
 
 .iban-box {
     background: var(--bg-card); padding: 24px; border-radius: 16px; margin: 24px 0; 
@@ -793,7 +799,7 @@ a { text-decoration: none; color: inherit; }
 .copy-btn:hover { opacity: 0.7; }
 
 
-/* --- МОДАЛЬНЕ ВІКНО ОПЛАТИ (З'являється після Calendly) --- */
+/* --- МОДАЛЬНЕ ВІКНО ОПЛАТИ (З'являється після Calendly) ---
 .payment-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
@@ -828,7 +834,7 @@ a { text-decoration: none; color: inherit; }
     color: var(--accent-green); cursor: pointer; transition: var(--transition); text-transform: uppercase; 
     letter-spacing: 0.05em; display: flex; align-items: center; gap: 6px; padding: 0;
 }
-.copy-btn:hover { opacity: 0.7; }
+.copy-btn:hover { opacity: 0.7; }  */
 
 
 /* --- ПРАВКИ МОДАЛЬНОГО ВІКНА (ОПЛАТА) --- */
@@ -2010,7 +2016,7 @@ document.addEventListener("DOMContentLoaded", () => {
 <!-- Розумне модальне вікно оплати -->
 <div class="payment-overlay" id="payment-modal">
     <div class="payment-card">
-       <!--  <button class="payment-close" onclick="closePaymentModal()">&times;</button> -->
+         <button class="payment-close" onclick="closePaymentModal()">&times;</button>
         
         <div id="booking-success-text">
             <span class="label" style="justify-content: center; margin-bottom: 12px;">✧ ЧАС ЗАБРОНЬОВАНО</span>
@@ -2059,30 +2065,28 @@ document.addEventListener("DOMContentLoaded", () => {
     if (paymentType === 'mono') {
         // КОМПАКТНИЙ АТМОСФЕРНИЙ ДИЗАЙН
         contentBox.innerHTML = `
-
-        <!-- Індикатор "шторки" (pill) -->
-            
+        <h3 style="font-family: var(--font-serif); font-size: 20px; color: var(--text-dark); margin-bottom: -14px; margin-top: -12px; letter-spacing: -0.01em;">Відкрита практика</h3>
             <!-- Зменшена картинка з меншим відступом -->
-            <div style="width: 100%; height: 190px; border-radius: 12px; overflow: hidden; margin-top: 0px; margin-bottom: 16px; border: 1px solid var(--border-color);">
+            <div style="width: 100%; height: 190px; border-radius: 12px; overflow: hidden; margin-top: 30px; margin-bottom: 16px; border: 1px solid var(--border-color);">
                 <img src="img/morning-meditation-large.jpg" alt="Ранкова практика" style="width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%) sepia(10%); display: block;">
             </div>
 
             <!-- Компактніший текст -->
             <div style="margin-bottom: 10px; text-align: center;">
-                <h3 style="font-family: var(--font-serif); font-size: 22px; color: var(--text-dark); margin-bottom: 4px; margin-top: 0; letter-spacing: -0.01em;">Відкрита практика</h3>
+                
                  <p style="font-size: 12px; font-weight:800; color: var(--text-muted); margin-top: 14px; margin-bottom: 10px;">РОЗКЛАД НА НАСТУПНИЙ ТИЖДЕНЬ:</p>
                <div style="display: flex; justify-content: center; width: 100%; margin-bottom: 0px;">
-    <div class="live-schedule-text" style="width: 100%; max-width: 320px;"></div>
+    <div class="live-schedule-text" style="width: 100%; max-width: 320px; margin-bottom: -15px;"></div>
 </div>
                 <p style="font-size: 14px; color: var(--text-muted); line-height: 1.5; margin-bottom: 0;">Ранкова База відкрита для всіх. Якщо ця зустріч допомагає вам віднайти рівновагу, ви можете підтримати простір донатом.</p>
             </div>
 
             <!-- Кнопки з меншими відступами (padding: 12px замість 16px) -->
-            <div style="display: flex; flex-direction: column; gap: 10px;">
+            <div style="display: flex; flex-direction: column; gap: 5px;">
 
-                <a href="https://meet.google.com/syx-tgcn-jzd" target="_blank" class="btn" style="width: 100%; border-radius: 100px; padding: 10px; font-size: 14px; background-color: var(--bg-photo); color: var(--text-dark); border: 1px solid #E6E2D8;">Доєднатися до практики &rarr;</a>
+                <a href="https://meet.google.com/syx-tgcn-jzd" target="_blank" class="btn" style="width: 100%; border-radius: 100px; padding: 8px; font-size: 14px; background-color: var(--bg-photo); color: var(--text-dark); border: 1px solid #E6E2D8;">Доєднатися до практики &rarr;</a>
                 
-                <a href="${monoLink}" target="_blank" class="btn btn-dark" style="width: 100%; border-radius: 100px; padding: 10px; font-size: 14px;">Поповнити Банку 💛</a>
+                <a href="${monoLink}" target="_blank" class="btn btn-dark" style="width: 100%; border-radius: 100px; padding: 8px; font-size: 14px;">Поповнити Банку 💛</a>
             </div>
 
             <p style="font-size: 12px; color: var(--text-muted); margin-top: 16px; margin-bottom: 0;">Дякую за довіру та спільний час!</p>
