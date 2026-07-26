@@ -768,7 +768,8 @@ a { text-decoration: none; color: inherit; }
 .payment-overlay.active .payment-card { transform: translateY(0); }
 /* 3. Модальне вікно оплати та IBAN (було #EAEAEA та #F0F0F0) */
 .payment-close {
-    position: absolute; top: 16px; right: 16px; background: var(--bg-card);
+    position: absolute; top: 16px; right: 16px; 
+    background: transparent;
     border: 1px solid var(--border-color); /* ВИПРАВЛЕНО */
     color: var(--text-dark);
     width: 32px; height: 32px; border-radius: 50%;
@@ -808,9 +809,10 @@ a { text-decoration: none; color: inherit; }
 }
 .payment-overlay.active .payment-card { transform: translateY(0); }
 .payment-close {
-    position: absolute; top: 16px; right: 16px; background: var(--bg-card);
+    position: absolute; top: 40px; right: 30px; background: var(--bg-card);
     border: 1px solid #EAEAEA; width: 32px; height: 32px; border-radius: 50%;
     font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: var(--transition);
+    z-index: 10;
 }
 .payment-close:hover { background: #F0F0F0; }
 
@@ -2008,7 +2010,7 @@ document.addEventListener("DOMContentLoaded", () => {
 <!-- Розумне модальне вікно оплати -->
 <div class="payment-overlay" id="payment-modal">
     <div class="payment-card">
-        <button class="payment-close" onclick="closePaymentModal()">&times;</button>
+       <!--  <button class="payment-close" onclick="closePaymentModal()">&times;</button> -->
         
         <div id="booking-success-text">
             <span class="label" style="justify-content: center; margin-bottom: 12px;">✧ ЧАС ЗАБРОНЬОВАНО</span>
@@ -2057,16 +2059,19 @@ document.addEventListener("DOMContentLoaded", () => {
     if (paymentType === 'mono') {
         // КОМПАКТНИЙ АТМОСФЕРНИЙ ДИЗАЙН
         contentBox.innerHTML = `
+
+        <!-- Індикатор "шторки" (pill) -->
+            
             <!-- Зменшена картинка з меншим відступом -->
-            <div style="width: 100%; height: 200px; border-radius: 12px; overflow: hidden; margin-top: 30px; margin-bottom: 16px; border: 1px solid var(--border-color);">
+            <div style="width: 100%; height: 190px; border-radius: 12px; overflow: hidden; margin-top: 0px; margin-bottom: 16px; border: 1px solid var(--border-color);">
                 <img src="img/morning-meditation-large.jpg" alt="Ранкова практика" style="width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%) sepia(10%); display: block;">
             </div>
 
             <!-- Компактніший текст -->
-            <div style="margin-bottom: 16px; text-align: center;">
-                <h3 style="font-family: var(--font-serif); font-size: 22px; color: var(--text-dark); margin-bottom: 8px; margin-top: 0; letter-spacing: -0.01em;">Відкрита практика</h3>
-                 <p style="font-size: 12px; font-weight:800; color: var(--text-muted); margin-top: 14px; margin-bottom: 10;">РОЗКЛАД НА НАСТУПНИЙ ТИЖДЕНЬ:</p>
-               <div style="display: flex; justify-content: center; width: 100%; margin-bottom: 24px;">
+            <div style="margin-bottom: 10px; text-align: center;">
+                <h3 style="font-family: var(--font-serif); font-size: 22px; color: var(--text-dark); margin-bottom: 4px; margin-top: 0; letter-spacing: -0.01em;">Відкрита практика</h3>
+                 <p style="font-size: 12px; font-weight:800; color: var(--text-muted); margin-top: 14px; margin-bottom: 10px;">РОЗКЛАД НА НАСТУПНИЙ ТИЖДЕНЬ:</p>
+               <div style="display: flex; justify-content: center; width: 100%; margin-bottom: 0px;">
     <div class="live-schedule-text" style="width: 100%; max-width: 320px;"></div>
 </div>
                 <p style="font-size: 14px; color: var(--text-muted); line-height: 1.5; margin-bottom: 0;">Ранкова База відкрита для всіх. Якщо ця зустріч допомагає вам віднайти рівновагу, ви можете підтримати простір донатом.</p>
@@ -2075,9 +2080,9 @@ document.addEventListener("DOMContentLoaded", () => {
             <!-- Кнопки з меншими відступами (padding: 12px замість 16px) -->
             <div style="display: flex; flex-direction: column; gap: 10px;">
 
-                <a href="https://meet.google.com/syx-tgcn-jzd" target="_blank" class="btn" style="width: 100%; border-radius: 100px; padding: 12px; font-size: 14px; background-color: var(--bg-photo); color: var(--text-dark); border: 1px solid #E6E2D8;">Доєднатися до практики &rarr;</a>
+                <a href="https://meet.google.com/syx-tgcn-jzd" target="_blank" class="btn" style="width: 100%; border-radius: 100px; padding: 10px; font-size: 14px; background-color: var(--bg-photo); color: var(--text-dark); border: 1px solid #E6E2D8;">Доєднатися до практики &rarr;</a>
                 
-                <a href="${monoLink}" target="_blank" class="btn btn-dark" style="width: 100%; border-radius: 100px; padding: 12px; font-size: 14px;">Поповнити Банку 💛</a>
+                <a href="${monoLink}" target="_blank" class="btn btn-dark" style="width: 100%; border-radius: 100px; padding: 10px; font-size: 14px;">Поповнити Банку 💛</a>
             </div>
 
             <p style="font-size: 12px; color: var(--text-muted); margin-top: 16px; margin-bottom: 0;">Дякую за довіру та спільний час!</p>
@@ -2224,7 +2229,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (rows.length === 0) throw new Error('Таблиця порожня');
             
             // fit-content гарантує ідеальне центрування незалежно від наявності коментарів
-            let allCardsHTML = '<div style="display: flex; flex-direction: column; width: 100%; margin-bottom: 16px;">';
+            let allCardsHTML = '<div style="display: flex; flex-direction: column; width: 100%; margin-bottom: 4px;">';
             
             rows.forEach((row, index) => {
                 const columns = row.split('\t');

@@ -47,10 +47,11 @@ const myContent = {
 
         // НОВИЙ ВИДІЛЕНИЙ БЛОК РОЗКЛАДУ
         { type: "h3", text: "Найближчі практики" },
-        { type: "text", text: "<div class='live-schedule-text' style='font-family: var(--font-sans); margin-top: 4px; margin-bottom: 4px;'>Завантаження...</div>" },
+        
+        { type: "text", text: "<div class='live-schedule-text' style='font-family: var(--font-sans); margin-top: -15px; margin-bottom: 4px;'>Завантаження...</div>" },
         { type: "button", text: "Анонси практик в Instagram", link: "https://www.instagram.com/locusuyavy" , variant: "minimal" },
         // НЕВИДИМИЙ ВІДСТУП (Розпірка)
-        { type: "text", text: "<div style='height: 10px;'></div>" },
+        { type: "text", text: "<div style='height: 1px;'></div>" },
         { type: "h3", text: "Формат" },
         // Зрозуміла табличка (без розкладу, бо він тепер вище)
         { type: "data", items: [
@@ -73,7 +74,8 @@ const myContent = {
             link: "#", 
             variant: "dark", 
             onclick: "openPaymentModal(false, 'mono', 'https://send.monobank.ua/jar/413enuYobE'); return false;" 
-        }
+        },
+        { type: "text", text: "<div style='height: 5px;'></div>" }
     ],
 
 
