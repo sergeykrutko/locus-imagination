@@ -1669,6 +1669,12 @@ html {
     <!-- Футер -->
     <footer class="site-footer">
         <div>ЛОКУС &middot; УЯВИ &copy; 2026</div>
+
+
+        <!-- Нове посилання на Tally форму -->
+        <a href="https://tally.so/r/ВАШЕ_ПОСИЛАННЯ" target="_blank" style="text-decoration: underline; color: var(--text-muted); font-size: 13px;">Залишити відгук</a>
+
+
         <div class="footer-links">
             <!-- Instagram Icon -->
             <a href="https://www.instagram.com/locusuyavy" target="_blank" rel="noopener" aria-label="Instagram">
@@ -2050,12 +2056,15 @@ document.addEventListener("DOMContentLoaded", () => {
             <!-- Компактніший текст -->
             <div style="margin-bottom: 16px; text-align: center;">
                 <h3 style="font-family: var(--font-serif); font-size: 22px; color: var(--text-dark); margin-bottom: 8px; margin-top: 0; letter-spacing: -0.01em;">Відкрита практика</h3>
-                <p style="font-size: 14px; font-weight: 800; color: var(--text-muted); line-height: 1.5; margin-bottom: 0;">Розклад: понеділок, середа, пʼятниця о 8:00</p>
+                <div class="live-schedule-text" style="width: 100%; margin-bottom: 16px;">
+    ${window.liveScheduleText || 'Завантаження розкладу...'}
+</div>
                 <p style="font-size: 14px; color: var(--text-muted); line-height: 1.5; margin-bottom: 0;">Ранкова База відкрита для всіх. Якщо ця зустріч допомагає вам віднайти рівновагу, ви можете підтримати простір донатом.</p>
             </div>
 
             <!-- Кнопки з меншими відступами (padding: 12px замість 16px) -->
             <div style="display: flex; flex-direction: column; gap: 10px;">
+
                 <a href="https://meet.google.com/syx-tgcn-jzd" target="_blank" class="btn" style="width: 100%; border-radius: 100px; padding: 12px; font-size: 14px; background-color: var(--bg-photo); color: var(--text-dark); border: 1px solid #E6E2D8;">Доєднатися до практики &rarr;</a>
                 
                 <a href="${monoLink}" target="_blank" class="btn btn-dark" style="width: 100%; border-radius: 100px; padding: 12px; font-size: 14px;">Поповнити Банку 💛</a>
@@ -2089,6 +2098,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
     document.getElementById('payment-modal').classList.add('active');
+    
+    // Миттєво підтягуємо готовий розклад із пам'яті
+    if (typeof window.updateScheduleUI === 'function') {
+        window.updateScheduleUI();
+    }
 }
 
     function closePaymentModal() { document.getElementById('payment-modal').classList.remove('active'); }
@@ -2111,6 +2125,14 @@ document.addEventListener("DOMContentLoaded", () => {
             setTimeout(() => { openPaymentModal(true, 'iban'); }, 400); 
         }
     });
+
+    // Закриття модального вікна по кліку на темний фон
+    document.getElementById('payment-modal').addEventListener('click', function(e) {
+        if (e.target === this) { // Перевіряємо, що клік був саме по фону, а не по білій картці
+            closePaymentModal();
+        }
+    });
+
 </script>
 
 
@@ -2161,6 +2183,95 @@ document.addEventListener("DOMContentLoaded", () => {
             setTheme(e.matches ? 'dark' : 'light');
         }
     });
+</script>
+
+
+
+<script>
+    window.liveScheduleText = 'Завантаження розкладу...'; 
+
+    const sheetTsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRIHttrj6VEAB6uIfeyuxrRbpu9csJ2z3QwjVA1zPBlqx4yUhxHqolLFoSfNtdsK1Sn6SYgoLecMqWP/pub?output=tsv';
+
+    // Глобальна функція для оновлення інтерфейсу
+    window.updateScheduleUI = function() {
+        document.querySelectorAll('.live-schedule-text').forEach(el => {
+            el.innerHTML = window.liveScheduleText;
+        });
+    };
+
+    async function fetchSchedule() {
+        try {
+            const noCacheUrl = sheetTsvUrl + '&t=' + new Date().getTime();
+            const response = await fetch(noCacheUrl);
+            if (!response.ok) throw new Error('Мережева помилка');
+            
+            const data = await response.text();
+            const rows = data.split('\n').filter(row => row.trim().length > 0);
+            
+            let allCardsHTML = '<div style="display: flex; flex-direction: column; gap: 8px; width: 100%; margin-bottom: 8px;">';
+            
+            rows.forEach(row => {
+                const columns = row.split('\t');
+                
+                // Строгий стандарт: A=Дата, B=Час, C=Коментар
+                const dateRaw = columns[0] ? columns[0].trim() : '';
+                const time = columns[1] ? columns[1].trim() : ''; 
+                const comment = columns[2] ? columns[2].trim() : ''; 
+                
+                if (!dateRaw || dateRaw.toLowerCase() === 'дата') return;
+
+                let dayStr = dateRaw;
+                let monthStr = '';
+                let dayOfWeek = '';
+                
+                const parsedDate = new Date(dateRaw);
+                if (!isNaN(parsedDate)) {
+                    // Форматуємо "27 липня" і розбиваємо на частини для правильного відмінка
+                    const formattedDate = new Intl.DateTimeFormat('uk-UA', { day: 'numeric', month: 'long' }).format(parsedDate);
+                    const parts = formattedDate.split(' ');
+                    dayStr = parts[0];
+                    monthStr = parts[1];
+                    
+                    // Автоматично дістаємо день тижня (пн, вт, ср)
+                    dayOfWeek = new Intl.DateTimeFormat('uk-UA', { weekday: 'short' }).format(parsedDate).replace('.', '');
+                }
+
+                // Ультракомпактна картка з днем тижня
+                let cardHTML = `
+                    <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 4px rgba(0,0,0,0.02);">
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <div style="display: flex; flex-direction: column; align-items: center; line-height: 1.1; min-width: 40px;">
+                                <span style="font-size: 16px; font-weight: 600; color: var(--text-dark);">${dayStr}</span>
+                                <span style="font-size: 10px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;">${monthStr}</span>
+                            </div>
+                            <div style="width: 1px; height: 24px; background-color: var(--border-color);"></div>
+                            <div style="display: flex; flex-direction: column; line-height: 1.2;">
+                                <span style="font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;">${dayOfWeek}</span>
+                                <span style="font-size: 15px; font-weight: 500; color: var(--text-dark);">${time}</span>
+                            </div>
+                        </div>
+                `;
+                
+                if (comment) {
+                    cardHTML += `<span style="font-size: 11px; font-weight: 600; color: var(--accent-green); text-transform: uppercase; letter-spacing: 0.05em; text-align: right; max-width: 45%; line-height: 1.2;">${comment}</span>`;
+                }
+                
+                cardHTML += `</div>`;
+                allCardsHTML += cardHTML;
+            });
+
+            allCardsHTML += '</div>';
+            window.liveScheduleText = allCardsHTML;
+            window.updateScheduleUI();
+
+        } catch (error) {
+            console.error('Помилка:', error);
+            window.liveScheduleText = '<div style="padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 14px;">Розклад уточнюється</div>';
+            window.updateScheduleUI();
+        }
+    }
+    
+    fetchSchedule();
 </script>
 
 
