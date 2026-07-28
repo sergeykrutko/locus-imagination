@@ -49,7 +49,7 @@ const myContent = {
         { type: "h3", text: "Найближчі практики" },
         
         { type: "text", text: "<div class='live-schedule-text' style='font-family: var(--font-sans); margin-top: -15px; margin-bottom: 4px;'>Завантаження...</div>" },
-        { type: "button", text: "Анонси практик в Instagram", link: "https://www.instagram.com/locusuyavy" , variant: "minimal" },
+        { type: "button", text: "Анонси практик в Instagram", link: "https://www.instagram.com/locusuyavy" , variant: "quiet" },
         // НЕВИДИМИЙ ВІДСТУП (Розпірка)
         { type: "text", text: "<div style='height: 1px;'></div>" },
         { type: "h3", text: "Формат" },
@@ -63,10 +63,10 @@ const myContent = {
 
         { 
             type: "button", 
-            text: "Доєднатися до практики", 
+            text: "Доєднатися до практики 🪷", 
             link: "https://meet.google.com/syx-tgcn-jzd", 
             target: "_blank", 
-            variant: "dark" 
+            variant: "light" 
         },
         { 
             type: "button", 
@@ -125,6 +125,8 @@ const myContent = {
             { title: "Таймінг", text: "Ми маємо рівно 15 хвилин. Цей час працює як надійний контейнер, тому вчасний початок є принципово важливим." },
             { title: "Відміна сесій", text: "Запізнення на 5 хвилин унеможливлює екологічне завершення процесу, тому сесія скасовується. <strong> Кошти за такі сесії не повертаються</strong> для збереження графіка." }
         ]},
+
+        { type: "text", text: "<div style='height: 32px;'></div>" },
 
 
           { type: "button", text: "Поставити запитання", link: "https://t.me/locusuyavy", target: "_blank", variant: "light"},

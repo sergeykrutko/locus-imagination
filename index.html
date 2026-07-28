@@ -23,7 +23,7 @@
     --bg-page: #FCFCF9;
     --bg-card: #FFFFFF;
     --bg-dark: #171514;
-    --bg-sage: #E3E9E0;
+    --bg-sage: #EEF1ED;
     --bg-photo: #fffdf9;
     --bg-alt: #FAFAFA;
     --header-bg: rgba(255, 255, 255, 0.85); 
@@ -42,11 +42,12 @@
     --radius-btn: 100px;
     --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 
-    --tint-1: #E4EBE0;
-    --tint-2: #F5E8DC;
-    --tint-3: #E1E6E8;
-    --tint-4: #F2EBE1;
-    --tint-5: #E8E5E1;
+    /* 2. НОВІ ВІДТІНКИ ДЛЯ ВІДГУКІВ (Вибілені, теплі, без холодного блакитного) */
+    --tint-1: #F4F6F3; /* Дуже бліда шавлія */
+    --tint-2: #F9F5F0; /* Теплий льон */
+    --tint-3: #F5F4F1; /* Світлий теплий грейдж (сіро-бежевий) замість блакитного */
+    --tint-4: #FBF7F5; /* Дуже блідий відтінок пудри */
+    --tint-5: #F2F4F2; /* Альтернативний прохолодний зелений, але теплий */
 }
 
 [data-theme="dark"] {
@@ -447,14 +448,16 @@ a { text-decoration: none; color: inherit; }
 
 /* М'які акцентні фони для карток (замість чорного) */
 .card.bg-sage { 
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.03); /* Невагома тінь, яка просто відділить краї від фону */
     background-color: var(--bg-sage); /* Ледь фісташковий */
     border-color: rgba(0,0,0,0.02); 
-    box-shadow: none; /* Акцентні картки робимо пласкими для ритму */
+
 }
 .card.bg-photo { 
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.03); /* Невагома тінь, яка просто відділить краї від фону */
     background-color: var(--bg-photo); /* Колір топленого молока */
     border-color: rgba(0,0,0,0.03); 
-    box-shadow: none;
+    
 }
 
 .card { 
@@ -572,7 +575,7 @@ a { text-decoration: none; color: inherit; }
 .data-list li span:first-child { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; }
 .data-list li span:last-child { font-weight: 500; color: var(--text-dark); }
 
-.elegant-card { background: var(--bg-card); border-radius: 24px; padding: 32px; margin: 40px 0; border: 1px solid #F0F0F0; }
+.elegant-card { background: var(--bg-card); border-radius: 24px; padding: 32px; margin: 40px 0; border: 0; }
 @media (min-width: 768px) { .elegant-card { padding: 40px; } }
 .elegant-card.bg-sage { background-color: var(--bg-sage); border-color: #D3DCD0; }
 .elegant-card.bg-photo { background-color: var(--bg-photo); border-color: #E6E2D8; }
@@ -616,7 +619,7 @@ a { text-decoration: none; color: inherit; }
     line-height: 1.5;
     margin-bottom: 24px;
 }
-.elegant-quote { border-left: 2px solid var(--accent-green); padding: 16px 0 16px 24px; margin: 32px 0; font-style: italic; color: var(--text-muted); font-size: 18px; }
+.elegant-quote { border-left: 2px solid var(--accent-green); padding: 16px 0 16px 24px; margin: 32px 0; font-family: var(--font-serif); font-style: italic; color: var(--text-muted); font-size: 17px; }
 
 /* --- ПРО АВТОРА --- */
 .about-section { padding: 120px 0; border-top: 0px solid #EAEAEA; }
@@ -794,9 +797,9 @@ a { text-decoration: none; color: inherit; }
 .panel-anim.in-view { opacity: 1; transform: translateY(0); }
 .panel-svg-line { width: 100%; height: 40px; margin: 40px 0; overflow: visible; }
 .panel-svg-line path { fill: none; stroke-linecap: round; stroke-dasharray: 1000; stroke-dashoffset: 1000; transition: stroke-dashoffset 2s cubic-bezier(0.25, 1, 0.5, 1); }
-.line-peach path { stroke: #D98A6C; stroke-width: 2.5; } 
+.line-peach path { stroke: #ec9573; stroke-width: 2.5; } 
 .line-green path { stroke: #A3B19B; stroke-width: 4; } 
-.line-thick-peach path { stroke: #D98A6C; stroke-width: 12; stroke-opacity: 0.4; } 
+.line-thick-peach path { stroke: #e18764; stroke-width: 10; stroke-opacity: 0.4; } 
 .line-dark path { stroke: var(--text-dark); stroke-width: 1; } 
 .panel-anim.in-view .panel-svg-line path { stroke-dashoffset: 0 !important; }
 .btn-inline { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-serif); font-size: 20px; color: var(--text-dark); border-bottom: 1px solid var(--text-muted); padding-bottom: 4px; margin-top: 24px; transition: var(--transition); }
