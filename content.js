@@ -72,7 +72,7 @@ const myContent = {
             type: "button", 
             text: "Підтримати донатом", 
             link: "#", 
-            variant: "dark", 
+            variant: "quiet", 
             onclick: "openPaymentModal(false, 'mono', 'https://send.monobank.ua/jar/413enuYobE'); return false;" 
         },
         { type: "text", text: "<div style='height: 5px;'></div>" }
@@ -127,7 +127,7 @@ const myContent = {
         ]},
 
 
-          { type: "button", text: "Поставити запитання", link: "https://t.me/locusuyavy", target: "_blank", variant: "minimal"},
+          { type: "button", text: "Поставити запитання", link: "https://t.me/locusuyavy", target: "_blank", variant: "light"},
 
         { type: "line", color: "thick-peach" },
 
@@ -145,10 +145,10 @@ const myContent = {
         // Кнопка 1: Відкриває віджет Calendly прямо на сторінці
         { 
     type: "button", 
-    text: "ОБРАТИ ЧАС ЗУСТРІЧІ", 
+    text: "Обрати час зустрічі", 
     link: "#", 
     onclick: "document.querySelector('[data-target=\\'panel-booking-espresso\\']').click(); return false;", 
-    variant: "dark" 
+    variant: "light" 
 },
 
 // Кнопка 2: Виклик реквізитів вручну
@@ -156,7 +156,7 @@ const myContent = {
     type: "button", 
     text: "Реквізити для оплати", 
     link: "#", 
-    variant: "minimal", 
+    variant: "quiet", 
     onclick: "openPaymentModal(false, 'iban'); return false;" 
 },
         
@@ -241,7 +241,7 @@ const myContent = {
         // Фінальний заклик як цитата
         { type: "quote", text: "Якщо цей формат – те, чого зараз не вистачає, і є потреба розділити думки в безпечному колі, пишіть в особисті. Зідзвонимось на 10 хвилин для знайомства і закріпимо місце." },
 
-        { type: "button", text: "Написати для знайомства", link: "https://t.me/locusuyavy", target: "_blank", variant: "dark"  }
+        { type: "button", text: "Написати для знайомства", link: "https://t.me/locusuyavy", target: "_blank", variant: "quiet"  }
     ],
    
 
@@ -282,7 +282,7 @@ const myContent = {
         // Об'єднаний фінальний текст, який створює дуже правильний післясмак
         { type: "quote", text: "Найважливіші підказки часто сховані там, куди ми боїмося дивитися. Ваша підсвідомість вже знає відповіді, треба лише допомогти їй заговорити. Якщо якийсь сюжет не дає спокою або повторюється знову і знову – приходьте. Розплутаємо його разом." },
 
-        { type: "button", text: "Написати для знайомства", link: "https://t.me/locusuyavy", target: "_blank", variant: "dark"  },
+        { type: "button", text: "Написати для знайомства", link: "https://t.me/locusuyavy", target: "_blank", variant: "quiet"  },
    // Той самий рядок про соціальні слоти
         { type: "text", text: "<div style='font-size: 13px; color: var(--text-muted); font-style: italic; margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border-color); text-align: center;'>* У моїй практиці передбачено кілька соціальних слотів за зниженою вартістю для тих, хто потребує підтримки, але зараз не має можливості оплачувати повну ціну. Ви можете запитати мене про них під час нашої першої зустрічі.</div>" },
    
@@ -358,7 +358,7 @@ const myContent = {
         ]},
 
         // Вбудована елегантна кнопка
-        { type: "button", text: "Написати для знайомства", link: "https://t.me/locusuyavy", target: "_blank", variant: "dark"  }
+        { type: "button", text: "Написати для знайомства", link: "https://t.me/locusuyavy", target: "_blank", variant: "quiet"  }
     ],
 
 
@@ -404,7 +404,7 @@ const myContent = {
 
         { type: "quote", text: "Системна аналітична робота вимагає часу та зусиль, але саме вона дає найглибші, структурні зміни у сприйнятті себе та навколишнього світу." },
 
-        { type: "button", text: "Написати для знайомства", link: "https://t.me/locusuyavy", target: "_blank", variant: "dark"  },
+        { type: "button", text: "Написати для знайомства", link: "https://t.me/locusuyavy", target: "_blank", variant: "quiet"  },
 
         // Блок про соціальні слоти
         { type: "text", text: "<div style='font-size: 13px; color: var(--text-muted); font-style: italic; margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border-color); text-align: center;'>* У моїй практиці передбачено кілька соціальних слотів за зниженою вартістю для тих, хто потребує підтримки, але зараз не має можливості оплачувати повну ціну. Ви можете запитати мене про них під час нашої першої зустрічі.</div>" },

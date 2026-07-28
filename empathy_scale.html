@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Профіль емпатії — саморефлексія</title>
+<style>
+  :root{
+    --bg:#1c2127;
+    --panel:#242b33;
+    --line:rgba(234,230,219,.10);
+    --ink:#e9e4d8;
+    --muted:#9aa4ad;
+    --accent:#8c95a0;
+    --cognitive:#5c87ae;
+    --emotional:#b4553a;
+    --compassion:#c9a227;
+    --paper:#efe9db;
+    --paper-ink:#242017;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    line-height:1.55;
+  }
+  .wrap{max-width:640px;margin:0 auto;padding:48px 20px 80px;}
+  h1{
+    font-family:Georgia,"Iowan Old Style","Times New Roman",serif;
+    font-weight:400;font-size:2rem;letter-spacing:.2px;margin:0 0 10px;
+  }
+  header p{color:var(--muted);font-size:.98rem;margin:0;}
+  .disclaimer{
+    margin-top:22px;padding:14px 16px;
+    border-left:2px solid var(--muted);color:var(--muted);font-size:.86rem;
+  }
+  #items{margin-top:40px;}
+  .q{padding:24px 0;border-top:1px solid var(--line);}
+  .q:first-child{border-top:none;}
+  .qhead{display:flex;gap:14px;align-items:baseline;margin-bottom:12px;}
+  .qnum{
+    font-variant-numeric:tabular-nums;font-size:.78rem;color:var(--muted);
+    min-width:22px;letter-spacing:.05em;
+  }
+  .qtext{font-size:1rem;}
+  .scale{display:flex;align-items:center;gap:14px;padding-left:36px;}
+  .scale .end{font-size:.76rem;color:var(--muted);width:88px;line-height:1.25;}
+  .scale .end.right{text-align:right;}
+  .dots{display:flex;gap:16px;flex:1;justify-content:space-between;}
+  .dots label{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;}
+  .dots input{width:19px;height:19px;cursor:pointer;accent-color:var(--accent);}
+  .dots span{font-size:.72rem;color:var(--muted);}
+  button{
+    font-family:inherit;font-size:1rem;background:var(--ink);color:#14181d;
+    border:none;padding:14px 26px;border-radius:3px;cursor:pointer;margin-top:36px;
+  }
+  button:hover{opacity:.9;}
+  button:focus-visible, input:focus-visible{outline:2px solid var(--compassion);outline-offset:3px;}
+  #warn{color:var(--emotional);font-size:.9rem;margin-top:16px;}
+  #result h2{
+    font-family:Georgia,"Iowan Old Style","Times New Roman",serif;
+    font-weight:400;font-size:1.5rem;margin:0 0 8px;
+  }
+  #result .sub{color:var(--muted);font-size:.9rem;margin:0 0 30px;}
+  .bar-row{margin-bottom:26px;}
+  .bar-row .label{display:flex;justify-content:space-between;font-size:.92rem;margin-bottom:6px;}
+  .bar-row .sublabel{font-size:.78rem;color:var(--muted);margin-bottom:6px;}
+  .bar-track{height:8px;background:var(--panel);border-radius:4px;overflow:hidden;}
+  .bar-fill{height:100%;border-radius:4px;width:0%;transition:width .6s ease;}
+  .fill-cognitive{background:var(--cognitive);}
+  .fill-emotional{background:var(--emotional);}
+  .fill-compassion{background:var(--compassion);}
+  .interp{
+    background:var(--paper);color:var(--paper-ink);
+    padding:22px;border-radius:4px;margin-top:24px;font-size:.95rem;
+  }
+  .interp p{margin:0 0 12px;}
+  .interp p:last-child{margin-bottom:0;}
+  .note{
+    margin-top:20px;font-size:.86rem;color:var(--muted);
+    border-left:2px solid var(--muted);padding-left:14px;
+  }
+  .note:empty{display:none;}
+  #retake{background:transparent;border:1px solid var(--line);color:var(--ink);}
+  footer{margin-top:60px;color:var(--muted);font-size:.8rem;border-top:1px solid var(--line);padding-top:20px;}
+  [hidden]{display:none !important;}
+  @media (prefers-reduced-motion: reduce){.bar-fill{transition:none;}}
+  @media (max-width:480px){
+    .scale{flex-wrap:wrap;padding-left:0;}
+    .scale .end{width:100%;}
+    .scale .end.right{text-align:left;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>Профіль емпатії</h1>
+    <p>Сімнадцять тверджень. Позначте, наскільки кожне з них про вас — не обмірковуйте довго, перша реакція зазвичай точніша.</p>
+    <div class="disclaimer">
+      Це не діагностичний і не клінічний інструмент, а авторська вправа на саморефлексію. Вона не замінює консультацію фахівця й не претендує на точність психометричного тесту.
+    </div>
+  </header>
+
+  <form id="quiz">
+    <div id="items"></div>
+    <button type="submit">Побачити результат</button>
+    <div id="warn" role="alert"></div>
+  </form>
+
+  <section id="result" hidden>
+    <h2>Ваш профіль</h2>
+    <p class="sub">Твердження належали до трьох ліній емпатії. Ось як вони розподілились.</p>
+
+    <div class="bar-row">
+      <div class="label"><span>Розуміння</span><span id="score-cognitive"></span></div>
+      <div class="sublabel">Когнітивна емпатія — зрозуміти чужий стан, зберігши власну межу</div>
+      <div class="bar-track"><div class="bar-fill fill-cognitive" id="fill-cognitive"></div></div>
+    </div>
+    <div class="bar-row">
+      <div class="label"><span>Відчування</span><span id="score-emotional"></span></div>
+      <div class="sublabel">Емоційна емпатія — відчути чужу емоцію на собі, а не лише розпізнати</div>
+      <div class="bar-track"><div class="bar-fill fill-emotional" id="fill-emotional"></div></div>
+    </div>
+    <div class="bar-row">
+      <div class="label"><span>Дія</span><span id="score-compassion"></span></div>
+      <div class="sublabel">Співчуття — момент, коли розуміння й відчування переходять у крок</div>
+      <div class="bar-track"><div class="bar-fill fill-compassion" id="fill-compassion"></div></div>
+    </div>
+
+    <div class="interp" id="interp"></div>
+    <div class="note" id="burnout-note"></div>
+    <div class="note">
+      Три смуги показують кожну лінію окремо, а не в порівнянні між собою. Твердження в них різні за складністю, тож «у мене відчування вище за розуміння» — некоректний висновок: для таких порівнянь потрібні норми, яких у цієї вправи немає. Читайте кожну смугу саму по собі.
+    </div>
+
+    <button id="retake" type="button">Пройти ще раз</button>
+  </section>
+
+  <footer>
+    Натхненно поділом на когнітивну й емоційну емпатію з досліджень Девіса (Interpersonal Reactivity Index, 1983) та Реньєрс і колег (Questionnaire of Cognitive and Affective Empathy, 2011). Формулювання оригінальні й не відтворюють текст жодного з опитувальників.<br><br>
+    Файл самодостатній: працює офлайн, дані не залишають браузер. Його можна надіслати як є, розмістити на сайті чи в спільній теці.
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  // Пункти перемішані навмисно: жодні два поспіль не з однієї шкали,
+  // r:true — зворотний пункт (рахується як 6 мінус відповідь).
+  var ITEMS = [
+    {g:'cognitive',  r:false, t:'Я можу зрозуміти чужу точку зору, навіть коли вона суперечить моїй власній.'},
+    {g:'emotional',  r:false, t:'Настрій людей навколо змінює мій власний швидше, ніж я встигаю це усвідомити.'},
+    {g:'compassion', r:true,  t:'Частіше я співчуваю подумки, ніж роблю щось конкретне.'},
+    {g:'cognitive',  r:false, t:'Я помічаю зміну настрою співрозмовника раніше, ніж він скаже про це вголос.'},
+    {g:'emotional',  r:false, t:'Коли хтось поруч плаче, у мене самого підступають сльози або ком у горлі.'},
+    {g:'compassion', r:false, t:'Відчувши чужий біль, я майже автоматично шукаю спосіб допомогти.'},
+    {g:'burnout',    r:false, t:'Після днів, наповнених чужими емоціями, я відчуваю виснаження, яке важко швидко відновити.'},
+    {g:'cognitive',  r:true,  t:'Мені буває складно вгадати, що саме зачепило людину, поки вона не скаже прямо.'},
+    {g:'emotional',  r:false, t:'Чужа тривога передається мені навіть через екран — у переписці чи відеозустрічі.'},
+    {g:'compassion', r:false, t:'Я готовий(а) підлаштувати власні плани, щоб підтримати людину, якій зараз важко.'},
+    {g:'cognitive',  r:false, t:'Перш ніж реагувати на чиюсь емоцію, я подумки прояснюю собі, чому людина могла це відчути.'},
+    {g:'emotional',  r:true,  t:'Я можу спокійно вислухати важку історію, і вона не зачіпає мене тілесно.'},
+    {g:'compassion', r:true,  t:'Коли стає зрозуміло, що допомога забере багато сил, бажання допомогти помітно слабшає.'},
+    {g:'burnout',    r:false, t:'Мені складно «вимкнути» чужі емоції, коли розмова чи робочий день закінчились.'},
+    {g:'cognitive',  r:false, t:'Мені вдається пояснити нелогічну на перший погляд поведінку, спираючись на досвід людини.'},
+    {g:'emotional',  r:false, t:'Побачивши чиюсь щиру радість, я фізично відчуваю приплив тепла.'},
+    {g:'compassion', r:false, t:'Для мене природно запропонувати конкретний крок, а не лише слова підтримки.'}
+  ];
+
+  var form = document.getElementById('quiz');
+  var itemsBox = document.getElementById('items');
+  var result = document.getElementById('result');
+  var warn = document.getElementById('warn');
+
+  ITEMS.forEach(function(item, i){
+    var n = i + 1;
+    var dots = '';
+    for(var v=1; v<=5; v++){
+      dots += '<label><input type="radio" name="q'+n+'" value="'+v+'"><span>'+v+'</span></label>';
+    }
+    var div = document.createElement('div');
+    div.className = 'q';
+    div.innerHTML =
+      '<div class="qhead"><span class="qnum">'+String(n).padStart(2,'0')+'</span>'+
+      '<span class="qtext">'+item.t+'</span></div>'+
+      '<div class="scale"><span class="end">Зовсім не про мене</span>'+
+      '<div class="dots">'+dots+'</div>'+
+      '<span class="end right">Дуже точно про мене</span></div>';
+    itemsBox.appendChild(div);
+  });
+
+  function collect(group){
+    var vals = [], missing = [];
+    ITEMS.forEach(function(item, i){
+      if(item.g !== group) return;
+      var el = form.querySelector('input[name="q'+(i+1)+'"]:checked');
+      if(el){
+        var v = parseInt(el.value, 10);
+        vals.push(item.r ? 6 - v : v);
+      } else {
+        missing.push(i+1);
+      }
+    });
+    return {vals:vals, missing:missing};
+  }
+
+  function avg(a){ return a.length ? a.reduce(function(x,y){return x+y;},0)/a.length : 0; }
+  function pct(v){ return Math.round(((v-1)/4)*100); }
+  function bucket(s){ return s < 2.4 ? 'low' : (s <= 3.6 ? 'mid' : 'high'); }
+
+  var texts = {
+    cognitive: {
+      low:'Розуміння чужих станів поки не ваш автоматичний режим — вам простіше спиратися на те, що людина сказала прямо, ніж домислювати підтекст. Це економить ресурс, але там, де контакт важливий, варто свідомо ставити паузу: що людина зараз, найімовірніше, відчуває.',
+      mid:'Ви розумієте чужу позицію, коли зупиняєтесь і докладаєте до цього уваги, — але це ще не рефлекс. Такий регістр зазвичай зміцнюється практикою, особливо якщо робота вимагає його щодня.',
+      high:'Розуміння чужого стану — ваша сильна й доволі автоматична сторона. Ви зчитуєте те, що не сказано вголос, і вмієте пояснити навіть дивну на перший погляд поведінку.'
+    },
+    emotional: {
+      low:'Чужі емоції рідко переносяться на вас тілесно — ви радше спостерігач, ніж резонатор. Це дає стійкість у важких розмовах, але варто перевіряти, чи не зникає за цією стійкістю тепло контакту.',
+      mid:'Ви відчуваєте чужі емоції на собі помірно: заражаєтесь настроєм людей поруч, але не тонете в ньому. Досить гнучкий баланс.',
+      high:'Ви сильно резонуєте з чужими станами — саме це робить контакт із вами живим і відчутним для інших. Зворотний бік у того самого: такий регістр витрачає ресурс швидше, ніж здається зсередини.'
+    },
+    compassion: {
+      low:'Розуміння й відчуття частіше залишаються всередині, ніж стають кроком. Іноді містка бракує зовсім трохи: одне конкретне питання «що я можу зробити прямо зараз» уже переводить співпереживання в дію.',
+      mid:'Ви часто, хоч і не завжди, переводите співпереживання в конкретний крок. Місток працює, але не на автоматі — і це радше про вибір, ніж про дефіцит.',
+      high:'Вам природно перетворювати співпереживання на дію: ви не зупиняєтесь на «мені шкода». Це цінний ресурс і водночас місце, де варто час від часу питати себе, чи це щоразу ваш вибір, а не звичка братися за чуже.'
+    }
+  };
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    warn.textContent = '';
+
+    var c = collect('cognitive'), em = collect('emotional'), p = collect('compassion'), b = collect('burnout');
+    var missing = c.missing.concat(em.missing, p.missing, b.missing).sort(function(x,y){return x-y;});
+
+    if(missing.length){
+      warn.textContent = 'Лишились без відповіді твердження: ' + missing.join(', ') + '. Профіль рахується тільки за повним набором.';
+      return;
+    }
+
+    var cog = avg(c.vals), emo = avg(em.vals), comp = avg(p.vals), burn = avg(b.vals);
+
+    document.getElementById('fill-cognitive').style.width = pct(cog)+'%';
+    document.getElementById('fill-emotional').style.width = pct(emo)+'%';
+    document.getElementById('fill-compassion').style.width = pct(comp)+'%';
+    document.getElementById('score-cognitive').textContent = cog.toFixed(1)+' / 5';
+    document.getElementById('score-emotional').textContent = emo.toFixed(1)+' / 5';
+    document.getElementById('score-compassion').textContent = comp.toFixed(1)+' / 5';
+
+    document.getElementById('interp').innerHTML =
+      '<p><b>Розуміння.</b> '+texts.cognitive[bucket(cog)]+'</p>'+
+      '<p><b>Відчування.</b> '+texts.emotional[bucket(emo)]+'</p>'+
+      '<p><b>Дія.</b> '+texts.compassion[bucket(comp)]+'</p>';
+
+    var bn = document.getElementById('burnout-note');
+    bn.textContent = burn > 3.6
+      ? 'Окремо: два твердження про те, як довго чужі емоції лишаються з вами після контакту, набрали високий бал. Це не частина профілю, а сигнал придивитися до власного відновлення.'
+      : '';
+
+    form.hidden = true;
+    result.hidden = false;
+    result.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+
+  document.getElementById('retake').addEventListener('click', function(){
+    form.reset();
+    warn.textContent = '';
+    document.getElementById('burnout-note').textContent = '';
+    form.hidden = false;
+    result.hidden = true;
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+})();
+</script>
+</body>
+</html>
