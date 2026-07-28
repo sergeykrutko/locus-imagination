@@ -126,10 +126,8 @@ const myContent = {
             { title: "Відміна сесій", text: "Запізнення на 5 хвилин унеможливлює екологічне завершення процесу, тому сесія скасовується. <strong> Кошти за такі сесії не повертаються</strong> для збереження графіка." }
         ]},
 
-        { type: "text", text: "<div style='height: 32px;'></div>" },
 
-
-          { type: "button", text: "Поставити запитання", link: "https://t.me/locusuyavy", target: "_blank", variant: "light"},
+          { type: "button", text: "Поставити запитання", link: "https://t.me/locusuyavy", target: "_blank", variant: "quiet"},
 
         { type: "line", color: "thick-peach" },
 
