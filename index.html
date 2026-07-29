@@ -120,6 +120,19 @@ a { text-decoration: none; color: inherit; }
 .label.center { justify-content: center; }
 
 
+.label-top {
+    font-size: 10px; /* Робимо на 1px дрібнішим */
+    letter-spacing: 0.02em; /* Розширюємо відстань між літерами */
+    color: var(--text-muted); 
+    font-style: italic;
+    opacity: 0.9; /* Приглушуємо колір, щоб зробити їх "тихими" */
+    margin-bottom: 24px; 
+    display: flex; 
+    align-items: center; 
+    gap: 8px; 
+    justify-content: flex-start;
+}
+
 
 
 /* ========================================================= */
@@ -1385,14 +1398,12 @@ html {
     </div>
 
 
-            <span class="label" style="justify-content: center;"> &middot; *локус – точка, з якої людина керує своїм життям </span>
+            <span class="label-top" style="justify-content: center;">  локус – точка, з якої людина керує своїм життям &middot; </span>
             <h1 class="drift-text">Локус <i>УЯВИ</i> <br></h1>
             <p>Психологічний простір для роботи зі сновидіннями та складними станами.</p>
         
         
-        <div style="display: flex; gap: 35px; justify-content: center; margin-top: 35;">
-                <a href="#formats" class="btn-quiet">Обрати вимір &rarr;</a>
-            </div>
+        
             
             <!--
             <div class="scroll-indicator">
@@ -1402,6 +1413,11 @@ html {
     
     -->
 </div>
+
+<div style="display: flex; gap: 35px; justify-content: center;">
+                <a href="#formats" class="btn-quiet">Обрати вимір &rarr;</a>
+            </div>
+            
         </section>
       
 
