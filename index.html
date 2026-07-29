@@ -454,7 +454,7 @@ a { text-decoration: none; color: inherit; }
 
 @media (min-width: 1024px) {
     .formats-grid { 
-        grid-template-columns: repeat(3, 1fr); /* Десктоп: строго 3 картки в ряд */
+        grid-template-columns: repeat(2, 1fr); /* Десктоп: строго 3 картки в ряд */
     }
 }
 
@@ -1344,9 +1344,24 @@ html {
 
 
 
- .cards-topics { 
-       font-family: var(--font-serif); font-size: 20px; font-weight: 500; text-align: center; 
-    }
+.cards-topics {
+    font-family: var(--font-serif);
+    font-size: 17px; 
+    font-weight: 400; /* Прибираємо важкість */
+    color: var(--text-muted); /* Опис стає приглушеним */
+    text-align: center;
+    margin: 80px 16px 40px; /* 80px зверху створюють глибоку паузу перед новою секцією */
+    line-height: 1.4;
+}
+
+.cards-topics strong {
+    font-size: 24px; /* Головна фраза більша */
+    color: var(--text-dark); /* Вона темніша і тримає увагу */
+    font-weight: 400; /* Але не товста! */
+    font-style: italic; /* Журнальний курсив */
+    margin-right: 6px;
+}
+
 
     </style>
 
