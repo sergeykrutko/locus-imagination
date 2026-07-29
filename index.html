@@ -121,12 +121,12 @@ a { text-decoration: none; color: inherit; }
 
 
 .label-top {
-    font-size: 10px; /* Робимо на 1px дрібнішим */
-    letter-spacing: 0.02em; /* Розширюємо відстань між літерами */
+    font-size: 11px; /* Робимо на 1px дрібнішим */
+    letter-spacing: 0.03em; /* Розширюємо відстань між літерами */
     color: var(--text-muted); 
     font-style: italic;
     opacity: 0.9; /* Приглушуємо колір, щоб зробити їх "тихими" */
-    margin-bottom: 24px; 
+    margin-bottom: 20px; 
     display: flex; 
     align-items: center; 
     gap: 8px; 
@@ -1027,11 +1027,11 @@ a { text-decoration: none; color: inherit; }
 @keyframes breatheDown {
     0%, 100% { 
         transform: translateY(0); 
-        opacity: 0.2; /* У верхній точці вона трохи прозоріша */
+        opacity: 0.4; /* У верхній точці вона трохи прозоріша */
     }
-    50% { 
+    90% { 
         transform: translateY(10px); /* М'яко опускається на 10px */
-        opacity: 0.8; /* Стає чіткішою */
+        opacity: 0.9; /* Стає чіткішою */
     }
 }
 
@@ -1163,12 +1163,12 @@ html {
 
     .hero .label { margin-bottom: 20px; }
     
-    .hero h1 { font-size: 34px !important; margin-bottom: 16px; }
+    .hero h1 { font-size: 34px !important; margin-bottom: 20px; }
 
     .hero p { font-size: 16px !important; line-height: 1.6; }
     
     .scroll-indicator {
-        margin-top: 20px; margin-bottom: 5px; padding-top: 10px;
+        margin-top: 10px; margin-bottom: 5px; padding-top: 10px;
         transform: scale(0.8); 
     }
 
@@ -1391,7 +1391,7 @@ html {
     <div class="container">
 <!-- Герой -->
 <section class="section-fullscreen hero" style="position: relative;">
-        <span class="label-top" style="display:flex; justify-content:center; position:absolute; top:32px; left:0; right:0; margin:0; z-index:10;">
+        <span class="label-top" style="display:flex; justify-content:center; position:absolute; top:38px; left:0; right:0; margin:0; z-index:10;">
   *локус – місце, де образи стають опорою 
 </span>
 
@@ -1401,17 +1401,14 @@ html {
     </div>
 
 
-            <h1 class="drift-text" style="max-width: 480px; margin: 0 auto; line-height: 1.25; font-weight: 500;">
-Уночі психіка говорить <i>образами</i>, удень&nbsp;–&nbsp;тривогою <br></h1>
-            
-            
+            <h1 class="drift-text"> Уночі психіка говорить <i>образами</i>, удень&nbsp;–&nbsp;тривогою </h1>
             
             <p>Психологічний простір для роботи зі сновидіннями та складними станами. Від швидкої підтримки, коли накрило, до тривалого аналізу.</p>
         
         <span class="label-top" style="justify-content: center;">  «Я не бачу снів» – так починають більшість </span>
         
         <div style="display: flex; gap: 35px; justify-content: center;">
-                <a href="#formats" class="btn-quiet" style="margin-top: 20px;">Обрати вимір </a>
+                <a href="#formats" class="btn-quiet" style="margin-top: 10px;">Обрати вимір </a>
             </div>
             
             <!-- &middot; &rarr; -->
