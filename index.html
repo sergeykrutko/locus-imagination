@@ -1396,21 +1396,35 @@ html {
 
 
 
-/* --- МАГІЯ ДЛЯ ВЕРХНЬОГО НАПИСУ (Тільки на комп'ютері) --- */
+/* --- БАЗОВІ СТИЛІ ДЛЯ МОБІЛЬНОГО (Залишаємо як було) --- */
+.hero-motto {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    top: 38px;
+    left: 0;
+    right: 0;
+    margin: 0;
+    z-index: 10;
+}
+
+/* --- МАГІЯ ДЛЯ КОМП'ЮТЕРА (Екран > 1024px) --- */
 @media (min-width: 1024px) {
-    .hero .cards-topics {
-        font-size: 16px; /* Збільшуємо сам текст */
-        margin-top: 100px; /* Суттєво відриваємо від меню (шапки) */
-        margin-bottom: 40px; /* Повітря до картинки */
+    .hero-motto {
+        position: static; /* Відключаємо абсолютне позиціювання, текст повертається в структуру */
+        font-size: 15px; /* Робимо шрифт більшим */
+        margin-top: 100px; /* Відштовхуємо вниз від шапки меню */
+        margin-bottom: 40px; /* Даємо повітря до картинки */
         
-        /* ВИРІВНЮВАННЯ ВЛІВО (під логотип "ЛОКУС уяви") */
-        text-align: left; /* Перебиваємо центральне вирівнювання базового класу */
-        max-width: 1000px; /* Ширина, як у шапки меню */
-        margin-left: auto; /* Центруємо невидимий контейнер по екрану */
+        /* Вирівнювання під логотип "ЛОКУС уяви" */
+        justify-content: flex-start; /* Вирівнюємо по лівому краю */
+        max-width: 1000px; /* Ширина як у меню */
+        margin-left: auto; /* Балансуємо по центру екрана */
         margin-right: auto;
-        padding-left: 24px; /* Робимо такий самий відступ, як у логотипа всередині шапки */
+        padding-left: 24px; /* Робимо відступ, ідентичний відступу логотипа в шапці */
     }
 }
+
 
 
 
@@ -1464,9 +1478,10 @@ html {
     <div class="container">
 <!-- Герой -->
 <section class="section-fullscreen hero" style="position: relative;">
-        <span class="label-top" style="display:flex; justify-content:center; position:absolute; top:38px; left:0; right:0; margin:0; z-index:10;">
+        <span class="label-top hero-motto">
   *локус – місце, де образи стають опорою 
 </span>
+
 
             <!-- Додаємо зображення над текстом, але робимо його невеликим -->
     <div class="hero-editorial-image">
