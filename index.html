@@ -1345,22 +1345,24 @@ html {
 
 
 .cards-topics {
+    grid-column: 1 / -1; /* МАГІЯ СІТКИ: розтягує блок на всю ширину, ігноруючи колонки */
     font-family: var(--font-serif);
     font-size: 17px; 
-    font-weight: 400; /* Прибираємо важкість */
-    color: var(--text-muted); /* Опис стає приглушеним */
+    font-weight: 400; 
+    color: var(--text-muted); 
     text-align: center;
-    margin: 80px 16px 40px; /* 80px зверху створюють глибоку паузу перед новою секцією */
+    margin: 60px 0 20px 0; /* Відступи, щоб дати повітря між верхніми і нижніми картками */
     line-height: 1.4;
 }
 
 .cards-topics strong {
-    font-size: 24px; /* Головна фраза більша */
-    color: var(--text-dark); /* Вона темніша і тримає увагу */
-    font-weight: 400; /* Але не товста! */
-    font-style: italic; /* Журнальний курсив */
+    font-size: 24px; 
+    color: var(--text-dark); 
+    font-weight: 400; 
+    font-style: italic; /* Журнальний акцент для головної думки */
     margin-right: 6px;
 }
+
 
 
     </style>
