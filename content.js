@@ -64,16 +64,16 @@ const myContent = {
         { 
             type: "button", 
             text: "Доєднатися до практики 🪷", 
-            link: "https://meet.google.com/syx-tgcn-jzd", 
-            target: "_blank", 
-            variant: "light" 
+            link: "#", 
+            variant: "light",
+            onclick: "openPaymentModal(false, 'mono', 'https://send.monobank.ua/jar/413enuYobE'); return false;"
         },
         { 
             type: "button", 
-            text: "Підтримати донатом", 
-            link: "#", 
-            variant: "quiet", 
-            onclick: "openPaymentModal(false, 'mono', 'https://send.monobank.ua/jar/413enuYobE'); return false;" 
+            text: "Підтримати простір 💛", 
+            link: "https://send.monobank.ua/jar/413enuYobE", 
+            target: "_blank", 
+            variant: "quiet" 
         },
         { type: "text", text: "<div style='height: 5px;'></div>" }
     ],

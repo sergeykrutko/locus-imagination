@@ -951,7 +951,7 @@ a { text-decoration: none; color: inherit; }
 .payment-card {
     background: var(--bg-card) !important; 
     border-radius: 24px !important; 
-    padding: 24px 20px !important; /* Оптимізовано для мобільного екрана */
+    padding: 22px 18px !important; /* Оптимізовано для мобільного екрана */
     width: 92%; 
     max-width: 420px; 
     max-height: 90vh;
@@ -1668,13 +1668,13 @@ html {
                     <div class="card-header"><span class="label" style="margin:0;">Швидка стабілізація</span></div>
                     <img src="img/espresso-large.jpg" alt="Еспресо-Сесії" class="card-image open-panel" data-target="panel-espresso">
                     <h3>Еспресо-Сесії</h3>
-                    <p>15 хвилин, повністю присвячені вашому стану. Це безпечний простір, де напруга та емоційний хаос перетворюються на один глибокий видих. Тут можна швидко повернути ясність, відчути тверду землю під ногами та віднайти тишу, з якою легше рухатися далі. Це формат швидкої підтримки за доступною ціною.</p>
+                    <p>15 хвилин, повністю присвячені вашому стану. Це безпечний простір, де напруга та емоційний хаос перетворюються на один глибокий видих. Тут можна швидко повернути ясність, відчути тверду землю під ногами та віднайти тишу, з якою легше рухатися далі. За ціною вашого ранкового горнятка кави. З десертом.</p>
                     <!-- <span class="price">15 хв &middot; 200 грн</span> -->
                     <div class="card-footer">
                         
                         <!-- Кнопка відкриває панель --> 
                          <button class="btn-light-action open-panel" data-target="panel-booking-espresso" >Запис</button>
-                        <button class="btn-quiet open-panel" data-target="panel-espresso" >Деталі &rarr;</button>
+                        <button class="btn-quiet open-panel" data-target="panel-espresso" >Дослідити &rarr;</button>
                         
                     
                     </div>
@@ -1713,7 +1713,7 @@ html {
                     <!-- <span class="price">45 хв &middot; 1-2 рази на тиждень</span> -->
                     <div class="card-footer">
                         
-                        <button class="btn-quiet open-panel" data-target="panel-asessions" >Детальніше &rarr;</button>
+                        <button class="btn-quiet open-panel" data-target="panel-asessions" >Дослідити &rarr;</button>
                        
                     </div>
                 </div>
@@ -1734,14 +1734,14 @@ html {
                     <img src="img/morning-meditation-large.jpg" alt="Ранкова База" class="format-thumb open-panel" data-target="panel-base">
                     
                     <div class="format-info">
-                        <span class="label" style="margin-bottom: 8px;">щоранку · 15 хв</span>
+                        <span class="label" style="margin-bottom: 8px;">за розкладом · 15 хв</span>
                         <h4>Ранкова База</h4>
                         <p>Практики інтроспекції перед початком дня для фокусу та заземлення. Це час, щоб зібрати розфокусовані думки і віднайти внутрішню опору на сьогодні.</p>
                         
                         <!-- Кнопки тепер під текстом -->
                         <div class="format-actions">
                             <button class="btn-light-action" onclick="openPaymentModal(false, 'mono', 'https://send.monobank.ua/jar/413enuYobE'); return false;">Доєднатися 🪷</button>
-                            <button class="btn-quiet open-panel" data-target="panel-base">Деталі &rarr;</button>
+                            <button class="btn-quiet open-panel" data-target="panel-base">Дослідити &rarr;</button>
                         </div>
                     </div>
                 </div>
@@ -1756,7 +1756,7 @@ html {
                         <p>Група для чесного спілкування та дослідження складних життєвих питань. Місце, де можна отримати усвідомлений зворотний зв'язок та бути по-справжньому почутим.</p>
                         
                         <div class="format-actions">
-                            <button class="btn-quiet open-panel" data-target="panel-dialogues">Детальніше &rarr;</button>
+                            <button class="btn-quiet open-panel" data-target="panel-dialogues">Дослідити &rarr;</button>
                         </div>
                     </div>
                 </div>
@@ -2485,9 +2485,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 <img src="img/morning-meditation-large.jpg" alt="Ранкова практика" style="width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%) sepia(10%); display: block;">
             </div>
 
-            <div style="margin-bottom: 24px;">
+            <div style="margin-bottom: 20px;">
                  <!-- Витончений лейбл замість жирного капсу -->
-                 <div class="label center" style="margin-bottom: 12px; font-size: 10px;">✧ Розклад найближчих практик</div>
+                 <div class="label center" style="margin-bottom: 10px; font-size: 9px;">✧ Розклад найближчих практик</div>
                  
                  <!-- Контейнер для розкладу (даємо йому дихати) -->
                  <div class="live-schedule-text" style="width: 100%; max-width: 320px; margin: 0 auto;"></div>
@@ -2495,7 +2495,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             <!-- Полегшений, тепліший текст -->
             <p style="font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 32px; padding: 0 8px;">
-                Ця практика є відкритою. Якщо спільний час допомагає вам віднайти ранкову рівновагу, ви можете підтримати простір комфортним донатом.
+                Ця практика є відкритою. Якщо цей простір допомагає вам віднайти ранкову рівновагу, ви можете підтримати його донатом.
             </p>
 
             <!-- Кнопки: акцент на доєднанні, донат як м'яка опція -->
@@ -2537,6 +2537,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
     document.getElementById('payment-modal').classList.add('active');
+    document.body.classList.add('no-scroll');
     
     // Миттєво підтягуємо готовий розклад із пам'яті
     if (typeof window.updateScheduleUI === 'function') {
@@ -2544,7 +2545,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 }
 
-    function closePaymentModal() { document.getElementById('payment-modal').classList.remove('active'); }
+    function closePaymentModal() { 
+    document.getElementById('payment-modal').classList.remove('active'); 
+    
+    // Повертаємо скрол, АЛЕ тільки якщо не відкрита ще й бічна панель
+    if (!document.getElementById('universal-panel').classList.contains('active')) {
+        document.body.classList.remove('no-scroll');
+    }
+}
 
     // Слухаємо Calendly
     window.addEventListener('message', function(e) {
