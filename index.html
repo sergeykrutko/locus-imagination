@@ -473,7 +473,7 @@ a { text-decoration: none; color: inherit; }
 .formats-grid { 
     display: grid; 
     gap: 24px; 
-    padding-bottom: 100px; 
+    padding-bottom: 40px; 
     grid-template-columns: 1fr; /* Телефони: 1 картка в ряд */
 }
 
@@ -485,7 +485,8 @@ a { text-decoration: none; color: inherit; }
 
 @media (min-width: 1024px) {
     .formats-grid { 
-        grid-template-columns: repeat(2, 1fr); /* Десктоп: строго 3 картки в ряд */
+        grid-template-columns: repeat(3, 1fr); /* Десктоп: строго 3 картки в ряд */
+        align-items: stretch;
     }
 }
 
@@ -946,14 +947,21 @@ a { text-decoration: none; color: inherit; }
     box-sizing: border-box !important;
 }
 .payment-overlay.active { opacity: 1; visibility: visible; }
+/* --- ПРАВКИ МОДАЛЬНОГО ВІКНА --- */
 .payment-card {
-    background: var(--bg-sage); border-radius: 20px; padding: 40px;
-    width: 100%; max-width: 400px; text-align: center; position: relative;
-    transform: translateY(20px); transition: var(--transition);
-    border: 1px solid var(--accent-green); box-shadow: 0 24px 60px rgba(0,0,0,0.15);
-    
-    padding: 28px 20px !important; /* М'які відступи всередині */
-    border-radius: 24px !important;
+    background: var(--bg-card) !important; /* Робимо фон світлим і чистим */
+    border-radius: 24px !important; 
+    padding: 32px 24px !important; /* Додаємо більше повітря всередині */
+    width: 92%; 
+    max-width: 420px; 
+    max-height: 90vh;
+    overflow-y: auto; 
+    text-align: center; 
+    position: relative;
+    transform: translateY(20px); 
+    transition: var(--transition);
+    border: 1px solid var(--border-color) !important; /* Ніжна, ледь помітна рамка */
+    box-shadow: 0 24px 60px rgba(0,0,0,0.08) !important; /* М'якша і легша тінь */
     box-sizing: border-box !important;
 }
 .payment-overlay.active .payment-card { transform: translateY(0); }
@@ -1073,6 +1081,10 @@ html {
 
 #formats {
   scroll-margin-top: 80px;
+}
+
+#rings {
+  scroll-margin-top: 120px;
 }
 
 #philosophy {
@@ -1408,23 +1420,123 @@ html {
     z-index: 10;
 }
 
-/* --- МАГІЯ ДЛЯ КОМП'ЮТЕРА (Екран > 1024px) --- */
-/* --- МАГІЯ ДЛЯ КОМП'ЮТЕРА (Екран > 1024px) --- */
-@media (min-width: 1024px) {
+/* --- МАГІЯ ДЛЯ КОМП'ЮТЕРА ТА ПЛАНШЕТА (Екран > 768px) --- */
+@media (min-width: 700px) {
     .hero-motto {
-        position: static; /* Повертаємо в структуру сторінки */
-        display: block; /* Змушуємо поводитися як повноцінний блок, а не гнучкий рядок */
-        width: 100%; /* Розтягуємо на всю доступну ширину */
-        max-width: 1000px; /* Обмежуємо ширину точно як у шапки меню */
-        margin: 0px auto 40px auto; /* Центруємо цей великий невидимий блок на екрані */
-        text-align: left; /* Притискаємо текст вліво всередині блоку */
-        padding-left: 24px; /* Даємо такий самий відступ, як у логотипа всередині рамки */
-        font-size: 12px; 
+        position: absolute !important; 
+        top: 59px !important; /* Зменшили відступ, щоб текст був одразу під шапкою */
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        width: 100% !important;
+        max-width: 1000px !important; 
+        margin: 0 !important; 
+        padding-left: 24px !important; /* Рівно під літерою Л */
+        box-sizing: border-box !important; /* КРИТИЧНО: не дає тексту вилізти правіше за логотип */
+        justify-content: flex-start !important; /* Тримає текст зліва навіть при звуженні вікна */
     }
 }
 
 
+/* ========================================= */
+/* ЖУРНАЛЬНИЙ СПИСОК (ДЛЯ ВІДКРИТИХ ФОРМАТІВ)*/
+/* ========================================= */
 
+.formats-list-container {
+    grid-column: 1 / -1;
+    width: 100%; /* Займає всю доступну ширину сітки */
+    margin: 0; /* Прибрали зайві відступи знизу */
+    display: flex;
+    flex-direction: column;
+}
+
+.format-row {
+    display: flex;
+    flex-direction: column;
+    padding: 32px 0;
+    border-bottom: 1px solid var(--border-color);
+    transition: all 0.4s ease;
+    gap: 24px;
+}
+
+.format-row:first-child { 
+    border-top: 1px solid var(--border-color); 
+}
+
+/* Адаптація для комп'ютера */
+@media (min-width: 768px) {
+    .format-row {
+        flex-direction: row;
+        align-items: flex-start; /* Вирівнюємо по верхньому краю, щоб текст міг рости вниз */
+        gap: 48px; /* Більше повітря між фото і текстом */
+        padding: 40px;
+        border-bottom: 1px solid transparent; 
+        border-radius: 24px; 
+    }
+    
+    .format-row:first-child { 
+        border-top: none; 
+    }
+
+    .format-row:hover {
+        background-color: var(--bg-sage);
+        transform: translateX(8px);
+    }
+}
+
+/* Мініатюра */
+.format-thumb {
+    width: 100%;
+    height: 200px;
+    border-radius: 16px;
+    object-fit: cover;
+    filter: grayscale(20%) sepia(10%);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+@media (min-width: 768px) {
+    .format-thumb {
+        width: 180px; /* Зробили фото трохи більшим, щоб воно тримало масив тексту */
+        height: 180px;
+        border-radius: 20px; 
+        flex-shrink: 0;
+    }
+}
+
+.format-row:hover .format-thumb {
+    filter: grayscale(0%) sepia(0%);
+}
+
+.format-info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.format-info h4 { 
+    font-family: var(--font-serif);
+    font-size: 26px; /* Трохи збільшили заголовок */
+    margin: 0 0 12px; 
+    color: var(--text-dark); 
+    font-weight: 500;
+}
+
+.format-info p { 
+    font-size: 15px; 
+    margin: 0; 
+    color: var(--text-muted); 
+    line-height: 1.6;
+    max-width: 700px; /* Текст не буде розповзатися нескінченно довгою ковбасою */
+}
+
+/* Кнопки під текстом */
+.format-actions {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 24px; /* Чіткий відступ від опису */
+}
 
 
 
@@ -1449,6 +1561,7 @@ html {
     
     <nav class="main-nav" id="mobile-menu">
         <a href="#formats" class="menu-link">Виміри</a>
+        <a href="#rings" class="menu-link">Простори</a>
         <a href="#course" class="menu-link">Курси</a>
         <a href="#about" class="menu-link">Знайомство</a>
         <!-- Кнопка для мобільного меню (ховається на десктопі) -->
@@ -1525,7 +1638,7 @@ html {
 
     <!-- Нова обгортка, яка тримає лінію та лейбл зверху -->
     <div class="section-intro draw-line">
-        <span class="label" style="padding-top: 24px;">✧ ПРОЄКТИ та ФОРМАТИ РОБОТИ</span>
+        <span class="label" style="padding-top: 24px;">✧ ПРОЄКТИ та ФОРМАТИ ВЗАЄМОДІЇ</span>
         
         <!-- Сітка лише для заголовка та тексту -->
         <div class="section-header">
@@ -1541,15 +1654,13 @@ html {
 
 <div class="formats-grid">
         
-                <p class="cards-topics"> <strong>Швидка опора.</strong> <br> Коли потрібна стабілізація та ресурс</p>
-        
 
                  <div class="card bg-photo">
                     <div class="card-header"><span class="label" style="margin:0;">Швидка стабілізація</span></div>
                     <img src="img/espresso-large.jpg" alt="Еспресо-Сесії" class="card-image open-panel" data-target="panel-espresso">
                     <h3>Еспресо-Сесії</h3>
-                    <p>15 хвилин, повністю присвячені вашому стану. Це безпечний простір, де напруга та емоційний хаос перетворюються на один глибокий видих. Тут можна швидко повернути ясність, відчути тверду землю під ногами та віднайти тишу, з якою легше рухатися далі.</p>
-                    <span class="price">15 хв &middot; 200 грн</span>
+                    <p>15 хвилин, повністю присвячені вашому стану. Це безпечний простір, де напруга та емоційний хаос перетворюються на один глибокий видих. Тут можна швидко повернути ясність, відчути тверду землю під ногами та віднайти тишу, з якою легше рухатися далі. Це формат швидкої підтримки за доступною ціною.</p>
+                    <!-- <span class="price">15 хв &middot; 200 грн</span> -->
                     <div class="card-footer">
                         
                         <!-- Кнопка відкриває панель --> 
@@ -1559,75 +1670,38 @@ html {
                     
                     </div>
                 </div>
-                
 
-                <div class="card">
-                    <div class="card-header"><span class="label" style="margin:0;">Практики інтроспекції</span></div>
-                    <!-- Ваше атмосферне фото -->
-                <img src="img/morning-meditation-large.jpg" alt="Ранкова База" class="card-image open-panel" data-target="panel-base">
-                    <h3>Ранкова База</h3>
-                    <p>15 хвилин тиші та спрямованої уваги перед тим, як розпочнеться ваш день. Це короткі доказові практики, що допомагають заземлитися, зібрати розфокусовані думки та віднайти внутрішню опору на сьогодні.</p>
-                    <span class="price">15 хв &middot; безкоштовно / донат</span>
-                    <div class="card-footer">
-                        
-                        <!-- Кнопка відкриває панель -->
-                        
-                
-                         <button class="btn-light-action" onclick="openPaymentModal(false, 'mono', 'https://send.monobank.ua/jar/413enuYobE'); return false;">Доєднатися 🪷</button>
-                      
-                        <button class="btn-quiet open-panel" data-target="panel-base">Деталі &rarr;</button>
-                       
-                    
-                    </div>
+
+
+                            <div class="card">
+                <div class="card-header">
+                    <span class="label" style="margin:0;">робота зі сновидіннями</span>
                 </div>
-
-
-              
-
-
-                 <p class="cards-topics"> <strong>Дослідження сновидінь.</strong> <br> Робота з посланнями підсвідомого </p>
-        
-<div class="card">
-                    <div class="card-header"><span class="label" style="margin:0;">група сновидінь</span></div>
-                    <img src="img/syava-large.jpg" alt="Спільна Ява" class="card-image open-panel" data-target="panel-syava">
-                    <h3>Спільна Ява</h3>
-                    <p> Груповий простір для дослідження послань несвідомого. Ми вчимося аналізувати власні сни, безпечно взаємодіяти з Тінню та інтегрувати прихований ресурс образів у реальне життя. Робота спирається на авторський синтез глибинної психотерапії та нейробіології, що дозволяє почути свої справжні потреби.«Я не бачу снів» – так починають більшість</p>   
-                     <span class="price">~2 год &middot; 1000 грн / зустріч</span>
-                    <div class="card-footer">
-                       
-                        <!-- Кнопка відкриває панель -->
-                        <button class="btn-quiet open-panel" data-target="panel-syava">Детальніше &rarr; </button>
-                    </div>
-                </div>
-
-
-                <div class="card bg-photo">
-                    <div class="card-header"><span class="label" style="margin:0; color: #A0A0A0;">Індивідуальні сновидські сесії (1:1)</span></div>
-                    <img src="img/vyawa-large.jpg" alt="Власна Ява" class="card-image open-panel" data-target="panel-pyava">
-                    <h3>Власна Ява</h3>
-                    <p>Глибока персональна робота з посланнями вашого несвідомого. Тут наш діалог стає провідником до ваших власних відповідей. Ми беремо ваш сон і дбайливо досліджуємо його крізь призму життєвої історії, вивільняючи приховані сенси та ресурси. Особливо цінно для циклічних снів, що повторюються роками.</p>
-                     <span class="price">50 хв &middot; сесії за запитом</span>
-                    <div class="card-footer">
-                       
-                        <button class="btn-quiet open-panel" data-target="panel-pyava" >Детальніше &rarr;</button>
-                    
-                    </div>
-                </div>
-
-
-
+                <!-- Можна використати фото vyawa або syava, яке більше подобається -->
+                <img src="img/syava-large.jpg" alt="Простір сновидінь" class="card-image open-panel" data-target="panel-pyava">
                 
-                <p class="cards-topics"> <strong>Глибока робота.</strong> <br> Зміна життєвих сценаріїв </p>
-               
-            
-            
+                <h3>Нічна Ява</h3>
+                <p>Дослідження послань вашого несвідомого. Сни говорять образами, які часто ховають у собі важливі підказки та величезний ресурс. Ми беремо ваші сновидіння і дбайливо перекладаємо їх на зрозумілу мову, звільняючи приховані сенси.</p>
+                
+                <!-- <span class="price" style="font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted);">
+                    Доступні формати:
+                </span> -->
+                
+                <!-- Елегантний поділ кнопок у футері -->
+                <div class="card-footer" style="display: flex; flex-direction: column; align-items: flex-start; gap: 16px; padding-top: 20px; width: 100%;">
+                    <button class="btn-quiet open-panel" data-target="panel-syava">Спільна (Групова робота) &rarr;</button>
+                    <button class="btn-quiet open-panel" data-target="panel-pyava">Власна (Індивідуально) &rarr;</button>
+                </div>  
+            </div>
+
+
 
                 <div class="card bg-photo">
                     <div class="card-header"><span class="label" style="margin:0; color: #A0A0A0;">індивідуальна терапія (1:1)</span></div>
                     <img src="img/asessions-large.jpg" alt="Аналітичні Сесії" class="card-image open-panel" data-target="panel-asessions">
                     <h3>Аналітичні Сесії</h3>
                     <p>Глибинний та послідовний процес дослідження вашого несвідомого. Це системна робота з життєвими сценаріями, першопричинами складних станів та кризами. Формат для тих, хто готовий до тривалих змін, відновлення цілісності та по-справжньому глибокого знайомства зі своїм Я.</p>
-                    <span class="price">45 хв &middot; 1-2 рази на тиждень</span>
+                    <!-- <span class="price">45 хв &middot; 1-2 рази на тиждень</span> -->
                     <div class="card-footer">
                         
                         <button class="btn-quiet open-panel" data-target="panel-asessions" >Детальніше &rarr;</button>
@@ -1635,20 +1709,56 @@ html {
                     </div>
                 </div>
 
-<div class="card">
-                    <div class="card-header"><span class="label" style="margin:0; color: #A0A0A0;">легке спілкування на глибокі теми</span></div>
-                    <img src="img/dialogues-large.jpg" alt="Шершаві Діалоги" class="card-image open-panel" data-target="panel-dialogues">
-                    <h3>Шершаві Діалоги</h3>
-                    <p>Простір для чесного спілкування про сьогодення. Це спільне дослідження живих і складних питань через призму особистого досвіду. Місце, де можна отримати усвідомлений зворотний зв'язок, розділити емоції та бути по-справжньому почутим.</p>
-                    <span class="price">1000 грн / місяць &middot; 1 раз на 2 тижні</span>
-                    <div class="card-footer">
+
+
+
+         
+            <!-- Розділювач для відкритих форматів -->
+            <div class="cards-topics" style="margin-top: 60px; margin-bottom: 24px;" id="rings">
+                <strong>Відкриті кола.</strong> <br> Простори для спільноти та регулярної практики
+            </div>
+
+            <div class="formats-list-container">
+                
+                <!-- Рядок 1: Ранкова База -->
+                <div class="format-row">
+                    <img src="img/morning-meditation-large.jpg" alt="Ранкова База" class="format-thumb open-panel" data-target="panel-base">
+                    
+                    <div class="format-info">
+                        <span class="label" style="margin-bottom: 8px;">щоранку · 15 хв</span>
+                        <h4>Ранкова База</h4>
+                        <p>Практики інтроспекції перед початком дня для фокусу та заземлення. Це час, щоб зібрати розфокусовані думки і віднайти внутрішню опору на сьогодні.</p>
                         
-                        <button class="btn-quiet open-panel" data-target="panel-dialogues">Детальніше &rarr;</button>
+                        <!-- Кнопки тепер під текстом -->
+                        <div class="format-actions">
+                            <button class="btn-light-action" onclick="openPaymentModal(false, 'mono', 'https://send.monobank.ua/jar/413enuYobE'); return false;">Доєднатися 🪷</button>
+                            <button class="btn-quiet open-panel" data-target="panel-base">Деталі &rarr;</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Рядок 2: Діалоги -->
+                <div class="format-row">
+                    <img src="img/dialogues-large.jpg" alt="Шершаві Діалоги" class="format-thumb open-panel" data-target="panel-dialogues">
+                    
+                    <div class="format-info">
+                        <span class="label" style="margin-bottom: 8px;">1 раз на 2 тижні</span>
+                        <h4>Шершаві Діалоги</h4>
+                        <p>Група для чесного спілкування та дослідження складних життєвих питань. Місце, де можна отримати усвідомлений зворотний зв'язок та бути по-справжньому почутим.</p>
                         
+                        <div class="format-actions">
+                            <button class="btn-quiet open-panel" data-target="panel-dialogues">Детальніше &rarr;</button>
+                        </div>
                     </div>
                 </div>
 
             </div>
+
+
+
+ </div>
+
+
         </section>
 
 
@@ -2357,33 +2467,40 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
     if (paymentType === 'mono') {
-        // КОМПАКТНИЙ АТМОСФЕРНИЙ ДИЗАЙН
+        // ЛЕГКИЙ ТА ПОВІТРЯНИЙ ДИЗАЙН
         contentBox.innerHTML = `
-        <h3 style="font-family: var(--font-serif); font-size: 20px; color: var(--text-dark); margin-bottom: -14px; margin-top: -12px; letter-spacing: -0.01em;">Відкрита практика</h3>
-            <!-- Зменшена картинка з меншим відступом -->
-            <div style="width: 100%; height: 190px; border-radius: 12px; overflow: hidden; margin-top: 30px; margin-bottom: 16px; border: 1px solid var(--border-color);">
+            <h3 style="font-family: var(--font-serif); font-size: 26px; color: var(--text-dark); margin: 0 0 20px 0; font-weight: 400; letter-spacing: -0.01em;">Ранкова База</h3>
+            
+            <!-- Акуратне фото з м'якими краями -->
+            <div style="width: 100%; height: 140px; border-radius: 16px; overflow: hidden; margin-bottom: 24px; border: 1px solid var(--border-color);">
                 <img src="img/morning-meditation-large.jpg" alt="Ранкова практика" style="width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%) sepia(10%); display: block;">
             </div>
 
-            <!-- Компактніший текст -->
-            <div style="margin-bottom: 10px; text-align: center;">
-                
-                 <p style="font-size: 12px; font-weight:800; color: var(--text-muted); margin-top: 14px; margin-bottom: 10px;">РОЗКЛАД НА НАСТУПНИЙ ТИЖДЕНЬ:</p>
-               <div style="display: flex; justify-content: center; width: 100%; margin-bottom: 0px;">
-    <div class="live-schedule-text" style="width: 55%; max-width: 320px; margin-bottom: -15px;"></div>
-</div>
-                <p style="font-size: 14px; color: var(--text-muted); line-height: 1.5; margin-bottom: 0;">Ранкова База відкрита для всіх. Якщо ця зустріч допомагає вам віднайти рівновагу, ви можете підтримати простір донатом.</p>
+            <div style="margin-bottom: 24px;">
+                 <!-- Витончений лейбл замість жирного капсу -->
+                 <div class="label center" style="margin-bottom: 12px; font-size: 10px;">✧ Розклад найближчих практик</div>
+                 
+                 <!-- Контейнер для розкладу (даємо йому дихати) -->
+                 <div class="live-schedule-text" style="width: 100%; max-width: 320px; margin: 0 auto;"></div>
             </div>
 
-            <!-- Кнопки з меншими відступами (padding: 12px замість 16px) -->
-            <div style="display: flex; flex-direction: column; gap: 5px;">
+            <!-- Полегшений, тепліший текст -->
+            <p style="font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 32px; padding: 0 8px;">
+                Ця практика є відкритою. Якщо спільний час допомагає вам віднайти ранкову рівновагу, ви можете підтримати простір комфортним донатом.
+            </p>
 
-                <a href="https://meet.google.com/syx-tgcn-jzd" target="_blank" class="btn" style="width: 100%; border-radius: 100px; padding: 8px; font-size: 14px; margin-bottom: 3px; background-color: var(--bg-photo); color: var(--text-dark); border: 1px solid #E6E2D8;">Доєднатися до практики &rarr;</a>
+            <!-- Кнопки: акцент на доєднанні, донат як м'яка опція -->
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+                <a href="https://meet.google.com/syx-tgcn-jzd" target="_blank" class="btn btn-dark" style="width: 100%; padding: 14px; font-size: 14px;">
+                    Доєднатися до практики &rarr;
+                </a>
                 
-                <a href="${monoLink}" target="_blank" class="btn btn-dark" style="width: 100%; border-radius: 100px; padding: 8px; font-size: 14px;">Поповнити Банку 💛</a>
+                <a href="${monoLink}" target="_blank" class="btn btn-outline" style="width: 100%; padding: 14px; font-size: 14px;">
+                    Підтримати простір 💛
+                </a>
             </div>
 
-            <p style="font-size: 12px; color: var(--text-muted); margin-top: 16px; margin-bottom: 0;">Дякую за довіру та спільний час!</p>
+            <p style="font-size: 12px; color: var(--text-muted); font-style: italic; margin-top: 24px; margin-bottom: 0;">Дякую за довіру.</p>
         `;
     } else { 
         // ВАРІАНТ IBAN (залишається без змін)
