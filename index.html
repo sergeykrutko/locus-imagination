@@ -560,7 +560,15 @@ a { text-decoration: none; color: inherit; }
 /* --- OFF-CANVAS ПАНЕЛЬ --- */
 .panel-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); z-index: 999; opacity: 0; visibility: hidden; transition: var(--transition); }
 .panel-overlay.active { opacity: 1; visibility: visible; }
-.side-panel { position: fixed; top: 0; right: -100%; width: 100%; max-width: 800px; height: 100vh; background: var(--bg-page); box-shadow: -10px 0 40px rgba(0,0,0,0.1); z-index: 1000; overflow-y: auto; transition: right 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); }
+.side-panel { 
+    position: fixed; top: 0; right: -100%; width: 100%; max-width: 800px; 
+    height: 100vh; /* Для старих браузерів */
+    height: 100dvh; /* МАГІЯ ДЛЯ IPHONE: Динамічна висота, що враховує панель Safari */
+    background: var(--bg-page); 
+    box-shadow: -10px 0 40px rgba(0,0,0,0.1); 
+    z-index: 1000; overflow-y: auto; 
+    transition: right 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); 
+}
 .side-panel.active { right: 0; }
 .panel-content { padding: 80px 64px; }
 /* Закріпили хрестик, щоб не губився при скролі */
@@ -1314,17 +1322,16 @@ html {
     
     /* --- ПОВІТРЯ ПО КРАЯХ --- */
     /* Збільшили бічні відступи з 20px до 26px, щоб текст не липнув до екрана */
-    .panel-content { padding: 60px 26px 40px; } 
+    .panel-content { padding: 60px 26px 80px; } 
     
     .close-panel { top: 16px; right: 16px; width: 40px; height: 40px; }
 
     /* --- ЕЛЕГАНТНІ КНОПКИ В ПАНЕЛІ --- */
-    /* Замість хаосу, складаємо їх в ідеальний стовпчик на всю ширину */
     .panel-btn {
         display: flex !important;
-        width: 100% !important; 
-        justify-content: flex-start !important; /* Вирівнюємо по лівому краю, як і текст */
-        margin: 0 0 24px 0 !important; /* Відстань між кнопками по вертикалі */
+        width: max-content !important; /* МАГІЯ: Кнопка бере ширину лише свого тексту */
+        justify-content: flex-start !important; 
+        margin: 0 0 24px 0 !important; 
     }
     
     /* Даємо більший відступ перед найпершою кнопкою, щоб відділити від тексту */
