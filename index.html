@@ -3,22 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, shrink-to-fit=no">
-    <title>Аналітичний простір | Локус•УЯВИ</title>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Локус Уяви | Сновидіння та глибинна психотерапія</title>
 
+<meta name="description" content="Практика Сергія Крутька: робота зі сновидіннями, глибинна терапія, групові кола та короткі сесії підтримки. Онлайн, українською.">
+<meta name="author" content="Сергій Крутько">
+<link rel="canonical" href="https://locusuyavy.com/">
 
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://locusuyavy.com/">
+<meta property="og:site_name" content="Локус Уяви">
+<meta property="og:title" content="Сновидіння та глибинна психотерапія">
+<meta property="og:description" content="Практика Сергія Крутька: індивідуальні сесії, група та короткі формати підтримки. Онлайн, українською.">
+<meta property="og:image" content="https://locusuyavy.com/img/preview-og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="uk_UA">
 
-    <!-- Базові SEO-теги для Google -->
-    <meta name="description" content="Психологічний простір Сергія Крутька. Глибинна терапія, аналіз сновидінь, групова робота та короткі еспресо-сесії для швидкої емоційної стабілізації.">
-    <meta name="keywords" content="психолог онлайн, психотерапія, психотерапевт, аналіз сновидінь, тлумачення снів, юнгіанський аналіз, емоційна стабілізація, Сергій Крутько, психологічна допомога, стабілізація, уява, образи">
-    <meta name="author" content="Сергій Крутько">
-
-    <!-- Open Graph (для гарного прев'ю в Telegram, Viber, Facebook) -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://locusuyavy.com/">
-    <meta property="og:title" content="Локус Уяви | Аналітичний простір">
-    <meta property="og:description" content="Простір для роботи зі сновидіннями та складними станами. Від ситуативної підтримки до тривалої терапії.">
-    <meta property="og:image" content="https://locusuyavy.com/img/preview-og.jpg">
-    <meta property="og:site_name" content="Локус Уяви">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Сновидіння та глибинна психотерапія">
+<meta name="twitter:description" content="Практика Сергія Крутька: індивідуальні сесії, група та короткі формати підтримки.">
+<meta name="twitter:image" content="https://locusuyavy.com/img/preview-og.jpg">
 
     <!-- Twitter Card (додаткова підтримка для деяких месенджерів) -->
     <meta name="twitter:card" content="summary_large_image">
@@ -778,21 +784,27 @@ a { text-decoration: none; color: inherit; }
 
 
 
-/* --- ВІДГУКИ --- */
+/* --- ВІДГУКИ (ЖУРНАЛЬНІ ЦИТАТИ) --- */
+/* --- СЕКЦІЯ ВІДГУКІВ ІЗ ЛІНІЯМИ-РОЗМЕЖУВАЧАМИ --- */
 .testimonials-section { 
-    padding: 80px 0; 
+    padding: 80px 0 80px 0; 
+    margin-bottom: 40px;
     max-width: 1200px; 
-    margin: 0 auto; 
+    margin: 80 auto; 
     overflow: hidden; 
+    
+    /* Додаємо стильні лінії до всього блоку */
+    border-top: 1px solid var(--border-color); 
+    border-bottom: 1px solid var(--border-color);
 }
 
 /* Горизонтальний скрол */
 .testimonials-grid { 
     display: flex; 
     flex-wrap: nowrap; 
-    gap: 24px; 
+    gap: 60px; /* Збільшили повітря між колонками-цитатами */
     overflow-x: auto; 
-    padding-bottom: 40px; 
+    padding-bottom: 60px; 
     scroll-snap-type: x mandatory; 
     scrollbar-width: none; 
     -webkit-overflow-scrolling: touch; 
@@ -800,53 +812,67 @@ a { text-decoration: none; color: inherit; }
 .testimonials-grid::-webkit-scrollbar { display: none; }
 
 .testimonial-card { 
-    flex: 0 0 320px; /* Трохи ширші картки */
+    flex: 0 0 340px; /* Оптимальна ширина колонки тексту */
     scroll-snap-align: start; 
-    border-radius: 24px; 
-    padding: 32px; 
+    padding: 0; /* Жодних рамок чи фонів */
     display: flex; 
     flex-direction: column; 
     gap: 24px; 
-    border: 1px solid var(--border-color); 
-    transition: transform 0.4s ease;
+    background: transparent !important; 
+    border: none !important;
+    position: relative;
+    box-shadow: none !important;
 }
 @media (min-width: 768px) {
-    .testimonial-card { flex: 0 0 400px; }
+    .testimonial-card { flex: 0 0 420px; } /* Трохи ширше на комп'ютері для комфортного читання */
 }
 
-.testimonial-card:hover { transform: translateY(-4px); }
 
-/* Підтягуємо інтенсивні відтінки */
-.testimonial-card:nth-child(5n+1) { background: var(--tint-1); }
-.testimonial-card:nth-child(5n+2) { background: var(--tint-2); }
-.testimonial-card:nth-child(5n+3) { background: var(--tint-3); }
-.testimonial-card:nth-child(5n+4) { background: var(--tint-4); }
-.testimonial-card:nth-child(5n+5) { background: var(--tint-5); }
 
 .testimonial-text { 
-    font-size: 15px; 
+    font-family: var(--font-serif);
+    font-size: 17px; 
     color: var(--text-dark); 
-    line-height: 1.6; 
+    line-height: 1.7; /* Більше повітря між рядками */
     font-style: italic; 
-    opacity: 0.9; 
+    opacity: 0.95; 
     flex-grow: 1; 
 }
 
+/* --- ЖУРНАЛЬНИЙ ПІДПИС АВТОРА --- */
 .testimonial-author { 
-    display: flex; align-items: center; gap: 12px; 
-    padding-top: 16px; border-top: 1px solid rgba(128,128,128,0.1); 
+    display: flex; 
+    align-items: center; 
+    gap: 16px; 
+    margin-top: auto; 
+    padding-top: 24px; /* Відділяємо підпис від тексту */
 }
+
+/* Приховуємо стандартний круглий аватар — він тут зайвий */
 .author-avatar { 
-    width: 40px; height: 40px; 
-    background: var(--bg-card); 
-    color: var(--accent-green);
-    border-radius: 50%; display: flex; align-items: center; justify-content: center; 
-    font-family: var(--font-serif); font-size: 18px; font-style: italic;
-    border: 1px solid var(--border-color);
+    display: none; 
 }
-.author-info span { display: block; font-size: 14px; font-weight: 600; color: var(--text-dark); }
 
+/* Додаємо витончену лінію перед ім'ям */
+.testimonial-author::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 1px;
+    background-color: var(--accent-green);
+    opacity: 0.6;
+}
 
+/* Стилізуємо ім'я як елегантний автограф */
+.author-info span { 
+    display: block; 
+    font-family: var(--font-serif); 
+    font-size: 19px; 
+    font-style: italic; 
+    font-weight: 400;
+    color: var(--text-dark); 
+    letter-spacing: 0.02em; 
+}
 
 /* --- ФІНАЛЬНИЙ ЗАКЛИК (CTA) --- */
 .final-cta-section { padding: 40px 0 80px; max-width: 1200px; margin: 0 auto; }
@@ -2010,8 +2036,61 @@ html {
 
 
    
- <!-- тут секція для відгуків -->
+ 
+ <!-- Секція Відгуків -->
+<section class="testimonials-section ">
+<br><br><br>
 
+
+    
+    
+    <div class="testimonials-header" style="text-align: center; margin-bottom: 56px;">
+        <span class="label" style="justify-content: center;">✧ ВІДГУКИ</span>
+        <h2 class="drift-text" style="font-size: clamp(3rem, 6vw, 4.5rem); margin-top: 26px; line-height: 1.1;">Досвід спільної роботи</h2>
+    </div>
+
+    <div class="testimonials-grid">
+
+        <!-- Ольга -->
+
+         <!-- Ірина -->
+
+
+        <!-- Lesyk -->
+
+        <div class="testimonial-card">
+            <div class="testimonial-text">
+                «Сам процес виявився дуже зрозумілим. Єдине, що після розбору захотілося ще поспати хвилинок 15 :) Коли думаю про цей метод, він нагадує мені метафоричні карти. Тільки тут замість готової колоди ми беремо унікальні образи прямо зі своїх снів. З цікавого: хоча серед усіх повсякденних планів іноді буває важкувато знайти енергію ще й на роботу зі снами — ця практика дійсно допомагає зробити певні висновки щодо власного життя.»
+            </div>
+            <div class="testimonial-author">
+                <div class="author-avatar">Б</div>
+                <div class="author-info">
+                    <span>Богдан</span>
+                    <small> </small>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="testimonial-card">
+            <div class="testimonial-text">
+                «Ця робота цікаво направляє і розкриває. Я навіть зберегла малюнок. А ще я зрозуміла: щоб максимально зберегти сон, краще записувати його на диктофон. Писати одразу після пробудження довго, це відволікає. Зате коли перед розбором слухаєш власне аудіо, ще глибше занурюєшся у той стан і пригадуєш нові деталі!»
+            </div>
+            <div class="testimonial-author">
+                <div class="author-avatar">І</div>
+                <div class="author-info">
+                    <span>Ірина</span>
+                    <small> </small>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+  
+
+</section>
 
 
 
