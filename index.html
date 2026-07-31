@@ -670,6 +670,7 @@ a { text-decoration: none; color: inherit; }
 .elegant-list { 
     list-style: none; 
     margin: 24px 0; 
+    padding-left: 0; /* Додано: вбиває зайвий відступ браузера */
 }
 
 .elegant-list li { 
@@ -1348,7 +1349,7 @@ html {
     /* 4. Магія центрування карток */
     .testimonial-card { 
         padding: 24px; 
-        flex: 0 0 62vw !important; /* Картка займає 62% екрана */
+        flex: 0 0 52vw !important; /* Картка займає 62% екрана */
         gap: 16px; 
         scroll-snap-align: center !important; /* Тепер при свайпі картка завжди фіксується по центру! */
         transform-origin: center; /* Запорука плавної анімації */
@@ -1374,9 +1375,29 @@ html {
     
     /* --- ПОВІТРЯ ПО КРАЯХ --- */
     /* Збільшили бічні відступи з 20px до 26px, щоб текст не липнув до екрана */
-    .panel-content { padding: 60px 26px 80px; } 
+    .panel-content { padding: 40px 26px 60px; } 
     
     .close-panel { top: 16px; right: 16px; width: 40px; height: 40px; }
+
+
+/* 2. Зменшуємо внутрішнє "повітря" карток у панелі */
+    .elegant-card { 
+        padding: 24px 28px !important;  /* Внутрішній простір картки */
+        margin-left: -8px !important;  /* Зсуваємо фон вліво рівно на ширину padding */
+        margin-right: -8px !important; /* Зсуваємо фон вправо */
+        border-radius: 22px !important; /* Повертаємо елегантні закруглення */
+
+    }
+
+    /* 3. Оптимізуємо списки, щоб крапка не відбирала багато місця зліва */
+    .elegant-list li {
+        padding-left: 16px !important; /* Було 24px/20px */
+        margin-bottom: 12px !important;
+    }
+
+
+
+    
 
     /* --- ЕЛЕГАНТНІ КНОПКИ В ПАНЕЛІ --- */
     .panel-btn {
@@ -1384,6 +1405,7 @@ html {
         width: max-content !important; /* МАГІЯ: Кнопка бере ширину лише свого тексту */
         justify-content: flex-start !important; 
         margin: 0 0 24px 0 !important; 
+        border-bottom: 1px solid var(--border-color) !important; /* Строга лінія знизу */
     }
     
     /* Даємо більший відступ перед найпершою кнопкою, щоб відділити від тексту */
