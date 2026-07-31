@@ -167,7 +167,12 @@ const myContent = {
     "panel-booking-espresso": [
         { type: "label", text: "Бронювання часу Еспресо-Сесії" },
      //   { type: "title", text: "Еспресо-Сесії" },
-     { type: "text", text: "Оберіть зручний для вас слот у календарі нижче. <strong>Зверніть увагу:</strong> ваш час буде остаточно зафіксовано лише після здійснення оплати. Реквізити зʼявляться після резервування або знаходяться на попередній сторінці." },
+
+     { type: "h3", text: "<div style='margin-bottom: -30px;'>Оберіть зручний для вас слот у календарі нижче" },
+        // Сітка карток ідеально підійде для порівняння форматів
+
+
+     { type: "text", text: "<div style='font-size: 13px; color: black; font-style: italic; margin-top: -10px; padding-top: 10px; margin-botto,: -20px; text-align: left;'><strong>Зверніть увагу:</strong> ваш час буде остаточно зафіксовано лише після здійснення оплати. Реквізити зʼявляться після резервування або знаходяться на попередній сторінці.</div>" },
      
         { type: "calendly", url: "https://calendly.com/sergey-s-krutko/espresso-meetings?hide_event_type_details=1&hide_gdpr_banner=1" },
            
