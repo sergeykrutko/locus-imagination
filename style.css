@@ -2121,7 +2121,7 @@ a {
 
 
 
-/* Плавне проявлення при завантаженні (це залишається) */
+/* Плавне проявлення при завантаженні (це залишається)
 body {
     opacity: 0;
     animation: smoothPageLoad 0.6s ease-out forwards;
@@ -2132,7 +2132,6 @@ body {
     100% { opacity: 1; }
 }
 
-/* Новий клас для плавного згасання ПЕРЕД переходом */
 body.fade-out {
     animation: smoothPageLeave 0.4s ease-in forwards;
 }
@@ -2140,6 +2139,52 @@ body.fade-out {
 @keyframes smoothPageLeave {
     0% { opacity: 1; }
     100% { opacity: 0; }
+} */
+
+
+
+/* 1. Фарбуємо сам корінь документа, щоб вбити білий спалах між сторінками */
+html {
+    background-color: var(--bg-page);
+    
+}
+
+body {
+    background-color: var(--bg-page);
+    scroll-behavior: smooth;
+}
+
+/* Робимо анімацію довшою та м'якшою */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-page); 
+    z-index: 999999; 
+    pointer-events: none; 
+    opacity: 1; 
+    visibility: visible;
+    
+    /* Збільшили час появи сторінки до 0.8s і змінили тип плавності */
+    animation: fadeOutCurtain 0.8s ease forwards;
+}
+
+body.fade-out::after {
+    /* Збільшили час згасання сторінки до 0.6s */
+    animation: fadeInCurtain 0.6s ease forwards;
+}
+
+@keyframes fadeOutCurtain {
+    0% { opacity: 1; visibility: visible; }
+    100% { opacity: 0; visibility: hidden; }
+}
+
+@keyframes fadeInCurtain {
+    0% { opacity: 0; visibility: hidden; }
+    100% { opacity: 1; visibility: visible; }
 }
 
 
@@ -2940,10 +2985,11 @@ html {
 /* ТІЛО СТАТТІ: Переводимо на шрифт із засічками для справжнього читання */
 .markdown-content p {
     font-family: var(--font-serif); 
-    font-size: 20px; /* Трохи більший розмір, бо засічки читаються легше */
+    font-size: 20px; 
     line-height: 1.6;
     margin-bottom: 24px;
-    color: #2b2b2b; /* Робимо колір трохи м'якшим за суцільний чорний */
+    color: var(--text-dark); /* ВАЖЛИВО: замінили #2b2b2b на змінну */
+    opacity: 0.9; /* Додаємо легку прозорість, щоб колір був м'якшим, як ви хотіли раніше */
 }
 
 /* Елегантна цитата */
@@ -2968,10 +3014,11 @@ html {
     position: relative;
     padding-left: 24px;
     margin-bottom: 16px;
-    font-family: var(--font-serif); /* Синхронізуємо зі звичайним текстом */
+    font-family: var(--font-serif); 
     font-size: 20px;
     line-height: 1.6;
-    color: #2b2b2b;
+    color: var(--text-dark); /* ВАЖЛИВО: замінили #2b2b2b на змінну */
+    opacity: 0.9;
 }
 
 .markdown-content ul li::before {

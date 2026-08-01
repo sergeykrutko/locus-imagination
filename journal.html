@@ -14,6 +14,21 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
 
+    <script>
+    // Цей скрипт має бути в <head>, щоб миттєво застосувати тему до рендеру сторінки
+    (function() {
+        const savedTheme = localStorage.getItem('theme');
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+            document.documentElement.setAttribute('data-theme', 'light');
+        }
+    })();
+</script>
+
+
+
 </head>
 
 <body>
@@ -292,30 +307,47 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    // Знаходимо всі посилання на сторінці
     const links = document.querySelectorAll('a');
-    
+
     links.forEach(link => {
         link.addEventListener('click', function(e) {
-            // Перевіряємо, що це перехід на іншу сторінку твого сайту, 
-            // а не якір (#) чи відкриття в новій вкладці
-            if (this.hostname === window.location.hostname && 
-                this.getAttribute('target') !== '_blank' &&
-                !this.getAttribute('href').startsWith('#')) {
+            const href = this.getAttribute('href');
+            const target = this.getAttribute('target');
+            
+            // 1. ІГНОРУЄМО ЗОВНІШНІ ПОСИЛАННЯ ТА КОНТАКТИ
+            if (!href || target === '_blank' || href.startsWith('mailto:') || href.startsWith('tel:')) {
+                return; 
+            }
+
+            // 2. ІГНОРУЄМО ЯКОРІ (#) ТА ЛОГОТИП
+            // Віддаємо всю роботу браузеру (CSS scroll-behavior: smooth).
+            // Це гарантує нульову затримку і 100% плавність.
+            if (href.startsWith('#')) {
+                return; 
+            }
+
+            // 3. ОБРОБКА ПЕРЕХОДІВ МІЖ СТОРІНКАМИ (index.html <-> journal.html)
+            if (this.hostname === window.location.hostname) {
+                e.preventDefault(); 
+                const destination = this.href; 
                 
-                e.preventDefault(); // Зупиняємо миттєвий жорсткий перехід
-                const destination = this.href; // Запам'ятовуємо, куди йдемо
-                
-                // Додаємо сторінці клас, який запускає анімацію згасання
+                // Викликаємо красиву "шторку"
                 document.body.classList.add('fade-out'); 
                 
-                // Чекаємо 400 мілісекунд (поки сторінка згасне) і робимо перехід
+                // Переходимо на іншу сторінку після анімації
                 setTimeout(() => {
                     window.location.href = destination;
-                }, 400); 
+                }, 550); 
             }
         });
     });
+});
+
+// Захист від кешу при кліку "Назад" у браузері
+window.addEventListener('pageshow', function (event) {
+    if (event.persisted || document.body.classList.contains('fade-out')) {
+        document.body.classList.remove('fade-out');
+    }
 });
 </script>
 
