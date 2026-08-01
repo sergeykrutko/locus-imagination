@@ -483,21 +483,29 @@ a {
     color: var(--text-dark);
     cursor: pointer;
     transition: var(--transition);
-    opacity: 1;
+    opacity: 0.9;
     /* Робимо її ледь помітною */
     margin-left: 11px;
     margin-right: 10px;
 }
 
-/* Додаємо легке згасання лише при наведенні */
-.theme-toggle-btn:hover {
-    opacity: 1;
-    background: var(--bg-sage);
+/* Вмикаємо hover тільки для комп'ютерів/планшетів з мишкою */
+@media (hover: hover) {
+    .theme-toggle-btn:hover {
+        opacity: 1;
+        background: var(--bg-sage);
+    }
+    .mobile-blog-link:hover {
+        opacity: 1;
+        background: var(--bg-sage);
+    }
 }
 
-.theme-toggle-btn:hover {
-    opacity: 1;
+/* Для телефонів додаємо реакцію виключно на сам момент торкання пальцем */
+.theme-toggle-btn:active, 
+.mobile-blog-link:active {
     background: var(--bg-sage);
+    opacity: 1;
 }
 
 /* --- ВИТОНЧЕНА СТРІЛКА В ШАПЦІ --- */
@@ -2055,44 +2063,6 @@ a {
 }
 
 
-/* --- МОДАЛЬНЕ ВІКНО ОПЛАТИ (З'являється після Calendly) ---
-.payment-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-    z-index: 2000; display: flex; align-items: center; justify-content: center;
-    opacity: 0; visibility: hidden; transition: var(--transition);
-}
-.payment-overlay.active { opacity: 1; visibility: visible; }
-.payment-card {
-    background: var(--bg-sage); border-radius: 24px; padding: 40px;
-    width: 90%; max-width: 480px; text-align: center; position: relative;
-    transform: translateY(20px); transition: var(--transition);
-    border: 1px solid var(--accent-green); box-shadow: 0 24px 60px rgba(0,0,0,0.15);
-}
-.payment-overlay.active .payment-card { transform: translateY(0); }
-.payment-close {
-    position: absolute; top: 40px; right: 30px; background: var(--bg-card);
-    border: 1px solid #EAEAEA; width: 32px; height: 32px; border-radius: 50%;
-    font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: var(--transition);
-    z-index: 10;
-}
-.payment-close:hover { background: #F0F0F0; }
-
-.iban-box {
-    background: var(--bg-card); padding: 24px; border-radius: 16px; margin: 24px 0; 
-    border: 1px solid #EAEAEA; text-align: left;
-}
-.iban-row { 
-    display: flex; justify-content: space-between; align-items: flex-end; margin-top: 8px; flex-wrap: wrap; gap: 12px;
-}
-.copy-btn {
-    background: none; border: none; font-family: var(--font-sans); font-size: 12px; font-weight: 600;
-    color: var(--accent-green); cursor: pointer; transition: var(--transition); text-transform: uppercase; 
-    letter-spacing: 0.05em; display: flex; align-items: center; gap: 6px; padding: 0;
-}
-.copy-btn:hover { opacity: 0.7; }  */
-
-
 /* --- ПРАВКИ МОДАЛЬНОГО ВІКНА (ОПЛАТА) --- */
 .payment-card {
     width: 92%;
@@ -2148,6 +2118,43 @@ a {
         /* Стає чіткішою */
     }
 }
+
+
+
+/* Плавне проявлення при завантаженні (це залишається) */
+/* body {
+    opacity: 0;
+    animation: smoothPageLoad 0.6s ease-out forwards;
+}
+
+@keyframes smoothPageLoad {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+
+body.fade-out {
+    animation: smoothPageLeave 0.4s ease-in forwards;
+}
+
+@keyframes smoothPageLeave {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+} */
+
+
+/* Початково робимо сторінку прозорою ще до завантаження DOM, щоб не було скачків */
+body {
+    opacity: 0;
+    transition: opacity 0.25s ease-in-out;
+}
+
+/* Клас, який робить сторінку видимою */
+body.loaded {
+    opacity: 1;
+}
+
+
 
 
 html {
@@ -3004,7 +3011,7 @@ html {
         align-items: center;
         justify-content: center;
         color: var(--text-dark);
-        
+        opacity: 0.9;
         text-decoration: none;
         transition: opacity 0.3s ease;
         line-height: 1; /* Прибирає зайве "повітря", яке ламало вирівнювання */

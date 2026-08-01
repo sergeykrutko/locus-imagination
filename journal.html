@@ -32,7 +32,7 @@
     </nav>
     
     <div class="header-actions">
-        <a href="/index.html#formats" class="mobile-blog-link">Виміри</a>
+        
         <!-- Кнопка теми -->
         <button id="theme-toggle" class="theme-toggle-btn" aria-label="Змінити тему">
             <svg id="theme-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -289,6 +289,36 @@
     }
 </script>
 
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Миттєво плавно проявляємо сторінку при завантаженні
+    document.body.classList.add('loaded');
+
+    // Перехоплюємо кліки по сайту для плавного виходу
+    const links = document.querySelectorAll('a');
+    
+    links.forEach(link => {
+        link.addEventListener('click', function(e) {
+            if (this.hostname === window.location.hostname && 
+                this.getAttribute('target') !== '_blank' &&
+                !this.getAttribute('href').startsWith('#')) {
+                
+                e.preventDefault();
+                const destination = this.href;
+                
+                // Плавно гасимо сторінку (знімаємо клас loaded, opacity паде до 0)
+                document.body.classList.remove('loaded');
+                
+                // Чекаємо 400мс поки пройде анімація і переходимо далі
+                setTimeout(() => {
+                    window.location.href = destination;
+                }, 400); 
+            }
+        });
+    });
+});
+</script>
 
 </body>
 

@@ -84,14 +84,11 @@
         <div class="header-actions">
 
             <a href="journal.html" class="mobile-blog-link">
-                
-
-<svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-                        </svg>
-
+                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                </svg>
             </a>
             <!-- Акуратна кнопка перемикання теми (без зайвих padding'ів) -->
             <button id="theme-toggle" class="theme-toggle-btn" aria-label="Змінити тему">
@@ -1332,6 +1329,37 @@
         </script>
 
 
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Миттєво плавно проявляємо сторінку при завантаженні
+    document.body.classList.add('loaded');
+
+    // Перехоплюємо кліки по сайту для плавного виходу
+    const links = document.querySelectorAll('a');
+    
+    links.forEach(link => {
+        link.addEventListener('click', function(e) {
+            if (this.hostname === window.location.hostname && 
+                this.getAttribute('target') !== '_blank' &&
+                !this.getAttribute('href').startsWith('#')) {
+                
+                e.preventDefault();
+                const destination = this.href;
+                
+                // Плавно гасимо сторінку (знімаємо клас loaded, opacity паде до 0)
+                document.body.classList.remove('loaded');
+                
+                // Чекаємо 400мс поки пройде анімація і переходимо далі
+                setTimeout(() => {
+                    window.location.href = destination;
+                }, 400); 
+            }
+        });
+    });
+});
+</script>
 
 
 </body>
