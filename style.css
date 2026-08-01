@@ -483,9 +483,16 @@ a {
     color: var(--text-dark);
     cursor: pointer;
     transition: var(--transition);
-    opacity: 0.4;
+    opacity: 1;
     /* Робимо її ледь помітною */
-    margin-left: 12px;
+    margin-left: 11px;
+    margin-right: 10px;
+}
+
+/* Додаємо легке згасання лише при наведенні */
+.theme-toggle-btn:hover {
+    opacity: 1;
+    background: var(--bg-sage);
 }
 
 .theme-toggle-btn:hover {
@@ -2219,8 +2226,8 @@ html {
     /* Фіксуємо розташування місяця та бургера */
     .site-header.menu-open .header-actions {
     position: absolute;
-    top: 24px;   /* Опускаємо на один рівень з логотипом (було 16px) */
-    right: 28px; /* Фіксуємо позицію із закритого стану (було 16px) */
+    top: 24px;   
+    right: 28px; 
     display: flex;
     align-items: center;
     justify-content: flex-end !important;
@@ -2252,11 +2259,12 @@ html {
     }
 
     .burger-btn span {
-        width: 24px;
-        height: 1.5px;
-        background: var(--text-dark);
-        transition: var(--transition);
-    }
+    width: 24px;
+    height: 1.3px; /* Зменшуємо товщину, щоб ідеально метчилося з книгою */
+    background: var(--text-dark);
+    transition: var(--transition);
+   
+}
 
     .burger-btn.open span:first-child {
         transform: translateY(3.2px) rotate(45deg);
@@ -2992,19 +3000,34 @@ html {
 /* Показуємо на мобільному (всередині твого існуючого @media (max-width: 768px)) */
 @media (max-width: 768px) {
     .mobile-blog-link {
-        display: block;
-        font-family: var(--font-serif);
-        font-style: italic;
-        font-size: 16px;
+        display: flex; /* Ставить іконку в ідеальну лінію з іншими */
+        align-items: center;
+        justify-content: center;
         color: var(--text-dark);
-        text-align: right;
-        margin-right: 0px;
+        
         text-decoration: none;
         transition: opacity 0.3s ease;
-       
+        line-height: 1; /* Прибирає зайве "повітря", яке ламало вирівнювання */
+
+        /* ДОДАЄМО ГЕОМЕТРІЮ КРУЖЕЧКА (як у Місяця) */
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    transition: var(--transition); /* Плавна поява фону */
+    }
+
+    /* Додай цей блок одразу під .mobile-blog-link */
+    .mobile-blog-link svg {
+        width: 20px; 
+        height: 20px;
+        fill: none !important; /* Вбиває суцільну чорну заливку */
+        stroke-width: 1.7 !important; /* Зменшує товщину ліній до витонченої журнальної */
+        display: block;
+        
     }
     .mobile-blog-link:hover {
-        opacity: 0.6;
+        opacity: 1;
+        background: var(--bg-sage); /* З'являється такий самий фон, як у Місяця */
     }
 
 
