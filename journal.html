@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Журнал | Локус Уяви</title>
+    <!-- Підключаємо твої шрифти -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- Підключаємо бібліотеку для перетворення Markdown у HTML -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+
+</head>
+
+<body>
+
+    <!-- Твоя шапка сайту (повністю скопіювати з index.html) -->
+    <header class="site-header">
+    <a href="index.html" class="logo">Локус <i>УЯВИ</i></a>
+    
+    <nav class="main-nav" id="mobile-menu">
+        <a href="index.html#formats" class="menu-link">Виміри</a>
+        <a href="index.html#rings" class="menu-link">Простори</a>
+        <a href="index.html#course" class="menu-link">Курси</a>
+        <a href="journal.html" class="menu-link">Журнал</a> <!-- Активне посилання -->
+        <a href="index.html#about" class="menu-link">Знайомство</a>
+        <a href="index.html#formats" class="btn btn-dark mobile-only-btn menu-link">Виміри &rarr;</a>
+    </nav>
+    
+    <div class="header-actions">
+        <!-- Кнопка теми -->
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Змінити тему">
+            <svg id="theme-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+        </button>
+
+        <!-- Бургер меню для телефонів -->
+        <button class="burger-btn" id="burger-btn" aria-label="Відкрити меню">
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+</header>
+
+    <!-- Контейнер, де з'явиться список дописів -->
+    <main class="journal-container">
+    <div class="label center" style="margin-bottom: 40px; margin-top: -20px;">✧ ЖУРНАЛ ТА РОЗДУМИ</div>
+    
+    <div class="search-wrapper">
+        <input type="search" id="journal-search" class="journal-search-input" placeholder="Пошук по журналу...">
+    </div>
+    
+    <!-- Сюди скрипт вставить роки, місяці та посилання -->
+    <div id="archive-content"></div>
+</main>
+
+    <!-- Виїзна панель для читання (скопійована з index.html) -->
+    <div class="panel-overlay" id="overlay"></div>
+    <div class="side-panel" id="universal-panel">
+        <button class="close-panel" id="close-panel">&times;</button>
+        <div class="panel-content markdown-content" id="dynamic-content">
+            <!-- Сюди буде підставлятися відрендерений текст Markdown -->
+        </div>
+    </div>
+
+    <!-- Підключаємо наш реєстр -->
+    <script src="journal.js"></script>
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", () => {
+    const archiveContainer = document.getElementById("archive-content");
+    const searchInput = document.getElementById("journal-search");
+    const universalPanel = document.getElementById("universal-panel");
+    const overlay = document.getElementById("overlay");
+    const dynamicContent = document.getElementById("dynamic-content");
+    const closePanelBtn = document.getElementById("close-panel");
+    const body = document.body;
+
+    const monthsNames = {
+        "01": "Січень", "02": "Лютий", "03": "Березень", "04": "Квітень",
+        "05": "Травень", "06": "Червень", "07": "Липень", "08": "Серпень",
+        "09": "Вересень", "10": "Жовтень", "11": "Листопад", "12": "Грудень"
+    };
+
+    // Функція малювання архіву (тепер ми можемо викликати її знову при пошуку)
+    function renderArchive(postsToRender) {
+        if (postsToRender.length === 0) {
+            archiveContainer.innerHTML = '<p style="text-align:center; color:var(--text-muted);">За вашим запитом нічого не знайдено.</p>';
+            return;
+        }
+
+        // Сортуємо від нових до старих
+        postsToRender.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        const grouped = {};
+        postsToRender.forEach(post => {
+            const [year, month, day] = post.date.split("-");
+            if (!grouped[year]) grouped[year] = {};
+            if (!grouped[year][month]) grouped[year][month] = [];
+            post.day = day; // Зберігаємо день для виводу
+            grouped[year][month].push(post);
+        });
+
+        let html = "";
+        Object.keys(grouped).sort((a, b) => b - a).forEach(year => {
+            html += `<div class="archive-year">${year}</div>`;
+            
+            Object.keys(grouped[year]).sort((a, b) => b - a).forEach(month => {
+                const monthName = monthsNames[month] || month;
+                html += `<div class="archive-month">${monthName}</div>`;
+                html += `<ul class="archive-list">`;
+                
+                grouped[year][month].forEach(post => {
+                    html += `
+    <li>
+        <span class="archive-date">${post.day}</span>
+        <a class="archive-link" data-file="${post.file}" data-date="${post.date}">
+            ${post.title}
+        </a>
+    </li>
+`;
+                });
+                html += `</ul>`;
+            });
+        });
+
+        archiveContainer.innerHTML = html;
+    }
+
+    // Перше малювання (всі пости)
+    renderArchive(journalPosts);
+
+    // Логіка живого пошуку
+    searchInput.addEventListener("input", (e) => {
+        const query = e.target.value.toLowerCase().trim();
+        const filteredPosts = journalPosts.filter(post => 
+            post.title.toLowerCase().includes(query)
+        );
+        renderArchive(filteredPosts);
+    });
+
+    // Логіка відкриття допису
+    // Логіка відкриття допису
+    archiveContainer.addEventListener("click", async (e) => {
+        const link = e.target.closest(".archive-link");
+        if (!link) return;
+
+        const filePath = link.getAttribute("data-file");
+        const rawDate = link.getAttribute("data-date"); // Дістаємо дату
+
+        try {
+            const response = await fetch(filePath);
+            if (!response.ok) throw new Error("Не вдалося завантажити допис");
+            
+            const markdownText = await response.text();
+            dynamicContent.innerHTML = marked.parse(markdownText);
+
+            // МАГІЯ: Шукаємо H1 і додаємо підпис
+            const h1 = dynamicContent.querySelector("h1");
+            if (h1) {
+                // Робимо дату красивою (наприклад, 1 серпня 2026)
+                const dateObj = new Date(rawDate);
+                const formattedDate = new Intl.DateTimeFormat('uk-UA', { day: 'numeric', month: 'long', year: 'numeric' }).format(dateObj);
+                
+                h1.insertAdjacentHTML("afterend", `<div class="article-meta">Сергій Крутько &middot; ${formattedDate}</div>`);
+            }
+
+            universalPanel.classList.add("active");
+            overlay.classList.add("active");
+            body.classList.add("no-scroll");
+            universalPanel.scrollTop = 0;
+
+        } catch (error) {
+            console.error(error);
+            dynamicContent.innerHTML = "<p>Помилка завантаження допису.</p>";
+            universalPanel.classList.add("active");
+            overlay.classList.add("active");
+        }
+    });
+
+    // Закриття панелі
+    function closeJournalPanel() {
+        universalPanel.classList.remove("active");
+        overlay.classList.remove("active");
+        body.classList.remove("no-scroll");
+    }
+
+    closePanelBtn.addEventListener("click", closeJournalPanel);
+    overlay.addEventListener("click", closeJournalPanel);
+});
+    </script>
+
+
+
+
+
+<!-- Скрипт для мобільного бургер-меню -->
+<script>
+    const burgerBtn = document.getElementById('burger-btn');
+    const siteHeader = document.querySelector('.site-header');
+    const menuLinks = document.querySelectorAll('.menu-link');
+
+    burgerBtn.addEventListener('click', () => {
+        burgerBtn.classList.toggle('open');
+        siteHeader.classList.toggle('menu-open');
+        document.body.classList.toggle('no-scroll');
+    });
+
+    menuLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            burgerBtn.classList.remove('open');
+            siteHeader.classList.remove('menu-open');
+            document.body.classList.remove('no-scroll');
+        });
+    });
+</script>
+
+<!-- Скрипт для перемикання теми -->
+<script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    
+    const sunIcon = '<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>';
+    const moonIcon = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
+
+    function setTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+        if (themeIcon) {
+            themeIcon.innerHTML = theme === 'dark' ? sunIcon : moonIcon;
+        }
+    }
+
+    const savedTheme = localStorage.getItem('theme');
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+
+    if (savedTheme) {
+        setTheme(savedTheme);
+    } else {
+        setTheme(systemPrefersDark.matches ? 'dark' : 'light');
+    }
+
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            const current = document.documentElement.getAttribute('data-theme');
+            setTheme(current === 'dark' ? 'light' : 'dark');
+        });
+    }
+</script>
+
+
+</body>
+
+</html>

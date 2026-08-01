@@ -1,0 +1,2937 @@
+:root {
+    color-scheme: light dark;
+    /* Цей рядок блокує "самодіяльність" браузера */
+    --bg-page: #FCFCF9;
+    --bg-card: #FFFFFF;
+    --bg-dark: #171514;
+    --bg-sage: #EEF1ED;
+    --bg-photo: #fffdf9;
+    --bg-alt: #FAFAFA;
+    --header-bg: rgba(255, 255, 255, 0.85);
+
+    --text-dark: #1C1C19;
+    --text-muted: #666666;
+    --text-light: #F7F7F7;
+    --accent-green: #687A6C;
+
+    /* НОВА ЗМІННА ДЛЯ РАМОК */
+    --border-color: rgba(0, 0, 0, 0.06);
+
+    --font-serif: 'Lora', serif;
+    --font-sans: 'Inter', sans-serif;
+    --radius-card: 20px;
+    --radius-btn: 100px;
+    --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+    /* 2. НОВІ ВІДТІНКИ ДЛЯ ВІДГУКІВ (Вибілені, теплі, без холодного блакитного) */
+    --tint-1: #F4F6F3;
+    /* Дуже бліда шавлія */
+    --tint-2: #F9F5F0;
+    /* Теплий льон */
+    --tint-3: #F5F4F1;
+    /* Світлий теплий грейдж (сіро-бежевий) замість блакитного */
+    --tint-4: #FBF7F5;
+    /* Дуже блідий відтінок пудри */
+    --tint-5: #F2F4F2;
+    /* Альтернативний прохолодний зелений, але теплий */
+}
+
+[data-theme="dark"] {
+    --bg-page: #151413;
+    --bg-card: #1A1918;
+    --bg-dark: #2A2826;
+    --bg-sage: #1E221F;
+    --bg-photo: #22201E;
+    --bg-alt: #181716;
+    --header-bg: rgba(21, 20, 19, 0.85);
+
+    --tint-1: #232821;
+    --tint-2: #2B231E;
+    --tint-3: #1F2426;
+    --tint-4: #28251E;
+    --tint-5: #262422;
+
+    --text-dark: #F2F0EB;
+    --text-muted: #8C8A88;
+    --text-light: #F7F7F7;
+    --accent-green: #9EAC9C;
+
+    /* ВИТОНЧЕНА СВІТЛА РАМКА ДЛЯ ТЕМНОЇ ТЕМИ */
+    --border-color: rgba(255, 255, 255, 0.05);
+}
+
+@media (prefers-color-scheme: dark) {
+    html:not([data-theme="light"]) {
+        --bg-page: #151413;
+        --bg-card: #1A1918;
+        --bg-dark: #2A2826;
+        --bg-sage: #1E221F;
+        --bg-photo: #22201E;
+        --bg-alt: #181716;
+        --header-bg: rgba(21, 20, 19, 0.85);
+        --tint-1: #232821;
+        --tint-2: #2B231E;
+        --tint-3: #1F2426;
+        --tint-4: #28251E;
+        --tint-5: #262422;
+        --text-dark: #F2F0EB;
+        --text-muted: #8C8A88;
+        --text-light: #F7F7F7;
+        --accent-green: #9EAC9C;
+        --border-color: rgba(255, 255, 255, 0.05);
+    }
+}
+
+
+
+
+
+
+body {
+    font-family: var(--font-sans);
+    background-color: var(--bg-page);
+    color: var(--text-dark);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+body.no-scroll {
+    overflow: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+.serif {
+    font-family: var(--font-serif);
+    font-weight: 500;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Зменшили відступи контейнера для мобільних екранів */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 24px 24px;
+}
+
+.label {
+    font-size: 10px;
+    /* Робимо на 1px дрібнішим */
+    letter-spacing: 0.2em;
+    /* Розширюємо відстань між літерами */
+    text-transform: uppercase;
+    color: var(--text-muted);
+    opacity: 0.7;
+    /* Приглушуємо колір, щоб зробити їх "тихими" */
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: flex-start;
+}
+
+.label.center {
+    justify-content: center;
+}
+
+
+.label-top {
+    font-size: 11px;
+    /* Робимо на 1px дрібнішим */
+    letter-spacing: 0.03em;
+    /* Розширюємо відстань між літерами */
+    color: var(--text-muted);
+    font-style: italic;
+    opacity: 0.9;
+    /* Приглушуємо колір, щоб зробити їх "тихими" */
+    margin-top: 5px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: flex-start;
+
+}
+
+
+
+/* ========================================================= */
+/* УНІФІКОВАНА СИСТЕМА КНОПОК                                */
+/* ========================================================= */
+
+/* 1. БАЗОВИЙ КЛАС (Спільні налаштування для великих кнопок) */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 24px;
+    border-radius: 16px;
+    /* ЗОЛОТА СЕРЕДИНА: м'який прямокутник, гармонує з картками */
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    box-sizing: border-box !important;
+    max-width: 100%;
+    text-align: center;
+    border: 1px solid transparent;
+}
+
+.btn-small {
+    padding: 10px 20px;
+    font-size: 13px;
+}
+
+.btn-icon {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+    transition: var(--transition);
+}
+
+.btn:hover .btn-icon {
+    transform: scale(1.1);
+}
+
+/* 2. ТЕМНА КНОПКА (Головна дія: Запис, Доєднатися, Мені цікаво) */
+.btn-dark {
+    background-color: #2D312E;
+    color: var(--text-light);
+    border: none;
+    font-family: var(--font-sans);
+    /* Повертаємо класичний прямий шрифт */
+    font-size: 14px;
+    /* Робимо текст трохи меншим і акуратнішим */
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    /* Ледь помітне повітря між літерами */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.btn-dark:hover {
+    transform: translateY(-2px);
+    background-color: #1F2220;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* 3. КОНТУРНА КНОПКА (Другорядна дія: Написати в дірект) */
+.btn-outline {
+    background-color: transparent;
+    border-color: #D0D0D0;
+    color: var(--text-dark);
+}
+
+.btn-outline:hover {
+    border-color: var(--text-dark);
+}
+
+/* 4. МІНІМАЛЬНА КНОПКА (Для дрібних карток, якщо потрібна) */
+.btn-minimal {
+    background: transparent;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+    /* Пропорційно менший радіус для маленької кнопки */
+    padding: 10px 20px;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: inherit;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-minimal:hover {
+    border-color: currentColor;
+}
+
+
+
+/* ГОЛОВНА ЛЕГКА КНОПКА */
+.btn-light-action {
+    background: transparent;
+    border: none;
+    padding: 0;
+    font-family: var(--font-serif);
+    font-size: 17px;
+    font-weight: 400;
+    /* Нормальна товщина */
+    color: var(--text-dark);
+    /* Повністю чорний */
+    cursor: pointer;
+    transition: all 0.4s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    padding-bottom: 2px;
+}
+
+.btn-light-action::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: currentColor;
+    transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.btn-light-action:hover {
+    gap: 12px;
+}
+
+.btn-light-action:hover::after {
+    width: 100%;
+}
+
+/* --- 3. ДРУГОРЯДНА ДІЯ (Курсив) --- */
+.btn-quiet {
+    background: transparent;
+    border: none;
+    padding: 0;
+    font-family: var(--font-serif);
+    font-size: 17px;
+    font-style: italic;
+    color: inherit;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    opacity: 0.75;
+    /* Залишаємо ледь приглушеним для ієрархії */
+    position: relative;
+    padding-bottom: 2px;
+}
+
+.btn-quiet::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: currentColor;
+    transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.btn-quiet:hover {
+    opacity: 1;
+    gap: 12px;
+}
+
+.btn-quiet:hover::after {
+    width: 100%;
+}
+
+
+
+
+/* ТИХА КНОПКА "ДЕТАЛІ" (Залишаємо як є, вона ідеальна) */
+.btn-quiet {
+    background: transparent;
+    border: none;
+    padding: 0;
+    font-family: var(--font-serif);
+    font-size: 17px;
+    font-style: italic;
+    color: inherit;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    opacity: 0.75;
+    position: relative;
+    padding-bottom: 2px;
+}
+
+.btn-quiet::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: currentColor;
+    transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.btn-quiet:hover {
+    opacity: 1;
+    gap: 12px;
+}
+
+.btn-quiet:hover::after {
+    width: 100%;
+}
+
+/* --- Кнопки всередині панелей (якщо ще використовуються) --- */
+.panel-btn {
+    margin-top: 40px;
+    margin-right: 48px;
+}
+
+.btn-editorial {
+    background: none;
+    border: none;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-serif);
+    font-size: 20px;
+    font-style: italic;
+    color: var(--accent-green);
+    cursor: pointer;
+    transition: gap 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease;
+}
+
+.btn-editorial span {
+    transition: transform 0.4s ease;
+    font-style: normal;
+}
+
+.btn-editorial:hover {
+    gap: 16px;
+    opacity: 0.7;
+}
+
+
+
+
+
+
+/* --- Плаваюча шапка --- */
+.site-header {
+    position: fixed;
+    top: 24px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: calc(100% - 48px);
+    max-width: 1000px;
+    background: var(--header-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border-color);
+    /* Адаптивна рамка */
+    border-radius: 100px;
+    padding: 12px 12px 12px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 990;
+    /* ОПУСТИЛИ НИЖЧЕ ПАНЕЛЕЙ */
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.03);
+    transition: var(--transition);
+}
+
+/* --- Кнопка теми та Стрілочка --- */
+.theme-toggle-btn {
+    background: transparent;
+    border: none;
+    padding: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: var(--transition);
+    opacity: 0.4;
+    /* Робимо її ледь помітною */
+    margin-left: 12px;
+}
+
+.theme-toggle-btn:hover {
+    opacity: 1;
+    background: var(--bg-sage);
+}
+
+/* --- ВИТОНЧЕНА СТРІЛКА В ШАПЦІ --- */
+.arrow-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid transparent;
+    /* Підготовка до появи рамки */
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.arrow-btn:hover {
+    border-color: var(--border-color);
+    /* З'являється тонка рамка */
+    transform: translateX(4px);
+}
+
+
+
+.logo {
+    font-family: var(--font-serif);
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--text-dark);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 1002;
+}
+
+.logo i {
+    font-style: italic;
+    color: var(--accent-green);
+    text-transform: lowercase;
+    font-size: 22px;
+    letter-spacing: 0;
+}
+
+.main-nav {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+    margin-left: auto;
+}
+
+/* --- ПРЕМІАЛЬНИЙ ХОВЕР ДЛЯ МЕНЮ (ДЕСКТОП) --- */
+.main-nav a {
+    position: relative;
+    padding-bottom: 4px;
+    /* Місце для лінії */
+}
+
+.main-nav a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 1px;
+    bottom: 0;
+    left: 50%;
+    background-color: var(--text-dark);
+    transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    transform: translateX(-50%);
+}
+
+.main-nav a:hover::after {
+    width: 100%;
+}
+
+.main-nav a:hover {
+    color: var(--text-dark);
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 1002;
+}
+
+.burger-btn {
+    display: none;
+}
+
+.mobile-only-btn {
+    display: none;
+}
+
+
+/* --- Секції та розвороти --- */
+.section-fullscreen {
+    min-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 35px 0 30px;
+}
+
+
+
+
+.hero {
+    position: relative;
+    text-align: center;
+    overflow: hidden;
+}
+
+.hero::before,
+.hero::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    z-index: -1;
+    pointer-events: none;
+}
+
+.hero::before {
+    top: -10%;
+    left: -5%;
+    width: 50vw;
+    height: 50vw;
+    background: rgba(217, 138, 108, 0.15);
+}
+
+.hero::after {
+    bottom: -10%;
+    right: -5%;
+    width: 60vw;
+    height: 60vw;
+    background: rgba(163, 177, 155, 0.15);
+}
+
+
+
+
+/* Виправлено сплющене зображення */
+.hero-editorial-image {
+    max-width: 320px;
+    height: 180px;
+    margin: 0 auto 30px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+    animation: floatUp 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.hero-editorial-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(20%) sepia(10%);
+}
+
+
+
+
+@keyframes floatUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+.hero h1 {
+    font-size: clamp(2.6rem, 3vw, 3rem);
+    line-height: 1.05;
+    margin-bottom: 20px;
+    letter-spacing: -0.03em;
+}
+
+
+
+.hero h1 i {
+    color: var(--accent-green);
+    font-style: italic;
+}
+
+/* 1. Вступний текст під головним заголовком (Герой) */
+
+
+.hero p {
+    max-width: 650px;
+    margin: 0 auto 32px;
+    font-size: 19px;
+    line-height: 1.7;
+    color: var(--text-muted);
+}
+
+
+
+/* --- Заголовки секцій (Журнальний стиль) --- */
+.section-intro {
+    margin-bottom: 40px;
+    /* Зменшили відступ до карток знизу */
+}
+
+@media (min-width: 768px) {
+    .section-intro {
+        margin-bottom: 48px;
+    }
+}
+
+.section-header {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    /* ЗМЕНШЕНО: простір між h2 та текстом на телефоні (було 24px) */
+    text-align: left;
+    align-items: flex-start;
+}
+
+.section-header h2 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin: 0;
+}
+
+/* НОВИЙ СТИЛЬ ТЕКСТУ: Виразний, журнальний курсив */
+.section-header p {
+    font-family: var(--font-serif);
+    /* Змінили шрифт на преміальний (з засічками) */
+    font-style: italic;
+    /* Додали курсив */
+    font-size: 19px;
+    /* Трохи збільшили розмір (у картках 16px) */
+    color: var(--text-dark);
+    /* Зробили колір глибшим для кращої читабельності курсиву */
+    opacity: 0.85;
+    /* Легке пом'якшення чорного кольору */
+    line-height: 1.6;
+    max-width: 100%;
+    margin: 0;
+}
+
+/* Налаштування для комп'ютерів та планшетів */
+@media (min-width: 768px) {
+    .section-header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 10px;
+        /* ЗМЕНШЕНО: простір між лівою та правою колонкою на комп'ютері (було 60px) */
+    }
+
+    .section-header>div:first-child {
+        flex: 1.2;
+    }
+
+    .section-header>div:last-child {
+        flex: 1.9;
+        max-width: 590px;
+        /* Трохи розширили текстовий блок, бо курсив займає більше місця */
+        padding-top: 8px;
+        /* Оптичне вирівнювання з верхньою лінією заголовка */
+        padding-right: 18px;
+    }
+}
+
+/* --- Картки форматів (Виправлено розрив сітки) --- */
+/* Замінили 400px на 280px, щоб влазило в мобільний */
+/* --- Картки форматів --- */
+.formats-grid {
+    display: grid;
+    gap: 24px;
+    padding-bottom: 40px;
+    grid-template-columns: 1fr;
+    /* Телефони: 1 картка в ряд */
+}
+
+@media (min-width: 768px) {
+    .formats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        /* Планшети: 2 картки в ряд */
+    }
+}
+
+@media (min-width: 1024px) {
+    .formats-grid {
+        grid-template-columns: repeat(3, 1fr);
+        /* Десктоп: строго 3 картки в ряд */
+        align-items: stretch;
+    }
+}
+
+
+/* М'які акцентні фони для карток (замість чорного) */
+.card.bg-sage {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.03);
+    /* Невагома тінь, яка просто відділить краї від фону */
+    background-color: var(--bg-sage);
+    /* Ледь фісташковий */
+    border-color: rgba(0, 0, 0, 0.02);
+
+}
+
+.card.bg-photo {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.03);
+    /* Невагома тінь, яка просто відділить краї від фону */
+    background-color: var(--bg-photo);
+    /* Колір топленого молока */
+    border-color: rgba(0, 0, 0, 0.03);
+
+}
+
+.card {
+    background: var(--bg-card);
+    border: 1px solid rgba(0, 0, 0, 0.02);
+    /* Майже прозора рамка */
+    border-radius: var(--radius-card);
+    padding: 48px 32px;
+    /* Збільшили простір зверху і знизу */
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.5s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.5s ease;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.015);
+    /* Дуже м'яка тінь для глибини */
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 24px 50px rgba(0, 0, 0, 0.06);
+    /* Більш глибока тінь при наведенні */
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+.card.dark {
+    background: var(--bg-dark);
+    color: var(--text-light);
+    border-color: transparent;
+    /* Темні картки взагалі без рамки */
+    box-shadow: none;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.card h3 {
+    font-size: 32px;
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+}
+
+.card p {
+    color: var(--text-muted);
+    margin-bottom: 32px;
+    flex-grow: 1;
+}
+
+.card.dark p {
+    color: #A0A0A0;
+}
+
+/* --- 1. РОЗНОСИМО КНОПКИ ПО КРАЯХ --- */
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    /* Розштовхує елементи по краях */
+    align-items: center;
+    border-top: 1px solid var(--border-color);
+    padding-top: 20px;
+    width: 100%;
+}
+
+/* Прибираємо старе правило flex: 1, яке розтягувало кнопки і центрувало їх */
+.card-footer .btn,
+.card-footer .btn-light-action,
+.card-footer .btn-quiet {
+    flex: 0 1 auto;
+    width: auto;
+}
+
+/* Якщо кнопка одна — вона розтягується повністю */
+.card-footer .btn:only-child {
+    flex: 1 1 100%;
+    width: 100%;
+}
+
+.card.dark .card-footer {
+    border-color: #333;
+}
+
+.card-image {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    filter: grayscale(40%) sepia(10%) contrast(1.1);
+    transition: filter 0.8s ease, transform 0.8s ease;
+    cursor: pointer;
+}
+
+.card:hover .card-image {
+    filter: grayscale(0%) sepia(0%) contrast(1);
+}
+
+.price {
+    padding-bottom: 20px;
+}
+
+/* --- OFF-CANVAS ПАНЕЛЬ --- */
+.panel-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition);
+}
+
+.panel-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.side-panel {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 100%;
+    max-width: 800px;
+    height: 100vh;
+    /* Для старих браузерів */
+    height: 100dvh;
+    /* МАГІЯ ДЛЯ IPHONE: Динамічна висота, що враховує панель Safari */
+    background: var(--bg-page);
+    box-shadow: -10px 0 40px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    overflow-y: auto;
+    transition: right 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.side-panel.active {
+    right: 0;
+}
+
+.panel-content {
+    padding: 80px 64px;
+}
+
+/* Закріпили хрестик, щоб не губився при скролі */
+/* --- OFF-CANVAS ПАНЕЛЬ: Хрестик --- */
+/* 1. Хрестик бічної панелі (було border: 1px solid #EAEAEA) */
+.close-panel {
+    position: fixed;
+    top: 32px;
+    right: 32px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    /* ВИПРАВЛЕНО */
+    color: var(--text-dark);
+    /* ВИПРАВЛЕНО: щоб хрестик був світлим у темній темі */
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    z-index: 1010;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.8);
+}
+
+.close-panel:hover {
+    background: var(--bg-sage);
+}
+
+/* ВИПРАВЛЕНО */
+
+/* Показуємо хрестик тільки тоді, коли панель активна */
+.side-panel.active .close-panel {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+    transition-delay: 0.3s;
+    /* Чекаємо, поки виїде панель */
+}
+
+/* Типографіка в панелі */
+.details-title {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    margin-bottom: 24px;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+}
+
+.details-subtitle {
+    color: var(--text-muted);
+    font-size: 18px;
+    margin-bottom: 48px;
+}
+
+.lead-text {
+    font-family: var(--font-serif);
+    font-size: 20px;
+    line-height: 1.5;
+    color: var(--text-dark);
+    margin-bottom: 40px;
+}
+
+.elegant-img {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 16px;
+    margin: 32px 0;
+    filter: grayscale(10%) sepia(10%) contrast(1.05);
+    opacity: 0.95;
+}
+
+/* Компоненти панелі */
+.features-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin: 24px 0 48px;
+}
+
+@media (min-width: 600px) {
+    .features-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.feature-item {
+    padding: 24px;
+    background: var(--bg-photo);
+    /* ЗАМІСТЬ #FAFAFA */
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    transition: var(--transition);
+}
+
+.feature-item:hover {
+    border-color: var(--accent-green);
+    background: var(--bg-sage);
+    /* ЗАМІСТЬ #F8FAF8 */
+    transform: translateY(-2px);
+}
+
+.feature-title {
+    display: block;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: var(--accent-green);
+}
+
+.feature-text {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+.data-list {
+    list-style: none;
+    padding: 0;
+    margin: 24px 0 48px;
+    border-top: 1px solid #EAEAEA;
+}
+
+.data-list li {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0;
+    border-bottom: 1px solid #EAEAEA;
+    font-size: 15px;
+    gap: 8px;
+}
+
+@media (min-width: 600px) {
+    .data-list li {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 0;
+    }
+
+    .data-list li span:first-child {
+        flex: 0 0 30%;
+        margin-bottom: 0;
+        padding-right: 20px;
+    }
+
+    .data-list li span:last-child {
+        flex: 1;
+        text-align: left;
+        line-height: 1.6;
+    }
+}
+
+.data-list li span:first-child {
+    color: var(--text-muted);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.data-list li span:last-child {
+    font-weight: 500;
+    color: var(--text-dark);
+}
+
+.elegant-card {
+    background: var(--bg-card);
+    border-radius: 24px;
+    padding: 32px;
+    margin: 40px 0;
+    border: 0;
+}
+
+@media (min-width: 768px) {
+    .elegant-card {
+        padding: 40px;
+    }
+}
+
+.elegant-card.bg-sage {
+    background-color: var(--bg-sage);
+    border-color: #D3DCD0;
+}
+
+.elegant-card.bg-photo {
+    background-color: var(--bg-photo);
+    border-color: #E6E2D8;
+}
+
+.elegant-card h3 {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    margin: 32px 0 16px;
+    color: var(--text-dark);
+}
+
+.elegant-card h3:first-child {
+    margin-top: 0;
+}
+
+/* --- ВИТОНЧЕНІ СПИСКИ --- */
+.elegant-list {
+    list-style: none;
+    margin: 24px 0;
+    padding-left: 0;
+    /* Додано: вбиває зайвий відступ браузера */
+}
+
+.elegant-list li {
+    position: relative;
+    padding-left: 24px;
+    /* Даємо трохи більше простору від крапки до тексту */
+    margin-bottom: 18px !important;
+    /* Більше повітря між самими пунктами */
+    color: var(--text-muted);
+}
+
+/* Робимо крапочки акцентними та ідеально рівними */
+.elegant-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 9px;
+    /* Ідеальне оптичне центрування відносно тексту 15px */
+    width: 5px;
+    /* Робимо крапку витонченішою */
+    height: 5px;
+    background: var(--accent-green);
+    /* Використовуємо ваш фірмовий колір замість базового сірого */
+    border-radius: 50%;
+}
+
+/* Золоте правило для тексту, виділеного жирним у списках */
+.elegant-list strong {
+    color: var(--text-dark);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    /* Жирний текст завжди має бути трохи щільнішим */
+}
+
+/* --- ПОВІТРЯ ДЛЯ ВЕРХНІХ ЛЕЙБЛІВ --- */
+/* Щоб лейбл у панелі не злипався, коли переноситься на кілька рядків */
+.panel-content .label {
+    line-height: 1.5;
+    margin-bottom: 24px;
+}
+
+.elegant-quote {
+    border-left: 2px solid var(--accent-green);
+    padding: 16px 0 16px 24px;
+    margin: 32px 0;
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: var(--text-muted);
+    font-size: 17px;
+}
+
+/* --- ПРО АВТОРА --- */
+.about-section {
+    padding: 120px 0;
+    border-top: 0px solid #EAEAEA;
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    align-items: top;
+}
+
+@media (min-width: 768px) {
+    .about-grid {
+        grid-template-columns: 1fr 1.5fr;
+        gap: 80px;
+    }
+}
+
+.author-photo {
+    background-color: var(--bg-photo);
+    border-radius: 24px;
+    aspect-ratio: 3/4;
+    width: 100%;
+    overflow: hidden;
+}
+
+.author-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.about-content {
+    min-width: 0;
+}
+
+/* Рятує від Grid Blowout */
+.about-content h2 {
+    font-size: clamp(2.5rem, 5vw, 3rem);
+    margin-bottom: 8px;
+    line-height: 1.1;
+}
+
+.about-content .subtitle {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+    display: block;
+}
+
+.about-content p {
+    font-size: 16px;
+    color: var(--text-muted);
+    max-width: 600px;
+    line-height: 1.6;
+}
+
+/* Карусель карток (Освіта) */
+.credentials-wrapper {
+    margin-top: 48px;
+    width: 100%;
+}
+
+.credentials-scroll {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 16px;
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 24px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+}
+
+.credentials-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.credential-card {
+    flex: 0 0 260px;
+    background: var(--bg-card);
+    border: 1px solid #EAEAEA;
+    border-radius: 16px;
+    padding: 24px;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    transition: var(--transition);
+    white-space: normal;
+}
+
+.credential-card:hover {
+    border-color: #D0D0D0;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+}
+
+.credential-card .deg {
+    font-family: var(--font-serif);
+    font-size: 16px;
+    margin-bottom: 8px;
+    line-height: 1.3;
+    color: var(--text-dark);
+}
+
+.credential-card .uni {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.4;
+    flex-grow: 1;
+}
+
+.credential-card .year {
+    font-size: 11px;
+    color: var(--accent-green);
+    margin-top: auto;
+    padding-top: 16px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* --- КУРС ТА WAITLIST --- */
+.course-section {
+    padding: 80px 0;
+}
+
+.course-card {
+    background-color: var(--bg-sage);
+    border-radius: 24px;
+    padding: 40px 24px;
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    align-items: center;
+}
+
+@media (min-width: 900px) {
+    .course-card {
+        grid-template-columns: 1fr 1fr;
+        padding: 64px;
+        gap: 64px;
+    }
+}
+
+.course-card::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(214, 188, 154, 0.4) 0%, rgba(223, 230, 219, 0) 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.course-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg-card);
+    /* Адаптивний фон */
+    border: 1px solid var(--border-color);
+    padding: 8px 16px;
+    border-radius: 100px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dark);
+    /* Адаптивний текст */
+    margin-bottom: 24px;
+}
+
+.course-badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: #D68F6C;
+    border-radius: 50%;
+}
+
+.course-card h2 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    line-height: 1.1;
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+}
+
+.course-card h2 i {
+    font-style: italic;
+    font-weight: 400;
+}
+
+.course-card p {
+    font-size: 16px;
+    color: var(--text-muted);
+    /* Замінили #4A554C */
+    max-width: 480px;
+}
+
+/* 2. Блок "Список очікування" (додали рамку для контрасту) */
+.waitlist-box {
+    background: var(--bg-page);
+    border-radius: 20px;
+    padding: 32px 24px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.05);
+    position: relative;
+    z-index: 2;
+    border: 1px solid var(--border-color);
+    box-sizing: border-box;
+    overflow: hidden;
+    /* Попереджає вилізання будь-яких елементів */
+}
+
+@media (min-width: 768px) {
+    .waitlist-box {
+        padding: 48px 40px;
+    }
+}
+
+.waitlist-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.waitlist-input {
+    width: 100%;
+    padding: 16px 20px;
+    background: var(--bg-page);
+    /* Додано адаптивний фон */
+    color: var(--text-dark);
+    /* Додано адаптивний текст */
+    border: 1px solid var(--border-color);
+    /* Адаптивна рамка */
+    border-radius: 100px;
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+    transition: var(--transition);
+}
+
+.waitlist-input:focus {
+    border-color: var(--text-dark);
+}
+
+.waitlist-box p {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 16px;
+    margin-bottom: 0;
+}
+
+
+
+
+
+/* --- ВІДГУКИ (ЖУРНАЛЬНІ ЦИТАТИ) --- */
+/* --- СЕКЦІЯ ВІДГУКІВ ІЗ ЛІНІЯМИ-РОЗМЕЖУВАЧАМИ --- */
+.testimonials-section {
+    padding: 80px 0 80px 0;
+    margin-bottom: 40px;
+    max-width: 1200px;
+    margin: 80 auto;
+    overflow: hidden;
+
+    /* Додаємо стильні лінії до всього блоку */
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Горизонтальний скрол */
+.testimonials-grid {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 60px;
+    /* Збільшили повітря між колонками-цитатами */
+    overflow-x: auto;
+    padding-bottom: 60px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+}
+
+.testimonials-grid::-webkit-scrollbar {
+    display: none;
+}
+
+.testimonial-card {
+    flex: 0 0 340px;
+    /* Оптимальна ширина колонки тексту */
+    scroll-snap-align: start;
+    padding: 0;
+    /* Жодних рамок чи фонів */
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    background: transparent !important;
+    border: none !important;
+    position: relative;
+    box-shadow: none !important;
+}
+
+@media (min-width: 768px) {
+    .testimonial-card {
+        flex: 0 0 420px;
+    }
+
+    /* Трохи ширше на комп'ютері для комфортного читання */
+}
+
+
+
+.testimonial-text {
+    font-family: var(--font-serif);
+    font-size: 17px;
+    color: var(--text-dark);
+    line-height: 1.7;
+    /* Більше повітря між рядками */
+    font-style: italic;
+    opacity: 0.95;
+    flex-grow: 1;
+}
+
+/* --- ЖУРНАЛЬНИЙ ПІДПИС АВТОРА --- */
+.testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: auto;
+    padding-top: 24px;
+    /* Відділяємо підпис від тексту */
+}
+
+/* Приховуємо стандартний круглий аватар — він тут зайвий */
+.author-avatar {
+    display: none;
+}
+
+/* Додаємо витончену лінію перед ім'ям */
+.testimonial-author::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 1px;
+    background-color: var(--accent-green);
+    opacity: 0.6;
+}
+
+/* Стилізуємо ім'я як елегантний автограф */
+.author-info span {
+    display: block;
+    font-family: var(--font-serif);
+    font-size: 19px;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--text-dark);
+    letter-spacing: 0.02em;
+}
+
+/* --- ФІНАЛЬНИЙ ЗАКЛИК (CTA) --- */
+.final-cta-section {
+    padding: 40px 0 80px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.final-cta-card {
+    background: var(--bg-sage);
+    border-radius: 24px;
+    padding: 56px 24px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (min-width: 768px) {
+    .final-cta-card {
+        padding: 80px 40px;
+    }
+}
+
+.final-cta-card h2 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin-bottom: 24px;
+    letter-spacing: -0.02em;
+}
+
+.final-cta-card p {
+    max-width: 540px;
+    margin: 0 auto 32px;
+    color: var(--text-muted);
+    /* Замінили #4A554C */
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 300px;
+}
+
+.cta-buttons .btn {
+    width: 100%;
+}
+
+@media (min-width: 600px) {
+    .cta-buttons {
+        flex-wrap: nowrap;
+        max-width: none;
+    }
+
+    .cta-buttons .btn {
+        width: auto;
+    }
+}
+
+/* --- ФУТЕР --- */
+.site-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px 0;
+    border-top: 1px solid #EAEAEA;
+    font-size: 13px;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+@media (min-width: 768px) {
+    .site-footer {
+        flex-direction: row;
+        text-align: left;
+    }
+}
+
+.footer-links {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+}
+
+.social-icon {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+    transition: var(--transition);
+}
+
+.social-icon:hover {
+    color: var(--text-dark);
+}
+
+/* --- Анімації та декорації --- */
+.panel-anim {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.panel-anim.in-view {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.panel-svg-line {
+    width: 100%;
+    height: 40px;
+    margin: 40px 0;
+    overflow: visible;
+}
+
+.panel-svg-line path {
+    fill: none;
+    stroke-linecap: round;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    transition: stroke-dashoffset 2s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.line-peach path {
+    stroke: #ec9573;
+    stroke-width: 2.5;
+}
+
+.line-green path {
+    stroke: #A3B19B;
+    stroke-width: 4;
+}
+
+.line-thick-peach path {
+    stroke: #e18764;
+    stroke-width: 10;
+    stroke-opacity: 0.4;
+}
+
+.line-dark path {
+    stroke: var(--text-dark);
+    stroke-width: 1;
+}
+
+.panel-anim.in-view .panel-svg-line path {
+    stroke-dashoffset: 0 !important;
+}
+
+.btn-inline {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-serif);
+    font-size: 20px;
+    color: var(--text-dark);
+    border-bottom: 1px solid var(--text-muted);
+    padding-bottom: 4px;
+    margin-top: 24px;
+    transition: var(--transition);
+}
+
+.btn-inline:hover {
+    gap: 16px;
+    border-color: var(--text-dark);
+}
+
+.draw-line {
+    position: relative;
+    border-top: none !important;
+}
+
+.draw-line::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 1px;
+    background-color: #EAEAEA;
+    transition: width 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.draw-line.in-view::before {
+    width: 100%;
+}
+
+.card.dark.draw-line::before {
+    background-color: #333;
+}
+
+.drift-text {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s ease, transform 1s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.drift-text.in-view {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.drift-text i {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s ease 0.3s, transform 1s cubic-bezier(0.25, 1, 0.5, 1) 0.3s;
+}
+
+.drift-text.in-view i {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.with-animated-lines {
+    position: relative;
+    overflow: hidden;
+}
+
+.decor-line {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.decor-line.top {
+    top: 10px;
+}
+
+.decor-line.bottom {
+    bottom: 10px;
+}
+
+.smooth-path {
+    fill: none;
+    stroke-linecap: round;
+    will-change: stroke-dashoffset;
+    transition: stroke-dashoffset 2s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.with-animated-lines.is-visible .smooth-path {
+    stroke-dashoffset: 0 !important;
+}
+
+
+
+/* ========================================================= */
+/* НОВІ ЕЛЕГАНТНІ КНОПКИ       */
+/* ========================================================= */
+
+
+
+
+
+/* --- ФІЛОСОФІЯ (МАНІФЕСТ) --- */
+.philosophy-content {
+    max-width: 900px;
+    /* Ідеальна ширина для легкого читання */
+    margin: 0 auto;
+    /* Центруємо весь блок рівно посередині екрана */
+    text-align: center;
+    /* Центруємо сам текст */
+    position: relative;
+    z-index: 1;
+    background: transparent !important;
+}
+
+/* Типографіка Маніфесту: Журнальна Буквиця */
+.philosophy-content p:first-of-type::first-letter {
+    font-family: var(--font-serif);
+    font-size: 86px;
+    font-style: italic;
+    color: var(--text-dark);
+    float: left;
+    /* Текст буде акуратно обтікати літеру */
+    line-height: 0.85;
+    margin-right: 12px;
+    margin-top: 8px;
+    text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.03);
+    /* Ледь помітний об'єм */
+}
+
+.philosophy-content h2 {
+    font-size: clamp(2.5rem, 4vw, 3.5rem);
+    line-height: 1.1;
+    margin-bottom: 32px;
+    letter-spacing: -0.02em;
+}
+
+.philosophy-content p {
+    font-size: 18px;
+    color: var(--text-muted);
+    margin-bottom: 38px;
+    line-height: 1.6;
+    text-align: justify;
+    /* Вирівнювання тексту по ширині для елегантного вигляду */
+}
+
+
+/* --- КЕРУВАННЯ СЕКЦІЄЮ ФІЛОСОФІЇ --- */
+.philosophy-section {
+    margin-top: 90px;
+    padding: 170px 20px;
+    /* Адекватний відступ для комп'ютера */
+
+    position: relative;
+}
+
+/* Опускаємо верхню лінію, щоб дати повітря стрілці */
+.decor-line.top {
+    top: 10px;
+}
+
+/* Піднімаємо нижню лінію до тексту */
+.decor-line.bottom {
+    bottom: 10px;
+}
+
+
+
+
+
+
+
+/* --ВІДРЕДАГУВАТИ!!!-- */
+
+/* --- МОДАЛЬНЕ ВІКНО ОПЛАТИ (З'являється після Calendly) --- */
+.payment-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition);
+    padding: 15px !important;
+    box-sizing: border-box !important;
+
+    /* МАГІЯ ВІД ФАНТОМНИХ КЛІКІВ: */
+    pointer-events: none;
+}
+
+.payment-overlay.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    /* Повертаємо клікабельність тільки коли відкрите */
+}
+
+/* --- ПРАВКИ МОДАЛЬНОГО ВІКНА --- */
+.payment-card {
+    background: var(--bg-card) !important;
+    border-radius: 24px !important;
+    padding: 22px 18px !important;
+    /* Оптимізовано для мобільного екрана */
+    width: 92%;
+    max-width: 420px;
+    max-height: 90vh;
+    overflow-y: auto;
+    text-align: center;
+    position: relative;
+    transform: translateY(20px);
+    transition: var(--transition);
+    border: 1px solid var(--border-color) !important;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.08) !important;
+    box-sizing: border-box !important;
+}
+
+@media (min-width: 768px) {
+    .payment-card {
+        padding: 32px 32px !important;
+        /* Повертаємо більше повітря на комп'ютері */
+    }
+}
+
+.payment-overlay.active .payment-card {
+    transform: translateY(0);
+}
+
+
+/* 3. Модальне вікно оплати та IBAN (було #EAEAEA та #F0F0F0) */
+.payment-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    /* ВИПРАВЛЕНО */
+    color: var(--text-dark);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+    z-index: 10;
+}
+
+.payment-close:hover {
+    background: white;
+}
+
+.iban-box {
+    background: var(--bg-card);
+    padding: 24px;
+    border-radius: 16px;
+    margin: 24px 0;
+    border: 1px solid var(--border-color);
+    /* ВИПРАВЛЕНО */
+    text-align: left;
+}
+
+.iban-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 8px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.copy-btn {
+    background: none;
+    border: none;
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent-green);
+    cursor: pointer;
+    transition: var(--transition);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0;
+}
+
+.copy-btn:hover {
+    opacity: 0.7;
+}
+
+
+/* --- МОДАЛЬНЕ ВІКНО ОПЛАТИ (З'являється після Calendly) ---
+.payment-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    z-index: 2000; display: flex; align-items: center; justify-content: center;
+    opacity: 0; visibility: hidden; transition: var(--transition);
+}
+.payment-overlay.active { opacity: 1; visibility: visible; }
+.payment-card {
+    background: var(--bg-sage); border-radius: 24px; padding: 40px;
+    width: 90%; max-width: 480px; text-align: center; position: relative;
+    transform: translateY(20px); transition: var(--transition);
+    border: 1px solid var(--accent-green); box-shadow: 0 24px 60px rgba(0,0,0,0.15);
+}
+.payment-overlay.active .payment-card { transform: translateY(0); }
+.payment-close {
+    position: absolute; top: 40px; right: 30px; background: var(--bg-card);
+    border: 1px solid #EAEAEA; width: 32px; height: 32px; border-radius: 50%;
+    font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: var(--transition);
+    z-index: 10;
+}
+.payment-close:hover { background: #F0F0F0; }
+
+.iban-box {
+    background: var(--bg-card); padding: 24px; border-radius: 16px; margin: 24px 0; 
+    border: 1px solid #EAEAEA; text-align: left;
+}
+.iban-row { 
+    display: flex; justify-content: space-between; align-items: flex-end; margin-top: 8px; flex-wrap: wrap; gap: 12px;
+}
+.copy-btn {
+    background: none; border: none; font-family: var(--font-sans); font-size: 12px; font-weight: 600;
+    color: var(--accent-green); cursor: pointer; transition: var(--transition); text-transform: uppercase; 
+    letter-spacing: 0.05em; display: flex; align-items: center; gap: 6px; padding: 0;
+}
+.copy-btn:hover { opacity: 0.7; }  */
+
+
+/* --- ПРАВКИ МОДАЛЬНОГО ВІКНА (ОПЛАТА) --- */
+.payment-card {
+    width: 92%;
+    max-width: 480px;
+    max-height: 90vh;
+    /* Обмежуємо висоту, щоб не вилазило за екран */
+    overflow-y: auto;
+    /* Додаємо внутрішній скрол, якщо екран дуже маленький */
+    padding: 32px 24px;
+    /* Трохи менші відступи для мобільного */
+}
+
+/* Дозволяємо довгому тексту (IBAN) переноситися, щоб не ламати екран */
+.iban-row {
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.iban-row>div:first-child {
+    word-break: break-all;
+    /* Ключова правка для телефонів */
+    font-size: 14px !important;
+}
+
+
+
+
+
+
+.scroll-indicator {
+    margin-top: 40px;
+    /* Даємо їй трохи більше простору від кнопки */
+    color: #878585;
+    /* М'який сірий колір, щоб вона не кричала */
+    animation: breatheDown 3s infinite ease-in-out;
+    display: flex;
+    justify-content: center;
+}
+
+@keyframes breatheDown {
+
+    0%,
+    100% {
+        transform: translateY(0);
+        opacity: 0.4;
+        /* У верхній точці вона трохи прозоріша */
+    }
+
+    90% {
+        transform: translateY(10px);
+        /* М'яко опускається на 10px */
+        opacity: 0.9;
+        /* Стає чіткішою */
+    }
+}
+
+
+html {
+    scroll-behavior: smooth;
+}
+
+#formats {
+    scroll-margin-top: 80px;
+}
+
+#rings {
+    scroll-margin-top: 120px;
+}
+
+#philosophy {
+    scroll-margin-top: 100px;
+}
+
+#course {
+    scroll-margin-top: 100px;
+}
+
+
+
+/* --- !!! Елегантна адаптація типографіки для телефонів --- */
+
+@media (max-width: 768px) {
+
+
+    /* 1. Зменшуємо Буквицю маніфесту для телефону, щоб вона не ламала абзац */
+    .philosophy-content p:first-of-type::first-letter {
+        font-size: 64px;
+        margin-right: 8px;
+        margin-top: 4px;
+    }
+
+    /* 2. Гарантуємо, що збільшені відступи карток (повітря) не стиснуть текст на мобільному */
+    .card {
+        padding: 32px 24px !important;
+    }
+
+    /* 3. Оскільки в Еспресо-Сесіях є ДВІ кнопки (Деталі і Запис), 
+       робимо так, щоб на телефоні вони не прилипали одна до одної */
+    .card-footer {
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+
+
+
+    /* ========================================= */
+    /* 1. ШАПКА ТА МОБІЛЬНЕ МЕНЮ                 */
+    /* ========================================= */
+    .site-header {
+        top: 12px;
+        left: 16px;
+        right: 16px;
+        width: auto;
+        max-width: none;
+    }
+
+    .site-header.menu-open {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0;
+        background: var(--bg-page);
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    /* Фіксуємо розташування місяця та бургера */
+    .site-header.menu-open .header-actions {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .site-header.menu-open .logo {
+        position: absolute;
+        top: 22px;
+        left: 20px;
+    }
+
+    .desktop-only-btn {
+        display: none !important;
+    }
+
+    .burger-btn {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        width: 40px;
+        height: 40px;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .burger-btn span {
+        width: 24px;
+        height: 1.5px;
+        background: var(--text-dark);
+        transition: var(--transition);
+    }
+
+    .burger-btn.open span:first-child {
+        transform: translateY(3.2px) rotate(45deg);
+    }
+
+    .burger-btn.open span:last-child {
+        transform: translateY(-3.2px) rotate(-45deg);
+    }
+
+    .main-nav {
+        display: none;
+    }
+
+    .site-header.menu-open .main-nav {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        margin-top: 40px;
+        width: 100%;
+    }
+
+    .site-header.menu-open .main-nav a:not(.btn) {
+        font-family: var(--font-serif);
+        font-size: 32px;
+        color: var(--text-dark);
+        margin-bottom: 24px;
+        letter-spacing: 0;
+        text-transform: none;
+    }
+
+    /* Контрастна кнопка у відкритому меню */
+    .mobile-only-btn {
+        display: inline-flex;
+        width: 100%;
+        max-width: 280px;
+        margin-top: 24px;
+        background-color: var(--text-dark) !important;
+        color: var(--bg-page) !important;
+        border: none;
+    }
+
+    /* ========================================= */
+    /* 2. ГЕРОЙ (ПЕРШИЙ ЕКРАН)                   */
+    /* ========================================= */
+    .section-fullscreen.hero {
+        min-height: 100dvh;
+        padding: 20px 16px 0px;
+        justify-content: center;
+    }
+
+    .hero-editorial-image {
+        max-width: 260px;
+        height: 140px;
+        margin-bottom: 24px;
+    }
+
+    .hero .label {
+        margin-bottom: 20px;
+    }
+
+    .hero h1 {
+        font-size: 34px !important;
+        margin-bottom: 20px;
+    }
+
+    .hero p {
+        font-size: 16px !important;
+        line-height: 1.6;
+    }
+
+    .scroll-indicator {
+        margin-top: 10px;
+        margin-bottom: 5px;
+        padding-top: 10px;
+        transform: scale(0.8);
+    }
+
+    /* ========================================= */
+    /* 3. ТИПОГРАФІКА ТА ЗАГАЛЬНІ ЕЛЕМЕНТИ       */
+    /* ========================================= */
+    h2,
+    .drift-text,
+    .section-header h2 {
+        font-size: clamp(2rem, 8vw, 2.5rem) !important;
+        line-height: 1.2;
+    }
+
+
+
+    .card h3 {
+        font-size: 26px;
+    }
+
+    .card p,
+    .section-header p,
+    .philosophy-content p {
+        font-size: 15px;
+    }
+
+    /* ========================================= */
+    /* 4. ВСТУП ДО ФОРМАТІВ (ГЛИБИНИ)            */
+    /* ========================================= */
+    .section-intro {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .section-intro .label {
+        justify-content: center;
+        text-align: center;
+    }
+
+    .section-header {
+        align-items: center;
+        text-align: center;
+    }
+
+    /* Ідеально відцентрована вузька колонка тексту */
+    .section-header p {
+        font-size: 16px !important;
+        line-height: 1.5;
+        max-width: 320px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    /* ========================================= */
+    /* 5. КАРТКИ ТА ПАНЕЛІ                       */
+    /* ========================================= */
+
+    /* --- ВІДГУКИ: ЦЕНТРАЛЬНА КАРУСЕЛЬ --- */
+
+    /* 1. Дозволяємо каруселі ігнорувати рамки контейнера і бути на всю ширину */
+    .testimonials-section {
+        margin-left: -24px !important;
+        margin-right: -24px !important;
+        overflow: visible !important;
+        /* Дозволяємо сусіднім карткам виглядати */
+    }
+
+    /* 2. Заголовок залишаємо на місці (повертаємо йому відступи) */
+    .testimonials-header {
+        padding: 0 24px;
+    }
+
+    /* 3. Налаштовуємо ідеальні пропорції для сітки */
+    .testimonials-grid {
+        /* 12vw з боків гарантують, що перша і остання картка зможуть стати рівно по центру екрана */
+        padding: 0 12vw 40px !important;
+        gap: 16px !important;
+        scroll-padding-left: 0 !important;
+        /* Вимикаємо ліве примагнічування контейнера */
+    }
+
+    /* 4. Магія центрування карток */
+    .testimonial-card {
+        padding: 24px;
+        flex: 0 0 52vw !important;
+        /* Картка займає 62% екрана */
+        gap: 16px;
+        scroll-snap-align: center !important;
+        /* Тепер при свайпі картка завжди фіксується по центру! */
+        transform-origin: center;
+        /* Запорука плавної анімації */
+    }
+
+    .testimonial-text {
+        font-size: 14px;
+    }
+
+    /* --- ТИПОГРАФІКА В ПАНЕЛІ (Виправляємо списки та розміри) --- */
+    .details-title {
+        font-size: 32px !important;
+    }
+
+    /* ДОДАНО: .elegant-list li, щоб списки теж адаптувалися */
+    .lead-text,
+    .details-subtitle,
+    .elegant-quote,
+    .elegant-list li {
+        font-size: 15px !important;
+        line-height: 1.6;
+    }
+
+    /* Оптимізуємо сам список, щоб крапка не відбирала багато місця зліва */
+    .elegant-list li {
+        padding-left: 20px;
+        margin-bottom: 12px;
+    }
+
+    .panel-content h3 {
+        font-size: 22px !important;
+        margin: 24px 0 16px;
+    }
+
+    /* --- ПОВІТРЯ ПО КРАЯХ --- */
+    /* Збільшили бічні відступи з 20px до 26px, щоб текст не липнув до екрана */
+    .panel-content {
+        padding: 40px 26px 60px;
+    }
+
+    .close-panel {
+        top: 16px;
+        right: 16px;
+        width: 40px;
+        height: 40px;
+    }
+
+
+    /* 2. Зменшуємо внутрішнє "повітря" карток у панелі */
+    .elegant-card {
+        padding: 24px 28px !important;
+        /* Внутрішній простір картки */
+        margin-left: -8px !important;
+        /* Зсуваємо фон вліво рівно на ширину padding */
+        margin-right: -8px !important;
+        /* Зсуваємо фон вправо */
+        border-radius: 22px !important;
+        /* Повертаємо елегантні закруглення */
+
+    }
+
+    /* 3. Оптимізуємо списки, щоб крапка не відбирала багато місця зліва */
+    .elegant-list li {
+        padding-left: 16px !important;
+        /* Було 24px/20px */
+        margin-bottom: 12px !important;
+    }
+
+
+
+
+
+    /* --- ЕЛЕГАНТНІ КНОПКИ В ПАНЕЛІ --- */
+    .panel-btn {
+        display: flex !important;
+        width: max-content !important;
+        /* МАГІЯ: Кнопка бере ширину лише свого тексту */
+        justify-content: flex-start !important;
+        margin: 0 0 24px 0 !important;
+        border-bottom: 1px solid var(--border-color) !important;
+        /* Строга лінія знизу */
+    }
+
+    /* Даємо більший відступ перед найпершою кнопкою, щоб відділити від тексту */
+    .panel-btn:first-of-type {
+        margin-top: 40px !important;
+    }
+
+    /* ========================================= */
+    /* 6. ФІЛОСОФІЯ                              */
+    /* ========================================= */
+    .philosophy-section {
+        margin-top: 70px;
+        padding: 100px 20px;
+    }
+
+    .philosophy-content p {
+        text-align: left !important;
+    }
+
+    /* ========================================= */
+    /* 7. ВІДСТУПИ МІЖ СЕКЦІЯМИ НА ТЕЛЕФОНІ      */
+    /* ========================================= */
+
+    /* Прибираємо гігантську порожнечу (100px) після карток форматів */
+    .formats-grid {
+        padding-bottom: 40px;
+    }
+
+    /* Підтягуємо блок Курсу ближче до форматів */
+    .course-section {
+        padding: 20px 0 60px !important;
+    }
+
+    .about-section {
+        padding: 60px 0 20px !important;
+    }
+
+    /* Делікатна лінія ТІЛЬКИ тут, бо це перехід між суцільним текстом і заголовком */
+    .testimonials-section {
+        padding: 60px 0 20px !important;
+        border-top: 1px solid var(--border-color);
+    }
+
+    /* Підтягуємо Фінальний заклик ближче до відгуків */
+    .final-cta-section {
+        padding: 20px 0 80px !important;
+    }
+
+
+    /* ========================================= */
+    /* 8. КВАЛІФІКАЦІЯ ТА НАУКОВА РОБОТА         */
+    /* ========================================= */
+
+    .credentials-scroll {
+        margin-left: -24px !important;
+        /* Компенсуємо відступи сайту, щоб розтягнути карусель від краю до краю */
+        margin-right: -24px !important;
+        padding: 0 15vw 24px !important;
+        /* Відступи з боків (по 15vw), щоб перша і остання картка ставали рівно по центру */
+        width: auto !important;
+        scroll-padding-left: 0 !important;
+        /* Вимикаємо стандартне ліве примагнічування */
+    }
+
+    .credential-card {
+        flex: 0 0 62vw !important;
+        /* 70vw дає трохи більше місця для довгих назв статей. Але можете змінити на ваші 59vw! */
+        scroll-snap-align: center !important;
+        /* Фіксуємо по центру при свайпі */
+    }
+
+
+}
+
+
+
+
+
+/* Блокування автоматичного зуму в iOS Safari */
+.btn {
+    touch-action: manipulation;
+}
+
+
+
+.cards-topics {
+    grid-column: 1 / -1;
+    /* МАГІЯ СІТКИ: розтягує блок на всю ширину, ігноруючи колонки */
+    font-family: var(--font-serif);
+    font-size: 17px;
+    font-weight: 400;
+    color: var(--text-muted);
+    text-align: center;
+    margin: 60px 0 20px 0;
+    /* Відступи, щоб дати повітря між верхніми і нижніми картками */
+    line-height: 1.4;
+}
+
+.cards-topics strong {
+    font-size: 24px;
+    color: var(--text-dark);
+    font-weight: 400;
+    font-style: italic;
+    /* Журнальний акцент для головної думки */
+    margin-right: 6px;
+}
+
+
+
+/* --- БАЗОВІ СТИЛІ ДЛЯ МОБІЛЬНОГО (Залишаємо як було) --- */
+.hero-motto {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    top: 38px;
+    left: 0;
+    right: 0;
+    margin: 0;
+    z-index: 10;
+}
+
+/* --- МАГІЯ ДЛЯ КОМП'ЮТЕРА ТА ПЛАНШЕТА (Екран > 768px) --- */
+@media (min-width: 700px) {
+    .hero-motto {
+        position: absolute !important;
+        top: 59px !important;
+        /* Зменшили відступ, щоб текст був одразу під шапкою */
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        width: 100% !important;
+        max-width: 1000px !important;
+        margin: 0 !important;
+        padding-left: 24px !important;
+        /* Рівно під літерою Л */
+        box-sizing: border-box !important;
+        /* КРИТИЧНО: не дає тексту вилізти правіше за логотип */
+        justify-content: flex-start !important;
+        /* Тримає текст зліва навіть при звуженні вікна */
+    }
+}
+
+
+/* ========================================= */
+/* ЖУРНАЛЬНИЙ СПИСОК (ДЛЯ ВІДКРИТИХ ФОРМАТІВ)*/
+/* ========================================= */
+
+.formats-list-container {
+    grid-column: 1 / -1;
+    width: 100%;
+    /* Займає всю доступну ширину сітки */
+    margin: 0;
+    /* Прибрали зайві відступи знизу */
+    display: flex;
+    flex-direction: column;
+}
+
+.format-row {
+    display: flex;
+    flex-direction: column;
+    padding: 32px 0;
+    border-bottom: 1px solid var(--border-color);
+    transition: all 0.4s ease;
+    gap: 24px;
+}
+
+.format-row:first-child {
+    border-top: 1px solid var(--border-color);
+}
+
+/* Адаптація для комп'ютера */
+@media (min-width: 768px) {
+    .format-row {
+        flex-direction: row;
+        align-items: flex-start;
+        /* Вирівнюємо по верхньому краю, щоб текст міг рости вниз */
+        gap: 48px;
+        /* Більше повітря між фото і текстом */
+        padding: 40px;
+        border-bottom: 1px solid transparent;
+        border-radius: 24px;
+    }
+
+    .format-row:first-child {
+        border-top: none;
+    }
+
+    .format-row:hover {
+        background-color: var(--bg-sage);
+        transform: translateX(8px);
+    }
+}
+
+/* Мініатюра */
+.format-thumb {
+    width: 100%;
+    height: 200px;
+    border-radius: 16px;
+    object-fit: cover;
+    filter: grayscale(20%) sepia(10%);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+@media (min-width: 768px) {
+    .format-thumb {
+        width: 180px;
+        /* Зробили фото трохи більшим, щоб воно тримало масив тексту */
+        height: 180px;
+        border-radius: 20px;
+        flex-shrink: 0;
+    }
+}
+
+.format-row:hover .format-thumb {
+    filter: grayscale(0%) sepia(0%);
+}
+
+.format-info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.format-info h4 {
+    font-family: var(--font-serif);
+    font-size: 26px;
+    /* Трохи збільшили заголовок */
+    margin: 0 0 12px;
+    color: var(--text-dark);
+    font-weight: 500;
+}
+
+.format-info p {
+    font-size: 15px;
+    margin: 0;
+    color: var(--text-muted);
+    line-height: 1.6;
+    max-width: 700px;
+    /* Текст не буде розповзатися нескінченно довгою ковбасою */
+}
+
+/* Кнопки під текстом */
+.format-actions {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 24px;
+    /* Чіткий відступ від опису */
+}
+
+
+
+/* СТИЛІ ДЛЯ ЖУРНАЛУ */
+
+
+/* ========================================= */
+/* АРХІВ: ЕЛЕГАНТНИЙ ЖУРНАЛЬНИЙ СТИЛЬ        */
+/* ========================================= */
+.journal-container {
+    max-width: 680px; 
+    margin: 140px auto 100px;
+    padding: 0 24px;
+    text-align: left; /* Повертаємо нормальне читання зліва направо */
+}
+
+/* Витончений заголовок сторінки */
+.archive-main-title {
+    font-family: var(--font-serif);
+    font-size: 48px;
+    font-style: italic; /* Курсив одразу задає настрій */
+    font-weight: 400;
+    color: var(--text-dark);
+    margin-bottom: 40px;
+    letter-spacing: -0.02em;
+}
+
+/* Поле пошуку: замість коробки робимо красиву лінію */
+.search-wrapper {
+    margin-bottom: 60px;
+}
+
+.journal-search-input {
+    width: 100%;
+    padding: 12px 0;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 19px;
+    color: var(--text-dark);
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(0,0,0,0.15); /* Лише нижня лінія */
+    border-radius: 0;
+    outline: none;
+    transition: border-color 0.4s ease;
+}
+
+.journal-search-input::placeholder {
+    color: var(--text-muted);
+    opacity: 0.7;
+}
+
+.journal-search-input:focus {
+    border-bottom-color: var(--accent-green); /* Акцент при кліку */
+}
+
+/* Роки та Місяці */
+.archive-year {
+    font-family: var(--font-serif);
+    font-size: 36px;
+    color: var(--text-dark);
+    margin: 80px 0 24px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 16px;
+}
+
+.archive-month {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--text-muted);
+    margin: 40px 0 24px;
+}
+
+/* Сам список статей */
+.archive-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.archive-list li {
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+/* Дати робимо тихими і технічними */
+.archive-date {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: var(--text-muted);
+    min-width: 25px; 
+}
+
+/* Заголовки статей у списку */
+.archive-link {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    color: var(--text-dark);
+    text-decoration: none;
+    position: relative; /* Необхідно для лінії */
+    padding-bottom: 2px;
+    transition: color 0.4s ease, transform 0.4s ease;
+    cursor: pointer;
+}
+
+/* Створюємо невидиму лінію */
+.archive-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0; /* Лінія захована */
+    height: 1px;
+    background-color: var(--accent-green);
+    transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* При наведенні: текст змінює колір, зсувається, а лінія виїжджає */
+.archive-link:hover {
+    color: var(--accent-green);
+    transform: translateX(6px);
+}
+
+.archive-link:hover::after {
+    width: 100%; /* Лінія розтягується на всю довжину тексту */
+}
+
+/* ========================================= */
+/* СТАТТЯ ВСЕРЕДИНІ ПАНЕЛІ (КНИЖКОВИЙ ДИЗАЙН)*/
+/* ========================================= */
+
+
+/* Підпис автора та дати під заголовком */
+.article-meta {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin-top: -24px; /* Підтягуємо ближче до H1 */
+    margin-bottom: 48px;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    padding-bottom: 24px;
+}
+
+
+.markdown-content {
+    max-width: 680px;
+    margin: 0 auto; /* Центруємо текст всередині панелі */
+}
+
+/* Головний заголовок */
+.markdown-content h1 {
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    line-height: 1.1;
+    margin-bottom: 48px;
+    letter-spacing: -0.02em;
+    color: var(--text-dark);
+}
+
+/* ТІЛО СТАТТІ: Переводимо на шрифт із засічками для справжнього читання */
+.markdown-content p {
+    font-family: var(--font-serif); 
+    font-size: 20px; /* Трохи більший розмір, бо засічки читаються легше */
+    line-height: 1.6;
+    margin-bottom: 24px;
+    color: #2b2b2b; /* Робимо колір трохи м'якшим за суцільний чорний */
+}
+
+/* Елегантна цитата */
+.markdown-content blockquote {
+    border-left: 2px solid var(--accent-green);
+    padding: 12px 0 12px 24px;
+    margin: 48px 0;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 22px;
+    color: var(--text-dark);
+}
+
+/* Списки з твоїми фірмовими крапочками */
+.markdown-content ul {
+    list-style: none !important;
+    padding-left: 0 !important;
+    margin: 32px 0;
+}
+
+.markdown-content ul li {
+    position: relative;
+    padding-left: 24px;
+    margin-bottom: 16px;
+    font-family: var(--font-serif); /* Синхронізуємо зі звичайним текстом */
+    font-size: 20px;
+    line-height: 1.6;
+    color: #2b2b2b;
+}
+
+.markdown-content ul li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 12px; /* Вирівнюємо відносно нового розміру тексту */
+    width: 5px;
+    height: 5px;
+    background: var(--accent-green);
+    border-radius: 50%;
+}

@@ -1,0 +1,30 @@
+name: Build Journal Index
+
+# Запускати скрипт, тільки коли додаються або змінюються файли в папці journal
+on:
+  push:
+    paths:
+      - 'journal/**.md'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run script
+        run: node build-journal.js
+
+      - name: Commit changes back to site
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "✧ Журнал: автоматичне оновлення архіву"
+          file_pattern: "journal.js"
