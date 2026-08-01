@@ -545,7 +545,7 @@ a {
 .header-actions {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 16px;
     z-index: 1002;
 }
 
@@ -2240,34 +2240,48 @@ html {
         display: none;
     }
 
-    .site-header.menu-open .main-nav {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        height: 100%;
-        margin-top: 40px;
+    /* ========================================= */
+    /* МОБІЛЬНЕ МЕНЮ (Витончене)                 */
+    /* ========================================= */
+    .site-header.menu-open .main-nav { 
+        display: flex; 
+        flex-direction: column; 
+        justify-content: center; 
+        align-items: center; 
+        height: 100%; 
         width: 100%;
+        gap: 24px; /* Акуратна відстань між пунктами замість гігантського margin */
+        margin-top: 0; 
     }
-
-    .site-header.menu-open .main-nav a:not(.btn) {
-        font-family: var(--font-serif);
-        font-size: 32px;
-        color: var(--text-dark);
-        margin-bottom: 24px;
-        letter-spacing: 0;
+    
+    .site-header.menu-open .main-nav a:not(.btn) { 
+        font-family: var(--font-serif); 
+        font-size: 22px !important; /* Зменшуємо з 32px до елегантних 22px */
+        color: var(--text-dark); 
+        margin-bottom: 0 !important; 
+        letter-spacing: 0.02em; 
         text-transform: none;
     }
 
-    /* Контрастна кнопка у відкритому меню */
-    .mobile-only-btn {
-        display: inline-flex;
-        width: 100%;
-        max-width: 280px;
-        margin-top: 24px;
-        background-color: var(--text-dark) !important;
-        color: var(--bg-page) !important;
+    /* Робимо чорну кнопку в меню меншою і тендітнішою */
+    .mobile-only-btn { 
+        display: inline-flex; 
+        width: 100%; 
+        max-width: 200px !important; 
+        margin-top: 32px !important; 
+        padding: 12px 24px !important;
+        font-size: 13px !important;
+        background-color: var(--text-dark) !important; 
+        color: var(--bg-page) !important; 
         border: none;
+    }
+
+    .mobile-only-link {
+        
+        display: flex;
+    gap: 32px;
+    align-items: center;
+    margin-left: auto;
     }
 
     /* ========================================= */
@@ -2934,4 +2948,29 @@ html {
     height: 5px;
     background: var(--accent-green);
     border-radius: 50%;
+}
+
+
+/* Ховаємо посилання на десктопі */
+.mobile-blog-link {
+    display: none;
+}
+
+/* Показуємо на мобільному (всередині твого існуючого @media (max-width: 768px)) */
+@media (max-width: 768px) {
+    .mobile-blog-link {
+        display: block;
+        font-family: var(--font-serif);
+        font-style: italic;
+        font-size: 16px;
+        color: var(--text-dark);
+        text-align: right;
+        margin-right: 0px;
+        text-decoration: none;
+        transition: opacity 0.3s ease;
+        transform: translateY(1px); /* Візуальна компенсація для курсиву, щоб він стояв рівно з іконками */
+    }
+    .mobile-blog-link:hover {
+        opacity: 0.6;
+    }
 }
