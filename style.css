@@ -2122,7 +2122,7 @@ a {
 
 
 /* Плавне проявлення при завантаженні (це залишається) */
-/* body {
+body {
     opacity: 0;
     animation: smoothPageLoad 0.6s ease-out forwards;
 }
@@ -2132,7 +2132,7 @@ a {
     100% { opacity: 1; }
 }
 
-
+/* Новий клас для плавного згасання ПЕРЕД переходом */
 body.fade-out {
     animation: smoothPageLeave 0.4s ease-in forwards;
 }
@@ -2140,18 +2140,6 @@ body.fade-out {
 @keyframes smoothPageLeave {
     0% { opacity: 1; }
     100% { opacity: 0; }
-} */
-
-
-/* Початково робимо сторінку прозорою ще до завантаження DOM, щоб не було скачків */
-body {
-    opacity: 0;
-    transition: opacity 0.25s ease-in-out;
-}
-
-/* Клас, який робить сторінку видимою */
-body.loaded {
-    opacity: 1;
 }
 
 

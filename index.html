@@ -1333,25 +1333,24 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    // Миттєво плавно проявляємо сторінку при завантаженні
-    document.body.classList.add('loaded');
-
-    // Перехоплюємо кліки по сайту для плавного виходу
+    // Знаходимо всі посилання на сторінці
     const links = document.querySelectorAll('a');
     
     links.forEach(link => {
         link.addEventListener('click', function(e) {
+            // Перевіряємо, що це перехід на іншу сторінку твого сайту, 
+            // а не якір (#) чи відкриття в новій вкладці
             if (this.hostname === window.location.hostname && 
                 this.getAttribute('target') !== '_blank' &&
                 !this.getAttribute('href').startsWith('#')) {
                 
-                e.preventDefault();
-                const destination = this.href;
+                e.preventDefault(); // Зупиняємо миттєвий жорсткий перехід
+                const destination = this.href; // Запам'ятовуємо, куди йдемо
                 
-                // Плавно гасимо сторінку (знімаємо клас loaded, opacity паде до 0)
-                document.body.classList.remove('loaded');
+                // Додаємо сторінці клас, який запускає анімацію згасання
+                document.body.classList.add('fade-out'); 
                 
-                // Чекаємо 400мс поки пройде анімація і переходимо далі
+                // Чекаємо 400 мілісекунд (поки сторінка згасне) і робимо перехід
                 setTimeout(() => {
                     window.location.href = destination;
                 }, 400); 
