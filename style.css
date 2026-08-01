@@ -454,9 +454,10 @@ a {
 
     /* Вбиваємо стару центровку логотипа, якщо вона там була */
     .site-header .logo {
-        margin: 0 !important; 
-        padding: 0 !important;
-        flex-shrink: 0;
+        margin-right: auto !important; 
+    margin-left: 0 !important;
+    padding: 0 !important;
+    flex-shrink: 0;
     }
 
     /* Групуємо іконки праворуч */
@@ -2217,23 +2218,21 @@ html {
 
     /* Фіксуємо розташування місяця та бургера */
     .site-header.menu-open .header-actions {
-        position: absolute;
-        top: 16px;
-        right: 16px;
-        display: flex;
-        align-items: center;
-
-        display: flex;
-        justify-content: flex-end !important;
-        gap: 16px; /* Акуратна відстань тільки між елементами групи */
-        flex: 1; /* Дозволяє групі зайняти праву частину */
-    }
+    position: absolute;
+    top: 24px;   /* Опускаємо на один рівень з логотипом (було 16px) */
+    right: 28px; /* Фіксуємо позицію із закритого стану (було 16px) */
+    display: flex;
+    align-items: center;
+    justify-content: flex-end !important;
+    gap: 16px; 
+    flex: 1; 
+}
 
     .site-header.menu-open .logo {
         position: absolute;
-        top: 22px;
-        left: 20px;
-    }
+    top: 24px;  /* Вирівнюємо по одній лінії з іконками */
+    left: 40px; /* Фіксуємо на тій же позиції, що й у закритому стані (16px відступ + 24px padding) */
+}
 
     .desktop-only-btn {
         display: none !important;
@@ -2310,9 +2309,9 @@ html {
     .mobile-only-link {
         
         display: flex;
-    gap: 32px;
     align-items: center;
-    margin-left: auto;
+    margin-left: 0; /* Дозволяємо логотипу притиснути цей блок праворуч */
+    margin-right: 16px; /* Задаємо акуратний відступ від іконки місяця */
     }
 
     /* ========================================= */
