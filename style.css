@@ -442,11 +442,30 @@ a {
     transition: var(--transition);
 }
 
-/* Шапка: Лого зліва, дії справа */
+/* ========================================= */
+    /* ШАПКА: Жорстке вирівнювання на мобільному */
+    /* ========================================= */
     .site-header .container {
-        display: flex;
+        display: flex !important;
         justify-content: space-between !important;
-        align-items: center;
+        align-items: center !important;
+        width: 100% !important; 
+    }
+
+    /* Вбиваємо стару центровку логотипа, якщо вона там була */
+    .site-header .logo {
+        margin: 0 !important; 
+        padding: 0 !important;
+        flex-shrink: 0;
+    }
+
+    /* Групуємо іконки праворуч */
+    .header-actions {
+        display: flex !important;
+        justify-content: flex-end !important;
+        align-items: center !important;
+        gap: 1px !important;
+        margin: 0 !important;
     }
 
 /* --- Кнопка теми та Стрілочка --- */
@@ -554,6 +573,7 @@ a {
     align-items: center;
     gap: 16px;
     z-index: 1002;
+    
 }
 
 .burger-btn {
@@ -2982,12 +3002,12 @@ html {
         margin-right: 0px;
         text-decoration: none;
         transition: opacity 0.3s ease;
-        transform: translateY(1px); /* Візуальна компенсація для курсиву, щоб він стояв рівно з іконками */
+       
     }
     .mobile-blog-link:hover {
         opacity: 0.6;
     }
-}
+
 
 /* Налаштування самої цитати */
 #dynamic-content blockquote {
@@ -3065,7 +3085,7 @@ html {
     /* ========================================= */
 /* ЕЛЕГАНТНА ТИПОГРАФІКА ЖУРНАЛУ (МОБІЛЬНІ)  */
 /* ========================================= */
-@media (max-width: 768px) {
+
     /* 1. Заголовок статті: робимо меншим і відсуваємо від хрестика */
     #dynamic-content h1 {
         font-size: 32px !important; 
