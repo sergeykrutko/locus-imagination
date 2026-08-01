@@ -60,7 +60,10 @@
     --border-color: rgba(255, 255, 255, 0.05);
 }
 
-@media (prefers-color-scheme: dark) {
+
+
+
+/* @media (prefers-color-scheme: dark) {
     html:not([data-theme="light"]) {
         --bg-page: #151413;
         --bg-card: #1A1918;
@@ -80,7 +83,7 @@
         --accent-green: #9EAC9C;
         --border-color: rgba(255, 255, 255, 0.05);
     }
-}
+} */
 
 
 
@@ -939,10 +942,13 @@ a {
     height: 100%;
     background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px); /* Додано для Safari на iPhone */
     z-index: 999;
     opacity: 0;
     visibility: hidden;
-    transition: var(--transition);
+    
+    /* Анімація стала довшою (0.6s) і синхронною з панеллю */
+    transition: opacity 0.6s ease, visibility 0.6s ease; 
 }
 
 .panel-overlay.active {
@@ -953,22 +959,24 @@ a {
 .side-panel {
     position: fixed;
     top: 0;
-    right: -100%;
+    right: 0; /* Притискаємо до правого краю назавжди */
+    transform: translateX(100%); /* МАГІЯ: Ховаємо панель за екран за допомогою відеокарти */
     width: 100%;
     max-width: 800px;
-    height: 100vh;
-    /* Для старих браузерів */
-    height: 100dvh;
-    /* МАГІЯ ДЛЯ IPHONE: Динамічна висота, що враховує панель Safari */
+    height: 100vh; 
+    height: 100dvh; 
     background: var(--bg-page);
     box-shadow: -10px 0 40px rgba(0, 0, 0, 0.1);
     z-index: 1000;
     overflow-y: auto;
-    transition: right 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+    
+    /* Нова крива анімації: трохи повільніша (0.6s) і дуже м'яка */
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform; /* Підказуємо телефону підготувати ресурси для анімації */
 }
 
 .side-panel.active {
-    right: 0;
+    transform: translateX(0); /* Плавно викочуємо на екран */
 }
 
 .panel-content {
@@ -3001,6 +3009,10 @@ html {
     font-style: italic;
     font-size: 22px;
     color: var(--text-dark);
+}
+
+.markdown-content blockquote p {
+    margin: 0 !important;
 }
 
 /* Списки з твоїми фірмовими крапочками */
