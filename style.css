@@ -442,6 +442,13 @@ a {
     transition: var(--transition);
 }
 
+/* Шапка: Лого зліва, дії справа */
+    .site-header .container {
+        display: flex;
+        justify-content: space-between !important;
+        align-items: center;
+    }
+
 /* --- Кнопка теми та Стрілочка --- */
 .theme-toggle-btn {
     background: transparent;
@@ -2195,7 +2202,11 @@ html {
         right: 16px;
         display: flex;
         align-items: center;
-        gap: 4px;
+
+        display: flex;
+        justify-content: flex-end !important;
+        gap: 16px; /* Акуратна відстань тільки між елементами групи */
+        flex: 1; /* Дозволяє групі зайняти праву частину */
     }
 
     .site-header.menu-open .logo {
@@ -2558,84 +2569,6 @@ html {
     }
 
 
-
-
-    /* ========================================= */
-/* ЕЛЕГАНТНА ТИПОГРАФІКА ЖУРНАЛУ (МОБІЛЬНІ)  */
-/* ========================================= */
-@media (max-width: 768px) {
-    /* 1. Заголовок статті: робимо меншим і відсуваємо від хрестика */
-    #dynamic-content h1 {
-        font-size: 32px !important; 
-        line-height: 1.15;
-        margin-bottom: 20px;
-        padding-right: 40px; /* Рятує від накладання кнопки "Х" */
-    }
-
-    /* 2. Основний текст: класичний журнальний розмір */
-    #dynamic-content p {
-        font-size: 16px !important; 
-        line-height: 1.6;
-        margin-bottom: 20px;
-    }
-
-    /* 3. Цитати: робимо тендітнішими */
-    #dynamic-content blockquote {
-        font-size: 18px !important; 
-        line-height: 1.5;
-        padding-left: 16px;
-        margin: 28px 0;
-    }
-
-    /* 4. Підпис автора: підтягуємо ближче */
-    /* Відсуваємо заголовок від дати */
-#dynamic-content h1 {
-    margin-bottom: 16px !important; 
-}
-
-
-    
-    /* 5. Сама панель: трохи зменшуємо "повітря" по краях, щоб влізло більше тексту */
-    .universal-panel {
-        padding: 40px 20px; 
-    }
-}
-
-/* Виправляємо накладання дати в самій статті */
-    .article-meta {
-        margin-top: 12px !important; /* Зробили відступ позитивним */
-        margin-bottom: 32px !important;
-        padding-bottom: 16px;
-    }
-
-    /* Зменшуємо шрифти списку статей у Журналі */
-    .journal-list a.post-link, /* Заміни на свій клас, якщо він інший */
-    .journal-item-title {
-        font-size: 20px !important; 
-        line-height: 1.3;
-    }
-
-    /* Відступи між статтями у списку */
-    .journal-item {
-        margin-bottom: 24px !important;
-    }
-
-
-    /* Витончений список статей у Журналі */
-    .archive-link {
-        font-size: 18px !important; /* Робимо тендітнішим */
-        line-height: 1.4 !important;
-    }
-    .archive-date {
-        font-size: 14px !important; /* Дату теж робимо акуратнішою */
-        min-width: 32px; /* Щоб цифри стояли рівно */
-    }
-    .archive-list li {
-        margin-bottom: 20px !important; /* Додаємо повітря між рядками */
-        gap: 12px !important;
-    }
-
-
 }
 
 
@@ -2843,7 +2776,7 @@ html {
 
 /* Поле пошуку: замість коробки робимо красиву лінію */
 .search-wrapper {
-    margin-bottom: 60px;
+    margin-bottom: 32px;
 }
 
 .journal-search-input {
@@ -2851,11 +2784,11 @@ html {
     padding: 12px 0;
     font-family: var(--font-serif);
     font-style: italic;
-    font-size: 15px;
+    font-size: 14px;
     color: var(--text-dark);
     background: transparent;
     border: none;
-    border-bottom: 1px solid rgba(0,0,0,0.15); /* Лише нижня лінія */
+    border-bottom: 0.2px solid rgba(0,0,0,0.15); /* Лише нижня лінія */
     border-radius: 0;
     outline: none;
     transition: border-color 0.4s ease;
@@ -2875,7 +2808,7 @@ html {
     font-family: var(--font-serif);
     font-size: 30px;
     color: var(--text-dark);
-    margin: 80px 0 24px;
+    margin: 59px 0 24px;
     border-bottom: 1px solid var(--border-color);
     padding-bottom: 16px;
 }
@@ -2902,7 +2835,7 @@ html {
     display: flex;
     align-items: baseline;
     gap: 24px;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     
 }
 
@@ -3034,6 +2967,7 @@ html {
 /* Ховаємо посилання на десктопі */
 .mobile-blog-link {
     display: none;
+    margin: 0 !important;
 }
 
 /* Показуємо на мобільному (всередині твого існуючого @media (max-width: 768px)) */
@@ -3125,5 +3059,119 @@ html {
         max-width: 100%;
         align-items: flex-start !important;
         text-align: left !important;
+    }
+
+
+    /* ========================================= */
+/* ЕЛЕГАНТНА ТИПОГРАФІКА ЖУРНАЛУ (МОБІЛЬНІ)  */
+/* ========================================= */
+@media (max-width: 768px) {
+    /* 1. Заголовок статті: робимо меншим і відсуваємо від хрестика */
+    #dynamic-content h1 {
+        font-size: 32px !important; 
+        line-height: 1.15;
+        margin-bottom: 20px;
+        padding-right: 40px; /* Рятує від накладання кнопки "Х" */
+    }
+
+    /* 2. Основний текст: класичний журнальний розмір */
+    #dynamic-content p {
+        font-size: 16px !important; 
+        line-height: 1.6;
+        margin-bottom: 20px;
+    }
+
+    /* 3. Цитати: робимо тендітнішими */
+    #dynamic-content blockquote {
+        font-size: 18px !important; 
+        line-height: 1.5;
+        padding-left: 16px;
+        margin: 28px 0;
+    }
+
+    /* 4. Підпис автора: підтягуємо ближче */
+    /* Відсуваємо заголовок від дати */
+#dynamic-content h1 {
+    margin-bottom: 16px !important; 
+}
+
+
+    
+    /* 5. Сама панель: трохи зменшуємо "повітря" по краях, щоб влізло більше тексту */
+    .universal-panel {
+        padding: 40px 20px; 
+    }
+}
+
+/* Виправляємо накладання дати в самій статті */
+    .article-meta {
+        margin-top: 12px !important; /* Зробили відступ позитивним */
+        margin-bottom: 32px !important;
+        padding-bottom: 16px;
+    }
+
+    /* Зменшуємо шрифти списку статей у Журналі */
+    .journal-list a.post-link, /* Заміни на свій клас, якщо він інший */
+    .journal-item-title {
+        font-size: 20px !important; 
+        line-height: 1.3;
+    }
+
+    /* Відступи між статтями у списку */
+    .journal-item {
+        margin-bottom: 24px !important;
+    }
+
+
+    /* Витончений список статей у Журналі */
+    .archive-link {
+        font-size: 18px !important; /* Робимо тендітнішим */
+        line-height: 1.4 !important;
+    }
+    .archive-date {
+        font-size: 14px !important; /* Дату теж робимо акуратнішою */
+        min-width: 32px; /* Щоб цифри стояли рівно */
+    }
+    .archive-list li {
+        margin-bottom: 20px !important; /* Додаємо повітря між рядками */
+        gap: 12px !important;
+    }
+
+
+    /* ========================================= */
+    /* АРХІВ ЖУРНАЛУ: Елегантність на телефоні   */
+    /* ========================================= */
+    
+    /* 1. Зменшуємо гігантський пробіл під пошуком */
+    .search-wrapper {
+        margin-bottom: 32px !important; 
+    }
+    
+    /* 2. Підтягуємо перший рік (2026) вище */
+    .archive-year:first-of-type {
+        margin-top: 0 !important;
+    }
+
+    /* 3. Ущільнюємо сам список статей */
+    .archive-list {
+        margin-top: 12px !important;
+    }
+    
+    .archive-list li {
+        margin-bottom: 16px !important; /* Менше простору між статтями */
+        gap: 16px !important; /* Відстань між цифрою і текстом */
+    }
+
+    /* 4. Робимо цифри дат тендітнішими */
+    .archive-date {
+        font-size: 13px !important;
+        min-width: 24px !important; 
+        opacity: 0.7; /* Робимо їх візуально тихішими */
+    }
+
+    /* 5. Самі назви статей робимо акуратнішими */
+    .archive-link {
+        font-size: 17px !important; 
+        line-height: 1.35 !important;
     }
 }
