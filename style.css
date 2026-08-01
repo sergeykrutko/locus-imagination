@@ -2558,6 +2558,84 @@ html {
     }
 
 
+
+
+    /* ========================================= */
+/* ЕЛЕГАНТНА ТИПОГРАФІКА ЖУРНАЛУ (МОБІЛЬНІ)  */
+/* ========================================= */
+@media (max-width: 768px) {
+    /* 1. Заголовок статті: робимо меншим і відсуваємо від хрестика */
+    #dynamic-content h1 {
+        font-size: 32px !important; 
+        line-height: 1.15;
+        margin-bottom: 20px;
+        padding-right: 40px; /* Рятує від накладання кнопки "Х" */
+    }
+
+    /* 2. Основний текст: класичний журнальний розмір */
+    #dynamic-content p {
+        font-size: 16px !important; 
+        line-height: 1.6;
+        margin-bottom: 20px;
+    }
+
+    /* 3. Цитати: робимо тендітнішими */
+    #dynamic-content blockquote {
+        font-size: 18px !important; 
+        line-height: 1.5;
+        padding-left: 16px;
+        margin: 28px 0;
+    }
+
+    /* 4. Підпис автора: підтягуємо ближче */
+    /* Відсуваємо заголовок від дати */
+#dynamic-content h1 {
+    margin-bottom: 16px !important; 
+}
+
+
+    
+    /* 5. Сама панель: трохи зменшуємо "повітря" по краях, щоб влізло більше тексту */
+    .universal-panel {
+        padding: 40px 20px; 
+    }
+}
+
+/* Виправляємо накладання дати в самій статті */
+    .article-meta {
+        margin-top: 12px !important; /* Зробили відступ позитивним */
+        margin-bottom: 32px !important;
+        padding-bottom: 16px;
+    }
+
+    /* Зменшуємо шрифти списку статей у Журналі */
+    .journal-list a.post-link, /* Заміни на свій клас, якщо він інший */
+    .journal-item-title {
+        font-size: 20px !important; 
+        line-height: 1.3;
+    }
+
+    /* Відступи між статтями у списку */
+    .journal-item {
+        margin-bottom: 24px !important;
+    }
+
+
+    /* Витончений список статей у Журналі */
+    .archive-link {
+        font-size: 18px !important; /* Робимо тендітнішим */
+        line-height: 1.4 !important;
+    }
+    .archive-date {
+        font-size: 14px !important; /* Дату теж робимо акуратнішою */
+        min-width: 32px; /* Щоб цифри стояли рівно */
+    }
+    .archive-list li {
+        margin-bottom: 20px !important; /* Додаємо повітря між рядками */
+        gap: 12px !important;
+    }
+
+
 }
 
 
@@ -2773,7 +2851,7 @@ html {
     padding: 12px 0;
     font-family: var(--font-serif);
     font-style: italic;
-    font-size: 19px;
+    font-size: 15px;
     color: var(--text-dark);
     background: transparent;
     border: none;
@@ -2795,7 +2873,7 @@ html {
 /* Роки та Місяці */
 .archive-year {
     font-family: var(--font-serif);
-    font-size: 36px;
+    font-size: 30px;
     color: var(--text-dark);
     margin: 80px 0 24px;
     border-bottom: 1px solid var(--border-color);
@@ -2817,13 +2895,15 @@ html {
     list-style: none;
     padding: 0;
     margin: 0;
+    
 }
 
 .archive-list li {
     display: flex;
     align-items: baseline;
     gap: 24px;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
+    
 }
 
 /* Дати робимо тихими і технічними */
@@ -2972,5 +3052,78 @@ html {
     }
     .mobile-blog-link:hover {
         opacity: 0.6;
+    }
+}
+
+/* Налаштування самої цитати */
+#dynamic-content blockquote {
+    border-left: 2px solid var(--text-dark);
+    padding: 2px 0 2px 20px !important; /* Зменшуємо верхній (2px) і нижній (2px) відступи */
+    margin: 32px 0 32px 10px !important; /* Зовнішні відступи від іншого тексту */
+    font-style: italic;
+    
+}
+
+/* Прибираємо зайве повітря всередині цитати */
+#dynamic-content blockquote p {
+    margin: 0 !important; /* Саме це забере зайву довжину лінії */
+}
+
+
+/* ========================================= */
+/* НАВІГАЦІЯ МІЖ СТАТТЯМИ                    */
+/* ========================================= */
+.post-navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 60px;
+    padding-top: 40px;
+    border-top: 1px solid #eaeaea;
+    gap: 20px;
+}
+
+.nav-link {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    max-width: 45%;
+}
+
+.nav-link.next {
+    align-items: flex-end;
+    text-align: right;
+}
+
+.nav-label {
+    font-family: var(--font-sans, sans-serif);
+    font-size: 13px;
+    color: #999;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+}
+
+.nav-title {
+    font-family: var(--font-serif);
+    font-size: 16px;
+    color: var(--text-dark);
+    line-height: 1.4;
+    border-bottom: 1px solid #ccc; /* Підкреслення як на референсі */
+    padding-bottom: 2px;
+    transition: border-color 0.3s ease;
+}
+
+.nav-link:hover .nav-title {
+    border-color: var(--text-dark);
+}
+
+@media (max-width: 768px) {
+    .post-navigation {
+        flex-direction: column;
+        gap: 32px;
+    }
+    .nav-link {
+        max-width: 100%;
+        align-items: flex-start !important;
+        text-align: left !important;
     }
 }

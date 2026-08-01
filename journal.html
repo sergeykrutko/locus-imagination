@@ -74,7 +74,7 @@
 
     <script>
 
-        document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("DOMContentLoaded", () => {
     const archiveContainer = document.getElementById("archive-content");
     const searchInput = document.getElementById("journal-search");
     const universalPanel = document.getElementById("universal-panel");
@@ -89,14 +89,12 @@
         "09": "Вересень", "10": "Жовтень", "11": "Листопад", "12": "Грудень"
     };
 
-    // Функція малювання архіву (тепер ми можемо викликати її знову при пошуку)
     function renderArchive(postsToRender) {
         if (postsToRender.length === 0) {
             archiveContainer.innerHTML = '<p style="text-align:center; color:var(--text-muted);">За вашим запитом нічого не знайдено.</p>';
             return;
         }
 
-        // Сортуємо від нових до старих
         postsToRender.sort((a, b) => new Date(b.date) - new Date(a.date));
 
         const grouped = {};
@@ -104,28 +102,26 @@
             const [year, month, day] = post.date.split("-");
             if (!grouped[year]) grouped[year] = {};
             if (!grouped[year][month]) grouped[year][month] = [];
-            post.day = day; // Зберігаємо день для виводу
+            post.day = day; 
             grouped[year][month].push(post);
         });
 
         let html = "";
         Object.keys(grouped).sort((a, b) => b - a).forEach(year => {
             html += `<div class="archive-year">${year}</div>`;
-            
             Object.keys(grouped[year]).sort((a, b) => b - a).forEach(month => {
                 const monthName = monthsNames[month] || month;
                 html += `<div class="archive-month">${monthName}</div>`;
                 html += `<ul class="archive-list">`;
-                
                 grouped[year][month].forEach(post => {
                     html += `
-    <li>
-        <span class="archive-date">${post.day}</span>
-        <a class="archive-link" data-file="${post.file}" data-date="${post.date}">
-            ${post.title}
-        </a>
-    </li>
-`;
+                        <li>
+                            <span class="archive-date">${post.day}</span>
+                            <a class="archive-link" data-file="${post.file}" data-date="${post.date}">
+                                ${post.title}
+                            </a>
+                        </li>
+                    `;
                 });
                 html += `</ul>`;
             });
@@ -134,10 +130,8 @@
         archiveContainer.innerHTML = html;
     }
 
-    // Перше малювання (всі пости)
     renderArchive(journalPosts);
 
-    // Логіка живого пошуку
     searchInput.addEventListener("input", (e) => {
         const query = e.target.value.toLowerCase().trim();
         const filteredPosts = journalPosts.filter(post => 
@@ -146,15 +140,8 @@
         renderArchive(filteredPosts);
     });
 
-    // Логіка відкриття допису
-    // Логіка відкриття допису
-    archiveContainer.addEventListener("click", async (e) => {
-        const link = e.target.closest(".archive-link");
-        if (!link) return;
-
-        const filePath = link.getAttribute("data-file");
-        const rawDate = link.getAttribute("data-date"); // Дістаємо дату
-
+    // Нова функція, яка відповідає за відкриття статті та малювання кнопок
+    async function openArticle(filePath, rawDate) {
         try {
             const response = await fetch(filePath);
             if (!response.ok) throw new Error("Не вдалося завантажити допис");
@@ -162,20 +149,48 @@
             const markdownText = await response.text();
             dynamicContent.innerHTML = marked.parse(markdownText);
 
-            // МАГІЯ: Шукаємо H1 і додаємо підпис
             const h1 = dynamicContent.querySelector("h1");
             if (h1) {
-                // Робимо дату красивою (наприклад, 1 серпня 2026)
                 const dateObj = new Date(rawDate);
                 const formattedDate = new Intl.DateTimeFormat('uk-UA', { day: 'numeric', month: 'long', year: 'numeric' }).format(dateObj);
-                
                 h1.insertAdjacentHTML("afterend", `<div class="article-meta">Сергій Крутько &middot; ${formattedDate}</div>`);
+            }
+
+            // МАГІЯ НАВІГАТОРУ: Шукаємо сусідні тексти
+            const currentIndex = journalPosts.findIndex(post => post.file === filePath);
+            if (currentIndex !== -1) {
+                let navHtml = `<div class="article-navigation" style="display: flex; justify-content: space-between; margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--border-light); gap: 16px;">`;
+
+                // Кнопка "Новіше" (попередній у масиві)
+                if (currentIndex > 0) {
+                    const newerPost = journalPosts[currentIndex - 1];
+                    navHtml += `
+                        <a href="#" class="nav-btn" data-file="${newerPost.file}" data-date="${newerPost.date}" style="text-decoration: none; color: var(--text-dark); text-align: left; flex: 1;">
+                            <div style="font-family: var(--font-sans); font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; opacity: 0.5;">&larr; Читати далі</div>
+                            <div style="font-family: var(--font-serif); font-size: 16px; line-height: 1.3;">${newerPost.title}</div>
+                        </a>`;
+                } else {
+                    navHtml += `<div style="flex: 1;"></div>`;
+                }
+
+                // Кнопка "Старіше" (наступний у масиві)
+                if (currentIndex < journalPosts.length - 1) {
+                    const olderPost = journalPosts[currentIndex + 1];
+                    navHtml += `
+                        <a href="#" class="nav-btn" data-file="${olderPost.file}" data-date="${olderPost.date}" style="text-decoration: none; color: var(--text-dark); text-align: right; flex: 1;">
+                            <div style="font-family: var(--font-sans); font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; opacity: 0.5;">Читати раніше &rarr;</div>
+                            <div style="font-family: var(--font-serif); font-size: 16px; line-height: 1.3;">${olderPost.title}</div>
+                        </a>`;
+                }
+
+                navHtml += `</div>`;
+                dynamicContent.insertAdjacentHTML("beforeend", navHtml);
             }
 
             universalPanel.classList.add("active");
             overlay.classList.add("active");
             body.classList.add("no-scroll");
-            universalPanel.scrollTop = 0;
+            universalPanel.scrollTop = 0; // Повертаємо панель наверх при зміні статті
 
         } catch (error) {
             console.error(error);
@@ -183,9 +198,28 @@
             universalPanel.classList.add("active");
             overlay.classList.add("active");
         }
+    }
+
+    // Слухаємо кліки по списку статей
+    archiveContainer.addEventListener("click", (e) => {
+        const link = e.target.closest(".archive-link");
+        if (!link) return;
+        const filePath = link.getAttribute("data-file");
+        const rawDate = link.getAttribute("data-date");
+        openArticle(filePath, rawDate);
     });
 
-    // Закриття панелі
+    // Слухаємо кліки по кнопках навігації всередині панелі
+    dynamicContent.addEventListener("click", (e) => {
+        const navLink = e.target.closest(".nav-btn");
+        if (navLink) {
+            e.preventDefault(); // Щоб сторінка не стрибала
+            const filePath = navLink.getAttribute("data-file");
+            const rawDate = navLink.getAttribute("data-date");
+            openArticle(filePath, rawDate);
+        }
+    });
+
     function closeJournalPanel() {
         universalPanel.classList.remove("active");
         overlay.classList.remove("active");
