@@ -62,22 +62,22 @@
 
 
     <script>
-    // Цей скрипт має бути в <head>, щоб миттєво застосувати тему до рендеру сторінки
-    (function() {
-        const savedTheme = localStorage.getItem('theme');
-        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
-            document.documentElement.setAttribute('data-theme', 'dark');
-        } else {
-            document.documentElement.setAttribute('data-theme', 'light');
-        }
-    })();
-</script>
+        // Цей скрипт має бути в <head>, щоб миттєво застосувати тему до рендеру сторінки
+        (function () {
+            const savedTheme = localStorage.getItem('theme');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        })();
+    </script>
 
 
-<!-- Фіксує колір фону браузера під час переходів, вбиває білий спалах -->
-<meta name="theme-color" content="#FCFCF9" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#151413" media="(prefers-color-scheme: dark)">
+    <!-- Фіксує колір фону браузера під час переходів, вбиває білий спалах -->
+    <meta name="theme-color" content="#FCFCF9" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#151413" media="(prefers-color-scheme: dark)">
 
 
 </head>
@@ -352,9 +352,9 @@
             <!-- Новий контейнер-обгортка для тексту -->
             <div class="philosophy-content">
                 <span class="label center" style="justify-content: center;">✧ ФІЛОСОФІЯ ПРОСТОРУ</span>
-                <h2>Символ – це <em>форма</em> наших внутрішніх станів.</h2>
+                <h2>Символ – це <em>форма</em> внутрішніх станів</h2>
 
-                <p>Тривога, внутрішні конфлікти або яскраві сновидіння не виникають випадково. Це спроби нашого
+                <p>Тривога, внутрішні конфлікти або навіть яскраві сновидіння не виникають випадково. Це спроби нашого
                     несвідомого вийти на зв'язок: через складні стани воно подає сигнали, а через розуміння символів ми
                     розкриваємо їхню суть. Філософія «Локусу Уяви» полягає в тому, щоб перестати ігнорувати цей голос і
                     перетворити його на <strong>джерело вашої внутрішньої сили</strong>.</p>
@@ -570,7 +570,22 @@
 
             <div class="testimonials-grid">
 
-                <!-- Ольга -->
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        «Такі цікаві відчуття від розбору. Найперше це легкість. Відповіді ніби самі йшли, і це
+                        прикольно. А по-друге, я подивилася на ситуацію зовсім під іншим кутом. Дивишся не якось
+                        класично, а зовсім інакше, і це взагалі супер. Після цього всього ніби аж легше на душі стало.
+                        Враження такі, що зараз я вже чекаю наступної сесії бо маю ще один свіжий сон, і я прям хочу
+                        сісти й ніби з ним поспілкуватись. От прям дуже-дуже цікаво!»
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">О</div>
+                        <div class="author-info">
+                            <span>Ольга</span>
+                            <small> </small>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="testimonial-card">
                     <div class="testimonial-text">
@@ -579,7 +594,7 @@
                         подобається ця практика роботи зі сновидіннями: завдяки їй виходить глибоко відчувати і
                         отримувати символи та образи. Хоча вільного часу завжди бракує, тепер я знаходжу його і для
                         себе, і для своїх снів. І хоча зараз маю лише якісь шматочки снів, відчуваю, що так навіть
-                        краще. Взагалі цей процес для мене як медитація - він дуже наповнює.»
+                        краще. Взагалі цей процес для мене як медитація - він глибоко наповнює.»
                     </div>
                     <div class="testimonial-author">
                         <div class="author-avatar">І</div>
@@ -591,7 +606,26 @@
                 </div>
 
 
-                <!-- Lesyk -->
+                <!-- <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        «Дуже подобається, як побудована робота, без зайвого, сам процес дуже гарно веде сном. Точні
+                        питання чудово допомагають звернути увагу на важливе і знайти шлях до щирих відповідей та
+                        відчуттів. Під кінець дуже хотілось заплакати від концентрації почуттів, що зібралися під час
+                        цієї розмови. Розбирати наступний сон було досить тяжко і сильно у почуттях, але водночас
+                        життєствердно і звільнююче. Від цього досвіду зʼявляються дуже важливі почуття та нові внутрішні
+                        звʼязки. Це все дуже здорово, планую продовжувати практику 🕊»
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">О</div>
+                        <div class="author-info">
+                            <span>Олексій</span>
+                            <small> </small>
+                        </div>
+                    </div>
+                </div> -->
+
+    
+
 
                 <div class="testimonial-card">
                     <div class="testimonial-text">
@@ -610,7 +644,6 @@
                     </div>
                 </div>
 
-
                 <div class="testimonial-card">
                     <div class="testimonial-text">
                         «Ця робота цікаво направляє і розкриває. Я навіть зберегла малюнок. А ще я зрозуміла: щоб
@@ -626,12 +659,7 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
-
-
-
         </section>
 
 
@@ -1351,51 +1379,51 @@
 
 
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const links = document.querySelectorAll('a');
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const links = document.querySelectorAll('a');
 
-    links.forEach(link => {
-        link.addEventListener('click', function(e) {
-            const href = this.getAttribute('href');
-            const target = this.getAttribute('target');
-            
-            // 1. ІГНОРУЄМО ЗОВНІШНІ ПОСИЛАННЯ ТА КОНТАКТИ
-            if (!href || target === '_blank' || href.startsWith('mailto:') || href.startsWith('tel:')) {
-                return; 
-            }
+                links.forEach(link => {
+                    link.addEventListener('click', function (e) {
+                        const href = this.getAttribute('href');
+                        const target = this.getAttribute('target');
 
-            // 2. ІГНОРУЄМО ЯКОРІ (#) ТА ЛОГОТИП
-            // Віддаємо всю роботу браузеру (CSS scroll-behavior: smooth).
-            // Це гарантує нульову затримку і 100% плавність.
-            if (href.startsWith('#')) {
-                return; 
-            }
+                        // 1. ІГНОРУЄМО ЗОВНІШНІ ПОСИЛАННЯ ТА КОНТАКТИ
+                        if (!href || target === '_blank' || href.startsWith('mailto:') || href.startsWith('tel:')) {
+                            return;
+                        }
 
-            // 3. ОБРОБКА ПЕРЕХОДІВ МІЖ СТОРІНКАМИ (index.html <-> journal.html)
-            if (this.hostname === window.location.hostname) {
-                e.preventDefault(); 
-                const destination = this.href; 
-                
-                // Викликаємо красиву "шторку"
-                document.body.classList.add('fade-out'); 
-                
-                // Переходимо на іншу сторінку після анімації
-                setTimeout(() => {
-                    window.location.href = destination;
-                }, 550); 
-            }
-        });
-    });
-});
+                        // 2. ІГНОРУЄМО ЯКОРІ (#) ТА ЛОГОТИП
+                        // Віддаємо всю роботу браузеру (CSS scroll-behavior: smooth).
+                        // Це гарантує нульову затримку і 100% плавність.
+                        if (href.startsWith('#')) {
+                            return;
+                        }
 
-// Захист від кешу при кліку "Назад" у браузері
-window.addEventListener('pageshow', function (event) {
-    if (event.persisted || document.body.classList.contains('fade-out')) {
-        document.body.classList.remove('fade-out');
-    }
-});
-</script>
+                        // 3. ОБРОБКА ПЕРЕХОДІВ МІЖ СТОРІНКАМИ (index.html <-> journal.html)
+                        if (this.hostname === window.location.hostname) {
+                            e.preventDefault();
+                            const destination = this.href;
+
+                            // Викликаємо красиву "шторку"
+                            document.body.classList.add('fade-out');
+
+                            // Переходимо на іншу сторінку після анімації
+                            setTimeout(() => {
+                                window.location.href = destination;
+                            }, 550);
+                        }
+                    });
+                });
+            });
+
+            // Захист від кешу при кліку "Назад" у браузері
+            window.addEventListener('pageshow', function (event) {
+                if (event.persisted || document.body.classList.contains('fade-out')) {
+                    document.body.classList.remove('fade-out');
+                }
+            });
+        </script>
 
 
 </body>
