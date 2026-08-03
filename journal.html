@@ -88,7 +88,11 @@
     </div>
 
     <!-- Підключаємо наш реєстр -->
-    <script src="journal.js"></script>
+    <!-- <script src="journal.js"></script> -->
+     <!-- Підключаємо реєстр із динамічним скиданням кешу -->
+<script>
+    document.write('<script src="journal.js?v=' + Date.now() + '"><\/script>');
+</script>
 
     <script>
 
@@ -164,14 +168,25 @@
             const response = await fetch(filePath);
             if (!response.ok) throw new Error("Не вдалося завантажити допис");
             
-            const markdownText = await response.text();
-            dynamicContent.innerHTML = marked.parse(markdownText);
+            const rawMarkdownText = await response.text();
+            
+            // Шукаємо рядки, що починаються з ">> ", і перетворюємо їх на елегантний блок
+            const processedMarkdown = rawMarkdownText.replace(/^>>\s*(.+)$/gm, '<div class="epigraph-elegant">$1</div>');
+            
+            dynamicContent.innerHTML = marked.parse(processedMarkdown);
 
             const h1 = dynamicContent.querySelector("h1");
             if (h1) {
                 const dateObj = new Date(rawDate);
                 const formattedDate = new Intl.DateTimeFormat('uk-UA', { day: 'numeric', month: 'long', year: 'numeric' }).format(dateObj);
-                h1.insertAdjacentHTML("afterend", `<div class="article-meta">Сергій Крутько &middot; ${formattedDate}</div>`);
+                
+                // Шукаємо наш епіграф. Якщо він є — ставимо дату ПІСЛЯ нього. Якщо немає — одразу після заголовка.
+                const epigraph = dynamicContent.querySelector(".epigraph-elegant");
+                if (epigraph) {
+                    epigraph.insertAdjacentHTML("afterend", `<div class="article-meta">Сергій Крутько &middot; ${formattedDate}</div>`);
+                } else {
+                    h1.insertAdjacentHTML("afterend", `<div class="article-meta">Сергій Крутько &middot; ${formattedDate}</div>`);
+                }
             }
 
             // МАГІЯ НАВІГАТОРУ: Шукаємо сусідні тексти

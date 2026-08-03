@@ -251,6 +251,66 @@
         }
 
 
+
+
+        /* =========================================
+           АДАПТАЦІЯ ДЛЯ ТЕЛЕФОНІВ (Не ламає комп'ютер)
+           ========================================= */
+        @media (max-width: 768px) {
+            
+            /* 1. Рятуємо нижню панель: переносимо кнопки під мініатюри */
+            #selection-panel {
+                padding: 16px !important;
+            }
+            #selection-panel > div {
+                flex-direction: column !important; /* Ставимо в колонку */
+                gap: 16px !important;
+            }
+            #selection-panel > div > div {
+                width: 100% !important;
+                justify-content: space-between !important; /* Розносимо по краях */
+            }
+            #proceed-btn {
+                flex-grow: 1; /* Кнопка гарно розтягується */
+                text-align: center;
+            }
+
+            /* 2. Робимо стрічку карток як в Instagram (одна під одною) */
+            .sortable-container {
+                flex-direction: column !important; 
+                align-items: center !important;
+                gap: 32px !important;
+            }
+            .sortable-item {
+                max-width: 90% !important; /* Займає комфортну ширину екрана */
+                width: 100% !important;
+                height: auto !important; /* Висота підлаштовується вільно */
+                min-height: 380px !important;
+            }
+            
+            /* 3. Делікатний зум для телефону (збільшуємо зовсім трошки, щоб не різало) */
+            .sortable-item.is-focused {
+                transform: scale(1.05) !important; 
+            }
+
+            /* 4. Захист від примусового зуму на iPhone */
+            .mini-note {
+                font-size: 16px !important; /* Якщо менше 16px, iOS ламає екран */
+                padding: 12px 4px !important;
+            }
+            
+            /* 5. Мінімізуємо блокнот і поп-ап, щоб клавіатурі було місце */
+            .sticky-notepad {
+                padding: 16px !important;
+                margin-top: 16px !important;
+            }
+            #prompts-container {
+                width: calc(100vw - 40px) !important; /* Підганяємо ширину підказки під телефон */
+                right: -10px !important;
+            }
+        }
+
+
         
     </style>
 </head>
