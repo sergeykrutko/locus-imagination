@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Простір Станів | Локус Уяви</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <script src="cards_data.js"></script>
+
+    <script>
+        (function () {
+            const savedTheme = localStorage.getItem('theme');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        })();
+    </script>
+    
+    <style>
+        /* 1. ЕКРАН ВИБОРУ */
+        .cards-grid {
+            column-count: 2;
+            column-gap: 32px; /* <-- ПРОСТІР МІЖ КОЛОНКАМИ */
+            margin-top: 10px;
+            padding-bottom: 120px;
+            transition: opacity 0.2s ease; /* <-- ДОДАНО: Плавне згасання сітки */
+        }
+        
+        @media (min-width: 768px) { .cards-grid { column-count: 3; } }
+        @media (min-width: 1024px) { .cards-grid { column-count: 4; } } /* 4 колонки роблять картки меншими */
+        
+        .card-item {
+            cursor: pointer;
+            background: var(--bg-card);
+            padding: 12px; /* <-- ТУТ ЗМІНЮЄТЬСЯ ТОВЩИНА БІЛОЇ РАМКИ */
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            break-inside: avoid;
+            margin-bottom: 32px; /* <-- ТУТ ЗМІНЮЄТЬСЯ ПРОСТІР ЗНИЗУ МІЖ КАРТКАМИ */
+            display: inline-block;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .card-item img {
+            width: 100%;
+            height: auto; /* Абсолютно всі пропорції збережено */
+            border-radius: 6px;
+            display: block;
+            filter: grayscale(30%);
+            transition: filter 0.3s ease, transform 0.3s ease;
+        }
+        
+        .card-item:hover img { filter: grayscale(0%); }
+        
+        /* Елегантний вибір без зламу сітки */
+        .card-item.selected { 
+            border-color: var(--accent-green); 
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08); /* Картка "спливає" */
+        }
+        .card-item.selected img { 
+            filter: grayscale(0%); 
+            transform: scale(1.02); /* Дуже легке збільшення всередині рамки */
+        }
+
+        /* 2. РЕЖИМ АНАЛІЗУ (Лінія переживання) */
+        #constructor-view { animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .sortable-container {
+            display: flex;
+            flex-wrap: nowrap; /* Тримаємо всі картки в один ідеальний ряд */
+            justify-content: center; 
+            gap: 16px;
+            margin-bottom: 40px;
+            padding: 0; 
+            overflow: visible; /* <-- ВИПРАВЛЕННЯ: Дозволяє зуму виходити за межі ліній */
+        }
+
+        .sortable-item {
+            cursor: grab;
+            background: var(--bg-card);
+            padding: 10px; 
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            
+            height: var(--dynamic-card-height, 320px); 
+            max-width: 30%; /* Щоб великі картинки не ламали ряд на ПК */
+            
+            transition: transform 0.4s ease, box-shadow 0.4s ease, height 0.4s ease, filter 0.4s ease, opacity 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .sortable-item:active {
+            cursor: grabbing;
+            transform: scale(1.03);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+
+       .sortable-item img {
+            width: 100%;
+            height: 100%; 
+            min-height: 0; 
+            border-radius: 6px;
+            display: block;
+            flex-grow: 1;
+            object-fit: contain; 
+        }
+
+        /* Адаптація для телефонів: дозволяємо перенесення на новий рядок */
+        @media (max-width: 768px) {
+            .sortable-container {
+                flex-wrap: wrap; 
+            }
+            .sortable-item {
+                max-width: 45%; /* По дві картки в ряд на мобільному */
+            }
+        }
+
+        /* Стиль для індивідуального підпису під картинкою */
+        .mini-note {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid transparent;
+            font-family: var(--font-sans); /* Простий шрифт, щоб не змагався з картинкою */
+            font-size: 13px;
+            color: var(--text-dark);
+            text-align: center;
+            resize: none;
+            outline: none;
+            padding: 2px 4px;
+            transition: border-color 0.3s ease; 
+            
+        }
+        .mini-note:focus { border-bottom-color: var(--border-color); }
+        .mini-note::placeholder { color: var(--text-muted); font-style: italic; opacity: 0.5; }
+        .mini-note:focus::placeholder { 
+            color: transparent; 
+        }
+
+        .sortable-ghost { opacity: 0.2; }
+
+        /* 3. РОЗУМНЕ ТЕКСТОВЕ ПОЛЕ */
+        .elegant-textarea {
+            width: 100%;
+            min-height: 64px; /* Висота рівно на 2 рядки */
+            background: transparent;
+            border: none;
+            color: var(--text-dark);
+            font-family: var(--font-serif);
+            font-size: 18px;
+            line-height: 1.6;
+            resize: none; /* Забороняємо ручне розтягування */
+            outline: none;
+            overflow: hidden; /* Ховаємо скролбар */
+            padding: 8px 0;
+            transition: color 0.3s ease;
+        }
+        
+        .elegant-textarea:focus {
+            color: var(--accent-green); /* Легкий відтінок при написанні */
+        }
+
+        .elegant-textarea::placeholder {
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        /* --- МАГІЯ ФОКУСУ В РЕЖИМІ АНАЛІЗУ --- */
+        .sortable-item.is-focused {
+            transform: scale(1.6) !important; 
+            z-index: 1000 !important;
+            box-shadow: 0 24px 48px rgba(0,0,0,0.2) !important;
+        }
+
+        /* Коли активний фокус, "гасимо" всі інші картки (з плавним переходом) */
+        body.has-focus .sortable-item:not(.is-focused) {
+            filter: grayscale(60%) blur(2px);
+            opacity: 0.6;
+            transition: filter 0.4s ease, opacity 0.4s ease, transform 0.4s ease; /* <-- ДОДАНО */
+        }
+
+        body.has-focus .section-intro,
+        body.has-focus .card {
+            opacity: 0.3;
+            transition: opacity 0.4s ease;
+        }
+
+        /* 4. ТЕКСТОВІ КАРТКИ ТА ПРИЛИПАЮЧИЙ БЛОКНОТ */
+        .sticky-notepad {
+            position: sticky;
+            bottom: 20px; 
+            z-index: 50;
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.08) !important;
+        }
+
+        .text-card-item {
+            background: var(--bg-main) !important;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+
+
+        /* 5. МЕНЮ КАТЕГОРІЙ */
+        .category-nav {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            margin-top: 24px;
+            margin-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
+        }
+
+        .category-btn {
+            background: none;
+            border: none;
+            font-family: var(--font-sans);
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 0 4px 12px 4px;
+            margin-bottom: -13px; /* Наїжджає на лінію бордера */
+            border-bottom: 2px solid transparent;
+            transition: color 0.3s ease, border-color 0.3s ease;
+            outline: none;
+        }
+
+        .category-btn:hover { color: var(--text-dark); }
+        .category-btn.active {
+            color: var(--text-dark);
+            font-weight: 500;
+            border-bottom-color: var(--accent-green);
+        }
+
+
+        
+    </style>
+</head>
+<body>
+
+    <script>
+        // Зашифрований пароль (eWF2YQ== це слово yava)
+        // Якщо захочете змінити пароль, відкрийте консоль браузера, 
+        // напишіть btoa("новийпароль") і вставте сюди отриманий код:
+        const encodedPassword = "eWF2YQ=="; 
+        
+        let isAuthenticated = sessionStorage.getItem('prostir_auth');
+        if (!isAuthenticated) {
+            let userInput = prompt("Введіть ключ доступу до простору:");
+            
+            // Якщо користувач натиснув "Скасувати", зупиняємо завантаження
+            if (userInput === null) {
+                document.body.innerHTML = '<div style="display:flex; justify-content:center; align-items:center; height:100vh;"><h2 class="drift-text">Доступ скасовано.</h2></div>';
+                throw new Error("Скасовано");
+            }
+
+            // Перетворюємо введений текст у Base64 і порівнюємо з зашифрованим
+            if (btoa(userInput.trim().toLowerCase()) === encodedPassword) {
+                sessionStorage.setItem('prostir_auth', 'true');
+            } else {
+                document.body.innerHTML = '<div style="display:flex; justify-content:center; align-items:center; height:100vh;"><h2 class="drift-text">Доступ закрито.</h2></div>';
+                throw new Error("Невірний пароль");
+            }
+        }
+    </script>
+
+    <div class="container">
+        <!-- Нова мінімалістична шапка -->
+        <div style="display: flex; align-items: center; gap: 20px; padding: 16px 0 24px 0;">
+            <a href="index.html" style="background: var(--bg-card); border: 1px solid var(--border-color); padding: 8px 24px; border-radius: 40px; text-decoration: none; display: flex; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+                <span class="logo" style="font-size: 14px; margin: 0; padding: 0; letter-spacing: 0.1em;">Локус <i style="font-size: 16px; text-transform: lowercase;">уяви</i></span>
+            </a>
+            <span style="font-family: var(--font-serif); font-size: 18px; color: var(--text-dark); opacity: 0.8;">Простір станів</span>
+        </div>
+
+        <section style="padding-top: 0;">
+
+        <section class="section-fullscreen" style="padding-top: 10px;">
+            
+            <!-- ЕКРАН 1: ВИБІР -->
+            <div id="selection-view">
+                <div class="section-intro">
+                    <h1 style="margin-top: 10px;">Оберіть образи</h1>
+                    <p style="font-family: var(--font-serif); font-size: 20px; color: var(--text-dark); margin: 0; line-height: 1.5;">
+                        Оберіть 3-5 карток, які зараз найбільше резонують із вашим внутрішнім станом.</p>
+                        
+                    <!-- Меню колод генеруватиметься сюди -->
+                    <div id="category-menu" class="category-nav"></div>
+                </div>
+
+                <div id="cards-grid" class="cards-grid"></div>
+
+                <div id="selection-panel" style="display: none; position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg-card); padding: 16px 24px; border-top: 1px solid var(--border-color); z-index: 100; box-shadow: 0 -10px 40px rgba(0,0,0,0.08);">
+                    <div style="max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px;">
+                        
+                        <!-- Ліва частина: Лічильник + Мініатюри -->
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <span class="label" style="margin: 0;">Обрано: <span id="selected-count">0</span></span>
+                            <div id="mini-thumbnails" style="display: flex; gap: 8px; flex-wrap: nowrap; overflow-x: auto;"></div>
+                        </div>
+                        
+                        <!-- Права частина: Кнопки -->
+                        <div style="display: flex; gap: 16px; align-items: center;">
+                            <button class="btn-quiet" id="reset-btn" style="padding: 8px 16px; font-size: 14px;">Почати заново</button>
+                            <button class="btn btn-dark" id="proceed-btn" style="padding: 10px 24px; white-space: nowrap;">Розгорнути стан &rarr;</button>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <!-- ЕКРАН 2: АНАЛІЗ -->
+            <div id="constructor-view" style="display: none;">
+                <div style="max-width: 1000px; margin: 0 auto; text-align: center;">
+                    
+                    <div style="margin-bottom: 32px;">
+                        <p style="font-family: var(--font-sans); font-size: 15px; color: var(--text-muted); margin: 0; line-height: 1.6;">
+                            Вибудуйте власну послідовність образів. Натисніть на картку, щоб розглянути її ближче.
+                        </p>
+                    </div>
+
+                    <!-- Зона сортування карток (відцентрована) -->
+                    <div id="sortable-cards" class="sortable-container" style="justify-content: center;"></div>
+
+
+                    <!-- Текстове поле ПРИЛИПАЄ ДО НИЗУ (Оновлене, компактне) -->
+                    <div class="card sticky-notepad" style="padding: 24px 32px; margin-top: 40px; text-align: left;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                            <span class="label" style="margin: 0;">✧ АСОЦІАЦІЇ ТА РОЗДУМИ</span>
+                            
+                            <!-- Кнопка розгортання підказок -->
+                            <button id="toggle-prompts-btn" style="background: none; border: none; font-family: var(--font-serif); font-style: italic; font-size: 14px; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; gap: 6px; padding: 0; outline: none;">
+                                <span style="border: 1px solid var(--text-muted); border-radius: 50%; width: 16px; height: 16px; display: inline-flex; align-items: center; justify-content: center; font-size: 11px;">?</span> Орієнтири
+                            </button>
+                        </div>
+                        
+                        <!-- Спливаюче вікно (Тепер відкривається ВГОРУ) -->
+                            <div id="prompts-container" style="display: none; position: absolute; bottom: 100%; right: 0; margin-bottom: 12px; width: 320px; z-index: 1000; font-family: var(--font-serif); font-size: 14px; line-height: 1.6; color: var(--text-dark); padding: 20px; background: var(--bg-main); border-radius: 12px; box-shadow: 0 12px 32px rgba(0,0,0,0.12); border: 1px solid var(--border-color);">
+                                <div style="margin-bottom: 8px;">Що ви відчуваєте в тілі, дивлячись на це?</div>
+                                <div style="margin-bottom: 8px;">Яка перша думка, спогад чи історія спадає на думку?</div>
+                                <div style="margin-bottom: 8px;">Кого з вашого життя або які сюжети нагадує цей образ?</div>
+                                <div>Де ще у вашому житті зараз відбувається щось подібне?</div>
+                            </div>
+
+                        <textarea id="association-text" class="elegant-textarea" placeholder="Почніть писати тут..."></textarea>
+                    </div>
+
+                    <div style="margin-top: 40px; display: flex; justify-content: center; gap: 20px; align-items: center; padding-bottom: 120px;">
+                        <button class="btn btn-dark" id="export-btn">Експортувати роздуми</button>
+                        <button class="btn-quiet" id="back-btn">&larr; Змінити вибір</button>
+                    </div>
+
+                </div>
+            </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const selectionView = document.getElementById('selection-view');
+            const constructorView = document.getElementById('constructor-view');
+            const grid = document.getElementById('cards-grid');
+            const sortableContainer = document.getElementById('sortable-cards');
+            const selectionPanel = document.getElementById('selection-panel');
+            const countDisplay = document.getElementById('selected-count');
+            let selectedCards = [];
+
+            // Авторозширення текстового поля
+            const textarea = document.getElementById('association-text');
+            textarea.addEventListener('input', function() {
+                this.style.height = '64px'; 
+                this.style.height = (this.scrollHeight) + 'px'; 
+            });
+
+            function shuffle(array) {
+                let currentIndex = array.length, randomIndex;
+                while (currentIndex != 0) {
+                    randomIndex = Math.floor(Math.random() * currentIndex);
+                    currentIndex--;
+                    [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+                }
+                return array;
+            }
+
+            // --- ПОВЕРНЕНІ МІНІАТЮРИ ---
+            const miniThumbnailsContainer = document.getElementById('mini-thumbnails');
+
+            function updateSelectionUI() {
+                countDisplay.innerText = selectedCards.length;
+                selectionPanel.style.display = selectedCards.length > 0 ? 'block' : 'none';
+                
+                miniThumbnailsContainer.innerHTML = ''; // Очищаємо перед малюванням
+                selectedCards.forEach(src => {
+                    const thumb = document.createElement('img');
+                    thumb.src = src;
+                    thumb.style.width = '40px';
+                    thumb.style.height = '40px';
+                    thumb.style.objectFit = 'cover';
+                    thumb.style.borderRadius = '6px';
+                    thumb.style.border = '1px solid var(--accent-green)';
+                    thumb.style.cursor = 'pointer';
+                    thumb.style.transition = 'transform 0.2s ease';
+                    
+                    thumb.onmouseenter = () => thumb.style.transform = 'scale(1.1)';
+                    thumb.onmouseleave = () => thumb.style.transform = 'scale(1)';
+                    
+                    // Видалення при кліку на мініатюру
+                    thumb.addEventListener('click', () => {
+                        selectedCards = selectedCards.filter(c => c !== src);
+                        // Знімаємо зелену рамку з великої картинки, якщо вона зараз на екрані
+                        Array.from(grid.querySelectorAll('.card-item')).forEach(item => {
+                            if (item.querySelector('img').src.includes(src)) {
+                                item.classList.remove('selected');
+                            }
+                        });
+                        updateSelectionUI(); // Оновлюємо панель
+                    });
+                    
+                    miniThumbnailsContainer.appendChild(thumb);
+                });
+            }
+            // ---------------------------
+
+            const categoryMenu = document.getElementById('category-menu');
+            let currentCategory = '';
+
+            // Функція малювання карток обраної категорії
+            // Функція малювання карток обраної категорії (з плавними переходами)
+            function renderGrid(category) {
+                // 1. Починаємо плавне згасання поточної сітки
+                grid.style.opacity = '0'; 
+                
+                // 2. Чекаємо 200 мілісекунд, поки вона згасне, і малюємо нову
+                setTimeout(() => {
+                    grid.innerHTML = ''; 
+                    const images = cardsData[category];
+                    if (!images) {
+                        grid.style.opacity = '1';
+                        return;
+                    }
+
+                    const shuffledCards = shuffle([...images]);
+                    
+                    shuffledCards.forEach((src, index) => {
+                        const card = document.createElement('div');
+                        card.className = 'card-item';
+                        
+                        // Додаємо каскадну анімацію появи (кожна наступна картка з'являється на 30мс пізніше)
+                        card.style.opacity = '0'; 
+                        card.style.animation = `fadeIn 0.5s ease forwards ${index * 0.03}s`;
+                        
+                        if (selectedCards.includes(src)) card.classList.add('selected');
+                        
+                        card.innerHTML = `<img src="${src}" alt="Символ">`;
+
+                        card.addEventListener('click', function() {
+                            if (this.classList.contains('selected')) {
+                                this.classList.remove('selected');
+                                selectedCards = selectedCards.filter(c => c !== src);
+                            } else {
+                                if (selectedCards.length >= 10) {
+                                    alert("Обрано максимальну кількість образів.");
+                                    return;
+                                }
+                                this.classList.add('selected');
+                                selectedCards.push(src);
+                            }
+                            
+                            updateSelectionUI();
+                        });
+                        grid.appendChild(card);
+                    });
+                    
+                    // 3. Повертаємо видимість контейнеру
+                    grid.style.opacity = '1';
+                }, 200);
+            }
+
+            if (typeof cardsData !== 'undefined') {
+                const categories = Object.keys(cardsData);
+                
+                if (categories.length > 0) {
+                    // Малюємо кнопки меню
+                    categories.forEach((cat, index) => {
+                        const btn = document.createElement('button');
+                        btn.className = 'category-btn' + (index === 0 ? ' active' : '');
+                        btn.innerText = cat;
+                        
+                        btn.addEventListener('click', function() {
+                            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                            this.classList.add('active');
+                            
+                            currentCategory = cat;
+                            renderGrid(currentCategory);
+                        });
+                        
+                        categoryMenu.appendChild(btn);
+                    });
+
+                    // Ініціалізуємо першу категорію
+                    currentCategory = categories[0];
+                    renderGrid(currentCategory);
+                }
+            }
+
+            // Відкриття/закриття підказок у блокноті
+            document.getElementById('toggle-prompts-btn').addEventListener('click', function() {
+                const container = document.getElementById('prompts-container');
+                if (container.style.display === 'none') {
+                    container.style.display = 'block';
+                    this.style.color = 'var(--text-dark)'; 
+                } else {
+                    container.style.display = 'none';
+                    this.style.color = 'var(--text-muted)'; 
+                }
+            });
+
+
+            // Логіка кнопки "Почати заново"
+            document.getElementById('reset-btn').addEventListener('click', () => {
+                selectedCards = []; 
+                document.querySelectorAll('.card-item.selected').forEach(el => el.classList.remove('selected')); 
+                updateSelectionUI(); 
+            });
+
+            document.getElementById('proceed-btn').addEventListener('click', () => {
+                selectionView.style.display = 'none';
+                constructorView.style.display = 'block';
+
+                // --- ДИНАМІЧНИЙ РОЗМІР КАРТОК ---
+                let dynamicHeight = '420px'; 
+                if (selectedCards.length === 4) dynamicHeight = '340px'; 
+                if (selectedCards.length >= 5) dynamicHeight = '280px'; 
+            
+                sortableContainer.style.setProperty('--dynamic-card-height', dynamicHeight);
+                
+                sortableContainer.innerHTML = '';
+                selectedCards.forEach(src => {
+                    const wrap = document.createElement('div');
+                    wrap.className = 'sortable-item';
+                    
+                    wrap.innerHTML = `
+                        <img src="${src}" alt="Обраний символ">
+                        <textarea class="mini-note" rows="1" placeholder="Асоціація..."></textarea>
+                    `;
+                    
+                    wrap.addEventListener('click', function(e) {
+                        if (e.target.tagName.toLowerCase() === 'textarea') return; 
+                        
+                        const alreadyFocused = this.classList.contains('is-focused');
+                        document.querySelectorAll('.sortable-item.is-focused').forEach(el => el.classList.remove('is-focused'));
+                        
+                        if (!alreadyFocused) {
+                            this.classList.add('is-focused');
+                            document.body.classList.add('has-focus');
+                        } else {
+                            document.body.classList.remove('has-focus');
+                        }
+                    });
+
+                    const ta = wrap.querySelector('.mini-note');
+                    ta.addEventListener('input', function() {
+                        this.style.height = 'auto';
+                        this.style.height = this.scrollHeight + 'px';
+                    });
+
+                    sortableContainer.appendChild(wrap);
+                });
+
+                new Sortable(sortableContainer, {
+                    animation: 200,
+                    ghostClass: 'sortable-ghost',
+                    easing: "cubic-bezier(1, 0, 0, 1)",
+                    filter: 'textarea', 
+                    preventOnFilter: false 
+                });
+                
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            document.getElementById('back-btn').addEventListener('click', () => {
+                constructorView.style.display = 'none';
+                selectionView.style.display = 'block';
+            });
+
+            // Оновлений НАДІЙНИЙ ТА ЕЛЕГАНТНИЙ ЕКСПОРТ
+            document.getElementById('export-btn').addEventListener('click', () => {
+                const globalText = document.getElementById('association-text').value.replace(/\n/g, '<br>');
+                
+                // Формуємо HTML для кожної картинки
+                const galleryItemsHtml = Array.from(sortableContainer.querySelectorAll('.sortable-item')).map(el => {
+                    const img = el.querySelector('img').src;
+                    const note = el.querySelector('.mini-note').value.trim().replace(/\n/g, '<br>');
+                    
+                    return `
+                    <div class="print-item">
+                        <img src="${img}" alt="Символ">
+                        ${note ? `<div class="print-note">${note}</div>` : ''}
+                    </div>`;
+                }).join('');
+                
+                let printContent = `
+                <!DOCTYPE html>
+                <html lang="uk">
+                <head>
+                    <title>Роздуми - Локус Уяви</title>
+                    <!-- ВАЖЛИВО: Запрошуємо наші красиві шрифти на сторінку друку -->
+                    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+                    <style>
+                        body { 
+                            font-family: 'Inter', sans-serif; 
+                            color: #151413; 
+                            margin: 0; 
+                            padding: 40px; 
+                            background-color: #ffffff;
+                        }
+                        .header { 
+                            border-bottom: 1px solid #E2E2D9; 
+                            padding-bottom: 24px; 
+                            margin-bottom: 48px; 
+                            text-align: center;
+                        }
+                        .logo { 
+                            font-size: 20px; 
+                            font-weight: 500; 
+                            text-transform: uppercase; 
+                            letter-spacing: 0.1em; 
+                        }
+                        .logo i { 
+                            font-style: italic; 
+                            text-transform: lowercase; 
+                            font-size: 22px; 
+                            font-family: 'Lora', serif; 
+                        }
+                        
+                        /* Галерея образів */
+                        .print-gallery { 
+                            display: flex; 
+                            flex-wrap: wrap; 
+                            gap: 24px; 
+                            margin-bottom: 56px; 
+                            justify-content: center;
+                        }
+                        .print-item {
+                            width: calc(33.333% - 16px);
+                            box-sizing: border-box;
+                            background: #FCFCF9;
+                            padding: 16px;
+                            border-radius: 12px;
+                            border: 1px solid #E2E2D9;
+                            page-break-inside: avoid; /* Забороняє розривати картинку */
+                        }
+                        .print-item img {
+                            width: 100%;
+                            height: auto;
+                            border-radius: 8px;
+                            display: block;
+                            margin-bottom: ${galleryItemsHtml.includes('print-note') ? '16px' : '0'};
+                        }
+                        .print-note {
+                            font-family: 'Inter', sans-serif;
+                            font-size: 13px;
+                            text-align: center;
+                            color: #555;
+                        }
+                        
+                        /* НОВА ЕЛЕГАНТНА РАМКА ДЛЯ ТЕКСТУ */
+                        .print-text-wrapper {
+                            page-break-inside: avoid; /* Тримаємо заголовок і текст разом */
+                        }
+                        .print-text-label {
+                            font-family: 'Inter', sans-serif;
+                            font-size: 12px;
+                            text-transform: uppercase;
+                            letter-spacing: 0.1em;
+                            color: #A0A0A0;
+                            margin-bottom: 20px;
+                            text-align: center;
+                        }
+                        .print-text { 
+                            font-family: 'Lora', serif; 
+                            font-size: 17px; 
+                            line-height: 1.8;
+                            color: #151413;
+                            background: #FCFCF9;
+                            padding: 40px 48px;
+                            border-radius: 16px;
+                            border: 1px solid #E2E2D9;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="header">
+                        <div class="logo">Локус <i>уяви</i></div>
+                    </div>
+                    
+                    <div class="print-gallery">
+                        ${galleryItemsHtml}
+                    </div>
+                    
+                    <!-- Якщо текст є, малюємо для нього розкішну рамку -->
+                    ${globalText ? `
+                    <div class="print-text-wrapper">
+                        <div class="print-text-label">✧ Асоціації та роздуми ✧</div>
+                        <div class="print-text">
+                            ${globalText}
+                        </div>
+                    </div>
+                    ` : ''}
+                `;
+
+                // Безпечно закриваємо документ
+                printContent += '<\/' + 'body><\/' + 'html>';
+                
+                const printWin = window.open('', '_blank');
+                printWin.document.write(printContent);
+                printWin.document.close();
+                
+                // Даємо трохи більше часу (1000мс), щоб браузер встиг підтягнути шрифти Google перед друком
+                setTimeout(() => { printWin.print(); }, 1000);
+            });
+
+            // Знімаємо фокус при кліку поза карткою
+            document.addEventListener('click', (e) => {
+                if (document.body.classList.contains('has-focus') && !e.target.closest('.sortable-item')) {
+                    document.querySelectorAll('.sortable-item.is-focused').forEach(el => el.classList.remove('is-focused'));
+                    document.body.classList.remove('has-focus');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

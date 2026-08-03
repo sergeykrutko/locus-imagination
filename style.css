@@ -3257,3 +3257,85 @@ html {
         line-height: 1.35 !important;
     }
 }
+
+
+
+
+/* ---------------- ПРОЄКЦІНІ КАРТКИ */
+
+/* Стилі для режиму конструктора */
+#constructor-view {
+    display: none; /* Приховано за замовчуванням */
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.sortable-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            justify-content: center; /* Центруємо картки по горизонталі */
+            margin-bottom: 40px;
+            padding: 40px 20px;
+            background: transparent;
+            /* Додаємо легкі лінії зверху та знизу для виділення зони аналізу */
+            border-top: 1px dashed var(--border-color);
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+.sortable-item {
+            cursor: grab;
+            height: 400px; /* Охайний фіксований розмір по висоті */
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15); /* Елегантна глибока тінь */
+            transition: transform 0.2s ease;
+        }
+
+        
+
+.sortable-item:active {
+    cursor: grabbing;
+}
+
+.sortable-item img {
+            height: 100%;
+            width: auto; /* Ширина підлаштовується під оригінал */
+            display: block;
+            object-fit: contain;
+        }
+
+.sortable-ghost {
+    opacity: 0.4;
+    transform: scale(0.95);
+}
+
+/* Елегантне текстове поле */
+.elegant-textarea {
+    width: 100%;
+    min-height: 200px;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-dark);
+    font-family: var(--font-serif); /* Використовуємо Lora для глибини тексту */
+    font-size: 18px;
+    line-height: 1.6;
+    padding: 16px 0;
+    resize: none;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.elegant-textarea:focus {
+    border-bottom-color: var(--accent-green);
+}
+
+.elegant-textarea::placeholder {
+    color: var(--text-muted);
+    font-style: italic;
+}
