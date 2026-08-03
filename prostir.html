@@ -77,29 +77,35 @@
 
         .sortable-container {
             display: flex;
-            flex-wrap: nowrap; /* Тримаємо всі картки в один ідеальний ряд */
-            justify-content: center; 
-            gap: 16px;
-            margin-bottom: 40px;
-            padding: 0; 
-            overflow: visible; /* <-- ВИПРАВЛЕННЯ: Дозволяє зуму виходити за межі ліній */
+            flex-wrap: nowrap;
+            justify-content: center;
+            align-items: center; /* Рівняє всі картки по центру */
+            gap: 20px;
+            margin-top: 20px; /* Дає простір для дихання зверху */
+            margin-bottom: 60px;
+            padding: 0;
+            overflow: visible;
         }
 
         .sortable-item {
             cursor: grab;
             background: var(--bg-card);
-            padding: 10px; 
+            padding: 12px;
             border-radius: 12px;
             border: 1px solid var(--border-color);
             box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-            
-            height: var(--dynamic-card-height, 320px); 
-            max-width: 30%; /* Щоб великі картинки не ламали ряд на ПК */
-            
-            transition: transform 0.4s ease, box-shadow 0.4s ease, height 0.4s ease, filter 0.4s ease, opacity 0.4s ease;
+
+            /* Розмір тепер залежить виключно від висоти екрана – жодних формул */
+            height: 34vh;
+            min-height: 260px;
+            max-height: 360px;
+            width: auto;
+
+            /* Нова плавна, природна анімація */
+            transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.5s ease, filter 0.5s ease, opacity 0.5s ease;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 12px;
         }
 
         .sortable-item:active {
@@ -110,14 +116,16 @@
         }
 
        .sortable-item img {
-            width: 100%;
-            height: 100%; 
-            min-height: 0; 
+            width: auto;
+            height: 100%;
+            min-height: 0;
             border-radius: 6px;
             display: block;
             flex-grow: 1;
-            object-fit: contain; 
+            object-fit: contain;
         }
+
+        
 
         /* Адаптація для телефонів: дозволяємо перенесення на новий рядок */
         @media (max-width: 768px) {
@@ -181,20 +189,29 @@
 
         /* --- МАГІЯ ФОКУСУ В РЕЖИМІ АНАЛІЗУ --- */
         .sortable-item.is-focused {
-            transform: scale(1.6) !important; 
-            z-index: 1000 !important;
-            box-shadow: 0 24px 48px rgba(0,0,0,0.2) !important;
+            transform: scale(1.8) !important; /* Стабільний ідеальний масштаб для будь-якої кількості карток */
+            z-index: 3000 !important;
+            box-shadow: 0 32px 64px rgba(0,0,0,0.15) !important;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: high-quality;
+        }
+
+        /* Робимо підпис делікатним при збільшенні картки */
+        .sortable-item.is-focused .mini-note {
+            font-size: 8.5px; /* 7.5px помножити на зум 1.8 = якраз ідеальні 13.5px */
+            margin-top: 2px;
         }
 
         /* Коли активний фокус, "гасимо" всі інші картки (з плавним переходом) */
+        /* Коли активний фокус, "гасимо" всі інші картки */
         body.has-focus .sortable-item:not(.is-focused) {
             filter: grayscale(60%) blur(2px);
             opacity: 0.6;
-            transition: filter 0.4s ease, opacity 0.4s ease, transform 0.4s ease; /* <-- ДОДАНО */
+            transition: filter 0.4s ease, opacity 0.4s ease, transform 0.4s ease;
         }
 
-        body.has-focus .section-intro,
-        body.has-focus .card {
+        /* Гасимо ТІЛЬКИ верхній заголовок. Блокнот залишається на 100% непрозорим! */
+        body.has-focus .section-intro {
             opacity: 0.3;
             transition: opacity 0.4s ease;
         }
@@ -203,7 +220,7 @@
         .sticky-notepad {
             position: sticky;
             bottom: 20px; 
-            z-index: 50;
+            z-index: 2000 !important; /* <-- ПІДНЯЛИ ВИЩЕ: тепер підказки завжди над зумом */
             box-shadow: 0 -10px 40px rgba(0,0,0,0.08) !important;
         }
 
@@ -413,7 +430,7 @@
                         </div>
                         
                         <!-- Спливаюче вікно (Тепер відкривається ВГОРУ) -->
-                            <div id="prompts-container" style="display: none; position: absolute; bottom: 100%; right: 0; margin-bottom: 12px; width: 320px; z-index: 1000; font-family: var(--font-serif); font-size: 14px; line-height: 1.6; color: var(--text-dark); padding: 20px; background: var(--bg-main); border-radius: 12px; box-shadow: 0 12px 32px rgba(0,0,0,0.12); border: 1px solid var(--border-color);">
+                            <div id="prompts-container" style="display: none; position: absolute; bottom: 100%; right: 0; margin-bottom: 12px; width: 320px; z-index: 1000; font-family: var(--font-serif); font-size: 14px; line-height: 1.6; color: var(--text-dark); padding: 20px; background: #ffffff; border-radius: 12px; box-shadow: 0 12px 32px rgba(0,0,0,0.12); border: 1px solid var(--border-color);">
                                 <div style="margin-bottom: 8px;">Що ви відчуваєте в тілі, дивлячись на це?</div>
                                 <div style="margin-bottom: 8px;">Яка перша думка, спогад чи історія спадає на думку?</div>
                                 <div style="margin-bottom: 8px;">Кого з вашого життя або які сюжети нагадує цей образ?</div>
@@ -594,9 +611,24 @@
 
 
             // Логіка кнопки "Почати заново"
+            // Логіка кнопки "Почати заново"
             document.getElementById('reset-btn').addEventListener('click', () => {
                 selectedCards = []; 
                 document.querySelectorAll('.card-item.selected').forEach(el => el.classList.remove('selected')); 
+                
+                // 1. Очищаємо текстове поле і скидаємо його висоту
+                const textNote = document.getElementById('association-text');
+                if (textNote) {
+                    textNote.value = '';
+                    textNote.style.height = '64px';
+                }
+                
+                // 2. Ховаємо "Орієнтири", якщо вони були відкриті
+                const promptsContainer = document.getElementById('prompts-container');
+                const promptsBtn = document.getElementById('toggle-prompts-btn');
+                if (promptsContainer) promptsContainer.style.display = 'none';
+                if (promptsBtn) promptsBtn.style.color = 'var(--text-muted)';
+                
                 updateSelectionUI(); 
             });
 
