@@ -2,7 +2,7 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Простір Станів | Локус Уяви</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
@@ -126,17 +126,6 @@
             object-fit: contain;
         }
 
-        
-
-        /* Адаптація для телефонів: дозволяємо перенесення на новий рядок */
-        @media (max-width: 768px) {
-            .sortable-container {
-                flex-wrap: wrap; 
-            }
-            .sortable-item {
-                max-width: 45%; /* По дві картки в ряд на мобільному */
-            }
-        }
 
         /* Стиль для індивідуального підпису під картинкою */
         .mini-note {
@@ -144,8 +133,9 @@
             background: transparent;
             border: none;
             border-bottom: 1px solid transparent;
-            font-family: var(--font-sans); /* Простий шрифт, щоб не змагався з картинкою */
-            font-size: 13px;
+            font-family: 'Lora', serif !important; 
+    font-style: italic !important;
+    font-size: 13px;
             color: var(--text-dark);
             text-align: center;
             resize: none;
@@ -273,84 +263,118 @@
 
 
 
-        /* =========================================
-           АДАПТАЦІЯ ДЛЯ ТЕЛЕФОНІВ (Не ламає комп'ютер)
-           ========================================= */
-        @media (max-width: 768px) {
-            
-            /* 1. Рятуємо нижню панель: переносимо кнопки під мініатюри */
-            #selection-panel {
-                padding: 16px !important;
-            }
-            #selection-panel > div {
-                flex-direction: column !important; /* Ставимо в колонку */
-                gap: 16px !important;
-            }
-            #selection-panel > div > div {
-                width: 100% !important;
-                justify-content: space-between !important; /* Розносимо по краях */
-            }
-            #proceed-btn {
-                flex-grow: 1; /* Кнопка гарно розтягується */
-                text-align: center;
-            }
+       /* =========================================
+   АДАПТАЦІЯ ДЛЯ ТЕЛЕФОНІВ (Ідеальні 2 колонки)
+   ========================================= */
+@media (max-width: 768px) {
+    
+    #selection-panel { padding: 12px !important; }
+    #selection-panel > div { flex-direction: column !important; gap: 12px !important; }
+    #selection-panel > div > div { width: 100% !important; justify-content: space-between !important; }
+    #proceed-btn { flex-grow: 1; text-align: center; }
 
-            /* 2. Робимо стрічку карток як в Instagram (одна під одною) */
-            /* 2 картки в ряд для телефону */
-            .sortable-container {
-                flex-direction: row !important; 
-                flex-wrap: wrap !important;
-                align-items: flex-start !important;
-                justify-content: center !important;
-                gap: 16px !important;
-            }
-            .sortable-item {
-                max-width: calc(50% - 8px) !important; /* Рівно половина екрана мінус відступ */
-                width: 100% !important;
-                height: 22vh !important; /* Компактна висота для сітки */
-                min-height: auto !important;
-            }
+    /* 1. СІТКА (Вирівнювання по найдовшій картці) */
+    .sortable-container {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 12px !important;
+        padding: 0 12px !important;
+        /* Дозволяємо карткам тягнутися, щоб заповнити висоту ряду */
+        align-items: stretch !important; 
+    }
 
-            /* Фіксований зум рівно по центру екрана */
-            .sortable-item.is-focused {
-                position: fixed !important;
-                top: 45% !important; /* Трохи вище центру, щоб залишити місце клавіатурі */
-                left: 50% !important;
-                transform: translate(-50%, -50%) !important; /* Ідеальне центрування */
-                width: 85vw !important; /* На всю ширину екрана */
-                max-width: 360px !important;
-                height: 60vh !important; /* Велика висота для самої картинки та тексту */
-                z-index: 4000 !important;
-            }
+    /* 2. КАРТКА */
+    .sortable-item {
+        box-sizing: border-box !important;
+        width: calc(50% - 6px) !important;
+        height: auto !important;
+        padding: 6px !important; 
+        border-radius: 8px !important;
+        margin: 0 !important;
+        
+        display: flex !important;
+        flex-direction: column !important;
+        /* Розкидаємо контент: картинка вгорі, текст завжди притиснутий донизу */
+        justify-content: space-between !important; 
+        
+        transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s ease, z-index 0s !important;
+    }
 
-            /* Текст асоціації на телефоні під час зуму */
-            .sortable-item.is-focused .mini-note {
-                font-size: 16px !important; /* Захист від примусового зуму Safari в iOS */
-                margin-top: 12px !important;
-                padding: 8px !important;
-            }
-            
-            /* 3. Делікатний зум для телефону (збільшуємо зовсім трошки, щоб не різало) */
-            .sortable-item.is-focused {
-                transform: scale(1.05) !important; 
-            }
+    /* 3. ЗОБРАЖЕННЯ (Повністю вміщується без обрізки) */
+    .sortable-item img {
+        width: 100% !important;
+        height: 100% !important; 
+        max-height: 240px !important; /* Запобіжник від надто витягнутих зображень */
+        object-fit: contain !important; 
+        flex-shrink: 1 !important;
+    }
 
-            /* 4. Захист від примусового зуму на iPhone */
-            .mini-note {
-                font-size: 16px !important; /* Якщо менше 16px, iOS ламає екран */
-                padding: 12px 4px !important;
-            }
-            
-            /* 5. Мінімізуємо блокнот і поп-ап, щоб клавіатурі було місце */
-            .sticky-notepad {
-                padding: 16px !important;
-                margin-top: 16px !important;
-            }
-            #prompts-container {
-                width: calc(100vw - 40px) !important; /* Підганяємо ширину підказки під телефон */
-                right: -10px !important;
-            }
-        }
+    /* 4. ПЛАВНИЙ ЗУМ (Виправлено проблему з нижнім рядом) */
+    .sortable-item.is-focused {
+        position: relative !important; 
+        z-index: 6000 !important;
+        box-shadow: 0 24px 48px rgba(0,0,0,0.15) !important;
+    }
+
+    /* Вісь Y повертаємо на center, масштаб трохи зменшуємо для надійності */
+    .sortable-item:nth-child(odd).is-focused {
+        transform-origin: left center !important; 
+        transform: scale(1.65) !important; 
+    }
+    .sortable-item:nth-child(even).is-focused {
+        transform-origin: right center !important;
+        transform: scale(1.65) !important;
+    }
+
+    /* 5. ТЕКСТ */
+    .mini-note {
+        font-size: 13px !important; 
+        padding: 4px !important;
+        margin-top: 8px !important;
+        min-height: 20px !important;
+        border: none !important;
+        background: transparent !important;
+    }
+
+    .sortable-item.is-focused .mini-note {
+        font-size: 8.5px !important; /* Адаптовано під зум 1.65 */
+        margin-top: 4px !important;
+        color: var(--text-dark) !important;
+    }
+    
+    .sortable-item.is-focused .mini-note::placeholder {
+        color: transparent !important; 
+    }
+
+    /* 6. ФОНОВИЙ БЛЮР ТА БЛОКНОТ */
+    body.has-focus::after {
+        content: '';
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(255, 255, 255, 0.85); 
+        backdrop-filter: blur(4px);
+        z-index: 5999;
+    }
+
+    .sticky-notepad {
+        padding: 16px !important;
+        margin-top: 24px !important;
+        z-index: 5000 !important;
+        transition: opacity 0.3s ease, z-index 0.3s ease; 
+    }
+
+    body.has-focus .sticky-notepad {
+        z-index: 1000 !important;
+        opacity: 0.1 !important; 
+        pointer-events: none !important; 
+    }
+
+    #prompts-container {
+        width: calc(100vw - 32px) !important; 
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+    }
+}
 
 
         
@@ -706,7 +730,9 @@
                     ghostClass: 'sortable-ghost',
                     easing: "cubic-bezier(1, 0, 0, 1)",
                     filter: 'textarea', 
-                    preventOnFilter: false 
+                    preventOnFilter: false,
+                    delay: 150, // Затримка 150мс...
+                    delayOnTouchOnly: true // ...яка працює ТІЛЬКИ на телефонах
                 });
                 
                 window.scrollTo({ top: 0, behavior: 'smooth' });
