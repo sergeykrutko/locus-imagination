@@ -154,30 +154,40 @@
         .sortable-ghost { opacity: 0.2; }
 
         /* 3. РОЗУМНЕ ТЕКСТОВЕ ПОЛЕ */
-        .elegant-textarea {
-            width: 100%;
-            min-height: 64px; /* Висота рівно на 2 рядки */
-            background: transparent;
-            border: none;
-            color: var(--text-dark);
-            font-family: var(--font-serif);
-            font-size: 18px;
-            line-height: 1.6;
-            resize: none; /* Забороняємо ручне розтягування */
-            outline: none;
-            overflow: hidden; /* Ховаємо скролбар */
-            padding: 8px 0;
-            transition: color 0.3s ease;
-        }
+       .elegant-textarea {
+        font-size: 15px !important;
+        min-height: 28px !important; 
+        padding: 4px 0 !important;
+        line-height: 1.4 !important;
+        overflow-y: hidden !important; 
         
-        .elegant-textarea:focus {
-            color: var(--accent-green); /* Легкий відтінок при написанні */
-        }
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
+        background: transparent !important;
+        resize: none !important; /* Надійно вимикаємо ручне розтягування */
+        
+        /* ВАЖЛИВО: жодних transition для висоти тут бути не повинно */
+    }
+
+    .elegant-textarea:focus {
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
+    }
+
+    /* Додатковий захист від появи лінії під час друкування (фокусу) */
+    .elegant-textarea:focus {
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
+    }
 
         .elegant-textarea::placeholder {
-            color: var(--text-muted);
-            font-style: italic;
-        }
+    color: var(--text-muted); /* Використовуємо ваш приглушений колір */
+    opacity: 0.4; /* Робимо його ще більш напівпрозорим і сірішим */
+    font-style: italic;
+}
 
         /* --- МАГІЯ ФОКУСУ В РЕЖИМІ АНАЛІЗУ --- */
         .sortable-item.is-focused {
@@ -205,11 +215,13 @@
             transition: filter 0.4s ease, opacity 0.4s ease, transform 0.4s ease;
         }
 
-        /* Гасимо ТІЛЬКИ верхній заголовок. Блокнот залишається на 100% непрозорим! */
-        body.has-focus .section-intro {
-            opacity: 0.3;
-            transition: opacity 0.4s ease;
-        }
+        /* Гасимо верхній заголовок ТА блокнот під час фокусу на картці */
+body.has-focus .section-intro,
+body.has-focus .sticky-notepad {
+    opacity: 0.3;
+    transition: opacity 0.4s ease;
+    pointer-events: none; /* Забороняємо клікати по блокноту, поки картка збільшена */
+}
 
         /* 4. ТЕКСТОВІ КАРТКИ ТА ПРИЛИПАЮЧИЙ БЛОКНОТ */
         .sticky-notepad {
@@ -439,7 +451,7 @@
        ПРИРОДНІЙ ФОКУС (Тільки мобільні)
        ========================================= */
        
-    /* 1. Затемнення фону (колір підлаштуйте під свою палітру, зараз він нейтральний світлий) */
+    /* 1. Затемнення фону */
     body.zen-writing::after {
         content: '';
         position: fixed;
@@ -462,16 +474,18 @@
         transition: opacity 0.3s ease;
     }
 
-    /* 3. Картка просто виходить на передній план, зберігаючи свої пропорції */
+    /* 3. КАРТКА ЗАЛИШАЄТЬСЯ НЕЗМІННОЮ. Просто піднімається над блюром. */
     .sortable-item.active-zen-card {
         z-index: 8000 !important;
-        box-shadow: 0 12px 32px rgba(0,0,0,0.15) !important;
+        scroll-margin-top: 16px !important; /* Відступ від верхнього краю екрана */
+        box-shadow: 0 16px 40px rgba(0,0,0,0.15) !important;
         transition: box-shadow 0.3s ease !important;
     }
 
-    /* 4. Плавно ховаємо іконку перетягування */
+    /* 4. Плавно ховаємо іконку перетягування, щоб не заважала писати */
     .sortable-item.active-zen-card .drag-handle {
         opacity: 0 !important;
+        pointer-events: none !important;
         transition: opacity 0.2s ease;
     }
 
@@ -721,12 +735,17 @@
             const countDisplay = document.getElementById('selected-count');
             let selectedCards = [];
 
-            // Авторозширення текстового поля
-            const textarea = document.getElementById('association-text');
-            textarea.addEventListener('input', function() {
-                this.style.height = '64px'; 
-                this.style.height = (this.scrollHeight) + 'px'; 
-            });
+            // Авторозширення висоти поля без різких стрибків
+
+// Авторозширення висоти поля головного блокнота (працює в обидва боки)
+const textarea = document.getElementById('association-text');
+textarea.addEventListener('input', function() {
+    // 1. Повністю скидаємо висоту, щоб скрипт відчув видалення тексту
+    this.style.height = 'auto'; 
+    
+    // 2. Встановлюємо нову точну висоту, яка ідеально облягає контент
+    this.style.height = this.scrollHeight + 'px';
+});
 
             function shuffle(array) {
                 let currentIndex = array.length, randomIndex;
@@ -948,9 +967,10 @@ ta.addEventListener('focus', function() {
         document.body.classList.add('zen-writing');
         wrap.classList.add('active-zen-card');
         
-        // Підтягуємо саме текстове поле над клавіатурою
+        // Припускаємо, що 300мс достатньо для появи клавіатури. 
+        // Скролимо до ВЕРХУ картки (wrap), а не до текстового поля.
         setTimeout(() => {
-            this.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            wrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }, 300);
     }
 });
