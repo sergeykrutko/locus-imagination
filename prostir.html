@@ -434,6 +434,48 @@
     #prompts-container div:last-child {
         margin-bottom: 0 !important;
     }
+
+/* =========================================
+       ПРИРОДНІЙ ФОКУС (Тільки мобільні)
+       ========================================= */
+       
+    /* 1. Затемнення фону (колір підлаштуйте під свою палітру, зараз він нейтральний світлий) */
+    body.zen-writing::after {
+        content: '';
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(252, 252, 249, 0.95); 
+        backdrop-filter: blur(6px);
+        z-index: 7000;
+    }
+
+    [data-theme="dark"] body.zen-writing::after {
+        background: rgba(28, 28, 30, 0.95);
+    }
+
+    /* 2. Ховаємо зайві елементи, залишаємо вас наодинці з обраною карткою */
+    body.zen-writing .sticky-notepad,
+    body.zen-writing .section-intro,
+    body.zen-writing .sortable-item:not(.active-zen-card) {
+        opacity: 0 !important;
+        pointer-events: none !important;
+        transition: opacity 0.3s ease;
+    }
+
+    /* 3. Картка просто виходить на передній план, зберігаючи свої пропорції */
+    .sortable-item.active-zen-card {
+        z-index: 8000 !important;
+        box-shadow: 0 12px 32px rgba(0,0,0,0.15) !important;
+        transition: box-shadow 0.3s ease !important;
+    }
+
+    /* 4. Плавно ховаємо іконку перетягування */
+    .sortable-item.active-zen-card .drag-handle {
+        opacity: 0 !important;
+        transition: opacity 0.2s ease;
+    }
+
+
 }
 
 
@@ -894,10 +936,31 @@
                     });
 
                     const ta = wrap.querySelector('.mini-note');
-                    ta.addEventListener('input', function() {
-                        this.style.height = 'auto';
-                        this.style.height = this.scrollHeight + 'px';
-                    });
+
+// Авторозширення висоти поля
+ta.addEventListener('input', function() {
+    this.style.height = 'auto';
+    this.style.height = this.scrollHeight + 'px';
+});
+
+ta.addEventListener('focus', function() {
+    if (window.innerWidth <= 768) {
+        document.body.classList.add('zen-writing');
+        wrap.classList.add('active-zen-card');
+        
+        // Підтягуємо саме текстове поле над клавіатурою
+        setTimeout(() => {
+            this.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 300);
+    }
+});
+
+ta.addEventListener('blur', function() {
+    if (window.innerWidth <= 768) {
+        document.body.classList.remove('zen-writing');
+        wrap.classList.remove('active-zen-card');
+    }
+});
 
                     sortableContainer.appendChild(wrap);
                 });
