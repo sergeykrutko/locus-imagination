@@ -477,9 +477,11 @@ body.has-focus .sticky-notepad {
     /* 3. КАРТКА ЗАЛИШАЄТЬСЯ НЕЗМІННОЮ. Просто піднімається над блюром. */
     .sortable-item.active-zen-card {
         z-index: 8000 !important;
-        scroll-margin-top: 16px !important; /* Відступ від верхнього краю екрана */
         box-shadow: 0 16px 40px rgba(0,0,0,0.15) !important;
         transition: box-shadow 0.3s ease !important;
+        
+        /* ФІКС ДЛЯ iOS: Вмикає апаратне прискорення, прибирає мікро-лаги графіки */
+        transform: translateZ(0) !important; 
     }
 
     /* 4. Плавно ховаємо іконку перетягування, щоб не заважала писати */
@@ -962,16 +964,14 @@ ta.addEventListener('input', function() {
     this.style.height = this.scrollHeight + 'px';
 });
 
+// НОВЕ: Режим глибокого фокусу при написанні
 ta.addEventListener('focus', function() {
     if (window.innerWidth <= 768) {
         document.body.classList.add('zen-writing');
         wrap.classList.add('active-zen-card');
         
-        // Припускаємо, що 300мс достатньо для появи клавіатури. 
-        // Скролимо до ВЕРХУ картки (wrap), а не до текстового поля.
-        setTimeout(() => {
-            wrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 300);
+        // Ми ПРИБРАЛИ звідси scrollIntoView. 
+        // iOS Safari сам ідеально підтягне поле над клавіатурою без ривків.
     }
 });
 
