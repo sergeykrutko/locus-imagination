@@ -109,12 +109,13 @@
             gap: 12px;
         }
 
-        .sortable-item:active {
-            cursor: grabbing;
-            transform: scale(1.03);
-            box-shadow: 0 12px 24px rgba(0,0,0,0.1);
-            z-index: 10;
-        }
+        /* 8. СКАСОВУЄМО МІКРО-ЗУМ ТА ГАРАНТОВАНО РОЗБЛОКОВУЄМО СКРОЛ */
+    .sortable-item:active {
+        transform: none !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.04) !important;
+    }
+    
+    
 
        .sortable-item img {
             width: auto;
@@ -193,9 +194,10 @@
             margin-top: 2px;
         }
 
-        body.has-focus {
-            overflow: hidden; 
-        }
+        /* Страховка: навіть якщо клас додасться, екран не заблокується */
+    body.has-focus {
+        overflow: auto !important; 
+    }
         /* Коли активний фокус, "гасимо" всі інші картки */
         body.has-focus .sortable-item:not(.is-focused) {
             filter: grayscale(60%) blur(2px);
@@ -376,9 +378,19 @@
         border-radius: 12px !important;
         box-shadow: 0 -4px 20px rgba(0,0,0,0.06) !important;
     }
-    .sticky-notepad > div:first-child { 
-        margin-bottom: 8px !important; 
+    /* --- ОНОВЛЕНИЙ КОМПАКТНИЙ БЛОКНОТ --- */
+    
+    /* 1. Ховаємо напис "РОЗДУМИ" на телефоні */
+    .sticky-notepad > div:first-child .label {
+        display: none !important;
     }
+    
+    /* 2. Притискаємо кнопки вправо і зменшуємо відступ до тексту */
+    .sticky-notepad > div:first-child {
+        justify-content: flex-end !important;
+        margin-bottom: 4px !important; 
+    }
+
     .sticky-notepad .label { 
         font-size: 11px !important; 
     }
@@ -393,13 +405,23 @@
         z-index: 2000 !important; 
     }
 
-    /* Центруємо підказки блокнота */
+    /* 3. Робимо вікно "Орієнтири" максимально компактним */
     #prompts-container {
-        width: calc(100vw - 32px) !important; 
+        width: 90% !important; 
         left: 50% !important;
         transform: translateX(-50%) !important;
-        bottom: calc(100% + 8px) !important; 
-        padding: 16px !important;
+        bottom: calc(100% + 4px) !important; /* Опускаємо впритул до блокнота */
+        padding: 12px 16px !important; /* Суттєво зменшуємо поля */
+        font-size: 13px !important; /* Робимо шрифт трохи меншим */
+        line-height: 1.4 !important; /* Робимо рядки щільнішими */
+    }
+    
+    /* 4. Зменшуємо відступи між самими питаннями у вікні */
+    #prompts-container div {
+        margin-bottom: 6px !important;
+    }
+    #prompts-container div:last-child {
+        margin-bottom: 0 !important;
     }
 }
 
@@ -419,8 +441,9 @@
 }
 .bottom-sheet-overlay.active { opacity: 1; }
 
+/* 1. Робимо фон панелі повністю непрозорим */
 .bottom-sheet {
-    background: var(--bg-main);
+    background: var(--bg-card, #ffffff); /* Жорстко задаємо суцільний колір, щоб прибрати прозорість */
     width: 100%;
     border-radius: 24px 24px 0 0;
     padding: 24px;
@@ -428,6 +451,11 @@
     transform: translateY(100%);
     transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
     box-sizing: border-box;
+}
+
+/* Надійна підтримка темної теми для панелі */
+[data-theme="dark"] .bottom-sheet {
+    background: #1c1c1e;
 }
 .bottom-sheet-overlay.active .bottom-sheet { transform: translateY(0); }
 
@@ -445,16 +473,30 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 12px;
 }
+/* 2. Повертаємо мініатюрам повний розмір без обрізки */
 .reorder-item {
-    aspect-ratio: 1;
-    border-radius: 12px;
+    height: 120px; /* Задаємо однакову висоту для охайності сітки замість квадрата */
+    border-radius: 8px;
     overflow: hidden;
     cursor: grab;
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
 }
-.reorder-item:active { cursor: grabbing; opacity: 0.8; transform: scale(0.95); }
+
+.reorder-item:active { 
+    cursor: grabbing; 
+    opacity: 0.8; 
+    transform: scale(0.95); 
+}
+
 .reorder-item img {
-    width: 100%; height: 100%; object-fit: cover; display: block;
+    width: 100%; 
+    height: 100%; 
+    object-fit: contain; /* Зображення повністю вписується у межі без жодної обрізки */
+    display: block;
 }
 
 /* Приховуємо кнопку порядку і драг-ручки на ПК */
@@ -464,6 +506,27 @@
 @media (max-width: 768px) {
     #mobile-reorder-btn { display: flex !important; }
 }
+
+
+
+/* =========================================
+   ФІКС ДЛЯ iPHONE: Блокування системного перехоплення
+   ========================================= */
+.sortable-item img, 
+.reorder-item img {
+    -webkit-touch-callout: none !important; /* Вимикає меню "Зберегти/Копіювати" */
+    -webkit-user-drag: none !important;     /* Забороняє системне перетягування */
+    -webkit-user-select: none !important;   /* Вимикає виділення */
+    user-select: none !important;
+    pointer-events: none !important;        /* Картинка стає "прозорою" для пальця */
+}
+
+/* Оскільки ми зробили картинку "прозорою", треба переконатися, 
+   що поле для тексту все ще можна натискати */
+.mini-note {
+    pointer-events: auto !important;
+}
+
 
 
         
@@ -583,7 +646,7 @@
                                 <div>Де ще у вашому житті зараз відбувається щось подібне?</div>
                             </div>
 
-                        <textarea id="association-text" class="elegant-textarea" placeholder="Почніть писати тут..."></textarea>
+                        <textarea id="association-text" class="elegant-textarea" placeholder="Ваші асоціації та роздуми..."></textarea>
                     </div>
 
                     <div style="margin-top: 40px; display: flex; justify-content: center; gap: 20px; align-items: center; padding-bottom: 120px;">
@@ -803,7 +866,10 @@
 `;
                     
                     wrap.addEventListener('click', function(e) {
-                        if (e.target.tagName.toLowerCase() === 'textarea') return; 
+    // Жорстко вимикаємо логіку кліку/зуму для мобільних
+    if (window.innerWidth <= 768) return; 
+
+    if (e.target.tagName.toLowerCase() === 'textarea') return;
                         
                         const alreadyFocused = this.classList.contains('is-focused');
                         document.querySelectorAll('.sortable-item.is-focused').forEach(el => el.classList.remove('is-focused'));
@@ -853,10 +919,14 @@ document.getElementById('mobile-reorder-btn').addEventListener('click', () => {
     });
 
     // Вмикаємо сортування для мініатюр
-    new Sortable(reorderGrid, {
-        animation: 200,
-        ghostClass: 'sortable-ghost'
-    });
+    // Вмикаємо сортування для мініатюр із підтримкою сенсорних екранів
+new Sortable(reorderGrid, {
+    animation: 200,
+    ghostClass: 'sortable-ghost',
+    delay: 150, // 150 мілісекунд затримки перед тим, як картка "відірветься"
+    delayOnTouchOnly: true, // Затримка працює ТІЛЬКИ на телефонах, на ПК мишкою — миттєво
+    fallbackTolerance: 5 // Дозволяє пальцю трохи здригнутися під час натискання
+});
 
     // Показуємо панель з плавною анімацією
     reorderModal.style.display = 'flex';
