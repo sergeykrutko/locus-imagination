@@ -995,48 +995,59 @@ new Sortable(sortableContainer, {
 });
 
 // 2. Логіка відкриття мобільної панелі сортування
+// --- ЛОГІКА МОБІЛЬНОЇ ПАНЕЛІ СОРТУВАННЯ ---
 const reorderModal = document.getElementById('reorder-modal');
 const reorderGrid = document.getElementById('reorder-grid');
+let mobileReorderInstance = null; // Змінна для зберігання механізму сортування
 
+// Відкриття панелі
 document.getElementById('mobile-reorder-btn').addEventListener('click', () => {
     reorderGrid.innerHTML = ''; 
     const mainItems = Array.from(sortableContainer.querySelectorAll('.sortable-item'));
     
-    // Створюємо квадратні мініатюри
-    mainItems.forEach((item, idx) => {
+    // Створюємо квадратні мініатюри і надійно пов'язуємо їх з картками
+    mainItems.forEach((item) => {
+        // Даємо великій картці унікальний ID, якщо його ще немає
+        if (!item.id) item.id = 'card-' + Math.random().toString(36).substr(2, 9);
+        
         const imgSrc = item.querySelector('img').src;
         const thumb = document.createElement('div');
         thumb.className = 'reorder-item';
-        thumb.dataset.originalIndex = idx; // Запам'ятовуємо, чия це картинка
+        thumb.dataset.cardId = item.id; // Записуємо ID картки у мініатюру
         thumb.innerHTML = `<img src="${imgSrc}" alt="Мініатюра">`;
         reorderGrid.appendChild(thumb);
     });
 
-    // Вмикаємо сортування для мініатюр
-    // Вмикаємо сортування для мініатюр із підтримкою сенсорних екранів
-new Sortable(reorderGrid, {
-    animation: 200,
-    ghostClass: 'sortable-ghost',
-    delay: 150, // 150 мілісекунд затримки перед тим, як картка "відірветься"
-    delayOnTouchOnly: true, // Затримка працює ТІЛЬКИ на телефонах, на ПК мишкою — миттєво
-    fallbackTolerance: 5 // Дозволяє пальцю трохи здригнутися під час натискання
-});
+    // ВАЖЛИВО: Знищуємо старий механізм сортування, якщо він був, щоб уникнути конфліктів
+    if (mobileReorderInstance) {
+        mobileReorderInstance.destroy();
+    }
 
-    // Показуємо панель з плавною анімацією
+    // Ініціалізуємо чистий механізм
+    mobileReorderInstance = new Sortable(reorderGrid, {
+        animation: 200,
+        ghostClass: 'sortable-ghost',
+        delay: 150, // Затримка для сенсора
+        delayOnTouchOnly: true,
+        fallbackTolerance: 5
+    });
+
+    // Показуємо панель
     reorderModal.style.display = 'flex';
     setTimeout(() => reorderModal.classList.add('active'), 10);
 });
 
-// 3. Логіка збереження порядку та закриття
+// Збереження порядку та закриття
 document.getElementById('close-reorder-btn').addEventListener('click', () => {
     const newOrderThumbs = Array.from(reorderGrid.querySelectorAll('.reorder-item'));
-    const mainItems = Array.from(sortableContainer.querySelectorAll('.sortable-item'));
     
-    // Переставляємо великі картки місцями відповідно до нового порядку мініатюр
+    // Переставляємо великі картки місцями, орієнтуючись на їхні унікальні ID
     newOrderThumbs.forEach(thumb => {
-        const originalIndex = thumb.dataset.originalIndex;
-        const originalItem = mainItems[originalIndex];
-        sortableContainer.appendChild(originalItem); // appendChild переміщує існуючий елемент у кінець
+        const cardId = thumb.dataset.cardId;
+        const originalItem = document.getElementById(cardId);
+        if (originalItem) {
+            sortableContainer.appendChild(originalItem);
+        }
     });
 
     // Ховаємо панель
