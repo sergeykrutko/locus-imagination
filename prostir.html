@@ -287,7 +287,7 @@
         align-items: center !important; 
     }
 
-    /* 2. ПРОСТОРА КАРТКА (Повертаємо гнучкість, але змушуємо обіймати контент) */
+    /* 2. ПРОСТОРА КАРТКА */
     .sortable-item {
         display: flex !important; 
         flex-direction: column !important;
@@ -295,8 +295,12 @@
         box-sizing: border-box !important;
         width: 100% !important;
         max-width: 480px !important;
+        
+        /* ГОЛОВНИЙ ФІКС: Знімаємо обмеження висоти від комп'ютерної версії */
         height: auto !important; 
-        min-height: min-content !important; /* Гарантує, що картка розтягнеться і під фото, і під текст */
+        max-height: none !important; /* <--- САМЕ ЦЕ ПОВЕРНЕ ПОЛЕ ТЕКСТУ */
+        min-height: min-content !important; 
+        
         padding: 12px !important;
         border-radius: 16px !important;
         margin: 0 !important;
@@ -370,7 +374,7 @@
         opacity: 1 !important;
     }
 
-    /* 7. КОМПАКТНИЙ БЛОКНОТ */
+    /* 6. КОМПАКТНИЙ БЛОКНОТ */
     .sticky-notepad {
         padding: 12px 16px !important;
         margin-top: 16px !important;
@@ -378,27 +382,34 @@
         border-radius: 12px !important;
         box-shadow: 0 -4px 20px rgba(0,0,0,0.06) !important;
     }
-    /* --- ОНОВЛЕНИЙ КОМПАКТНИЙ БЛОКНОТ --- */
     
-    /* 1. Ховаємо напис "РОЗДУМИ" на телефоні */
-    .sticky-notepad > div:first-child .label {
-        display: none !important;
+    /* Розштовхуємо напис ліворуч, а кнопки праворуч */
+    .sticky-notepad > div:first-child { 
+        justify-content: space-between !important; 
+        margin-bottom: 8px !important; 
+        width: 100% !important;
     }
     
-    /* 2. Притискаємо кнопки вправо і зменшуємо відступ до тексту */
-    .sticky-notepad > div:first-child {
-        justify-content: flex-end !important;
-        margin-bottom: 4px !important; 
-    }
-
+    /* Повертаємо напис, робимо його витонченим і компактним */
     .sticky-notepad .label { 
-        font-size: 11px !important; 
+        display: block !important; 
+        font-size: 10px !important; 
+        letter-spacing: 0.05em !important; 
+        white-space: nowrap !important; /* Щоб не переносився на новий рядок */
+        opacity: 0.7; /* Робимо трохи м'якшим */
     }
+    
+    /* Контролюємо акуратний відступ між двома кнопками */
+    .sticky-notepad > div:first-child > div {
+        gap: 12px !important; 
+    }
+    
     .elegant-textarea {
         font-size: 15px !important;
         min-height: 44px !important;
         padding: 4px 0 !important;
     }
+
     body.has-focus .sticky-notepad {
         opacity: 1 !important; 
         pointer-events: auto !important; 
@@ -622,7 +633,7 @@
                     <!-- Текстове поле ПРИЛИПАЄ ДО НИЗУ (Оновлене, компактне) -->
                     <div class="card sticky-notepad" style="padding: 24px 32px; margin-top: 40px; text-align: left;">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-                            <span class="label" style="margin: 0;">✧ АСОЦІАЦІЇ ТА РОЗДУМИ</span>
+                            <span class="label" style="margin: 0;">✧ АСОЦІАЦІЇ</span>
                             
                            <div style="display: flex; gap: 16px; align-items: center;">
         <!-- НОВА КНОПКА ПОРЯДКУ (Показується тільки на телефоні) -->
