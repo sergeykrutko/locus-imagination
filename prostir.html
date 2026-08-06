@@ -34,7 +34,60 @@
             transition: opacity 0.2s ease;
         }
         
-        @media (min-width: 768px) { .cards-grid { column-count: 3; } }
+        @media (min-width: 768px) { 
+        
+
+
+            /* 1. Картка в стані фокусу */
+    body.has-focus .sortable-item.focused {
+        /* ВАЖЛИВО: Вимикаємо старе розмиття через scale */
+        transform: none !important; 
+        
+        /* Робимо картку повноцінним поп-апом по центру екрана */
+        position: fixed !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        
+        /* Задаємо фізичні розміри (вона буде великою і красивою) */
+        width: 480px !important;
+        height: 85vh !important;
+        max-height: 800px !important;
+        
+        z-index: 9999 !important;
+        padding: 24px !important;
+        border-radius: 20px !important;
+        box-shadow: 0 24px 64px rgba(0,0,0,0.15) !important;
+        background: var(--bg-card, #ffffff) !important;
+        
+        cursor: default !important;
+    }
+
+    /* 2. Захищаємо картинку від стискання */
+    body.has-focus .sortable-item.focused img {
+        flex: 1 1 auto !important; /* Дозволяємо зайняти весь вільний простір */
+        min-height: 0 !important;  /* Критично важливо, щоб флексбокс не ламався */
+        object-fit: contain !important; /* Зображення завжди повне */
+        margin-bottom: 20px !important;
+        width: 100% !important;
+    }
+
+    /* 3. Чіткий текст та захист від переповнення */
+    body.has-focus .sortable-item.focused .mini-note {
+        flex: 0 0 auto !important; /* Блок тексту не гумовий, він має свій розмір */
+        max-height: 140px !important; /* Більше цього розміру поле не виросте */
+        overflow-y: auto !important; /* Якщо тексту дуже багато - з'явиться скрол всередині поля */
+        
+        /* Фізично збільшуємо шрифт для ідеальної чіткості */
+        font-size: 18px !important; 
+        line-height: 1.5 !important;
+        padding: 12px 16px !important;
+        background: rgba(0,0,0,0.02) !important; /* Ледь помітний фон, щоб відділити від картинки */
+        border-radius: 12px !important;
+    }
+            
+            
+        .cards-grid { column-count: 3; } }
         /* Правило для 4 колонок (1024px) ми просто прибрали */
         
         .card-item {
