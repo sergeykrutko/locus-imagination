@@ -2971,7 +2971,7 @@ html {
     font-family: var(--font-serif);
     font-size: clamp(2.5rem, 5vw, 3.5rem);
     line-height: 1.1;
-    margin-bottom: 48px;
+    margin-bottom: 28px;
     letter-spacing: -0.02em;
     color: var(--text-dark);
 }

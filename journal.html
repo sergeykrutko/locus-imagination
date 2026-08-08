@@ -171,7 +171,7 @@
             const rawMarkdownText = await response.text();
             
             // Шукаємо рядки, що починаються з ">> ", і перетворюємо їх на елегантний блок
-            const processedMarkdown = rawMarkdownText.replace(/^>>\s*(.+)$/gm, '<div class="epigraph-elegant">$1</div>');
+            const processedMarkdown = rawMarkdownText.replace(/^\\>>\s*(.+)$/gm, '<div class="epigraph-elegant">$1</div>');
             
             dynamicContent.innerHTML = marked.parse(processedMarkdown);
 

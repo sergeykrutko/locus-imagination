@@ -289,7 +289,7 @@ const myContent = {
 
         { type: "button", text: "Написати для знайомства", link: "https://t.me/locusuyavy", target: "_blank", variant: "quiet"  },
    // Той самий рядок про соціальні слоти
-        { type: "text", text: "<div style='font-size: 13px; color: var(--text-muted); font-style: italic; margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border-color); text-align: center;'>* У моїй практиці передбачено кілька соціальних слотів за зниженою вартістю для тих, хто потребує підтримки, але зараз не має можливості оплачувати повну ціну. Ви можете запитати мене про них під час нашої першої зустрічі.</div>" },
+        { type: "text", text: "<div style='font-size: 14px; color: var(--text-muted); font-style: italic; margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border-color); text-align: center;'>* У моїй практиці передбачено кілька соціальних слотів за зниженою вартістю для тих, хто потребує підтримки, але зараз не має можливості оплачувати повну ціну. Ви можете запитати мене про них під час нашої першої зустрічі.</div>" },
    
     ],
 
