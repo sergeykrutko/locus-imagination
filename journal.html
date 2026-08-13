@@ -175,6 +175,13 @@
             
             dynamicContent.innerHTML = marked.parse(processedMarkdown);
 
+            // Автоматично додаємо target="_blank" до всіх посилань у тексті статті
+            const contentLinks = dynamicContent.querySelectorAll("a");
+            contentLinks.forEach(link => {
+                link.setAttribute("target", "_blank");
+                link.setAttribute("rel", "noopener noreferrer"); // Правило безпеки для зовнішніх посилань
+            });
+
             const h1 = dynamicContent.querySelector("h1");
             if (h1) {
                 const dateObj = new Date(rawDate);
