@@ -1,5 +1,11 @@
 a, a:link, a:visited, a:active,
-.nav-btn, .btn-quiet, .btn-editorial {
+button,
+[role="button"],
+.nav-btn, .btn-quiet, .btn-editorial,
+.btn, .btn-minimal, .btn-light-action,
+.theme-toggle-btn, .card-image, .close-panel,
+.payment-close, .copy-btn, .burger-btn,
+.format-thumb, .archive-link {
     -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
     -webkit-touch-callout: none;
 }
