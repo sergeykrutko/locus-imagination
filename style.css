@@ -1,3 +1,7 @@
+* {
+    -webkit-tap-highlight-color: transparent;
+}
+
 :root {
     color-scheme: light dark;
     /* Цей рядок блокує "самодіяльність" браузера */
