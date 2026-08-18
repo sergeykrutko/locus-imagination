@@ -3606,7 +3606,7 @@ html {
     .hero p.hero-description {
         font-size: 0.95rem !important;
         line-height: 1.55 !important;
-        margin: 0 auto 20px !important;
+        margin: 10px auto 20px !important;
         max-width: 34ch !important;
         text-wrap: pretty;
     }
@@ -3619,7 +3619,7 @@ html {
     .hero .scroll-indicator {
         margin-top: auto !important;
         padding-top: 14px;
-        margin-bottom: 0;
+        margin-bottom: 15px;
     }
 
     /* 7. Виправлення описки: у style.css стоїть 116px замість 16px */
