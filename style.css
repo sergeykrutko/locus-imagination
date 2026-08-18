@@ -3529,130 +3529,241 @@ html {
 
 
 /* ============================================================ */
-/*  ЛОКУС УЯВИ — ФІКС ПЕРШОГО ЕКРАНА НА ТЕЛЕФОНІ                */
-/*  Вставити в САМИЙ КІНЕЦЬ style.css                            */
+/*  ЛОКУС УЯВИ — ПЕРШИЙ ЕКРАН, версія 2                          */
+/*  ЗАМІНЮЄ попередній фікс. Видаліть старий блок і вставте цей  */
+/*  у самий кінець style.css                                     */
 /* ============================================================ */
 
-/* Слово + кома не розриваються (напр. «образами,») */
-.nowrap {
-    white-space: nowrap;
+
+/* ------------------------------------------------------------ */
+/*  1. КОМА БІЛЬШЕ НЕ ВІДРИВАЄТЬСЯ ВІД СЛОВА                     */
+/*  Причина була в тому, що слово «образами» — окремий блок      */
+/*  (inline-block заради анімації). Браузер має право розірвати  */
+/*  рядок одразу після такого блоку — тому кома їхала вниз.      */
+/*  Робимо його звичайним текстом; плавна поява залишається,     */
+/*  зникає тільки легкий підйом на 20px (він на тексті не        */
+/*  працює). Ваші власні переноси <br> тепер можна лишити —      */
+/*  вони більше нічого не ламають.                               */
+/* ------------------------------------------------------------ */
+.drift-text i {
+    display: inline;
+    transform: none;
+    transition: opacity 1s ease 0.35s;
 }
 
+.drift-text.in-view i {
+    transform: none;
+}
+
+
+/* ------------------------------------------------------------ */
+/*  2. КАРТИНКА: ОДНАКОВА В SAFARI, CHROME ТА INSTAGRAM          */
+/*  Раніше висота задавалась у vh (частка висоти екрана), а      */
+/*  ширина «додумувалась» браузером — кожен рахував по-своєму,   */
+/*  тому Safari розтягував. Тепер задаємо ширину і пропорцію     */
+/*  16:9 напряму — жодних здогадок і жодної залежності від       */
+/*  висоти екрана.                                               */
+/* ------------------------------------------------------------ */
+.hero-editorial-image {
+    width: min(100%, 320px);
+    height: auto;
+    aspect-ratio: 16 / 9;
+    margin: 0 auto 30px;
+}
+
+.hero-editorial-image img {
+    display: block;
+}
+
+
+/* ------------------------------------------------------------ */
+/*  3. ПІДЗАГОЛОВОК ТИХІШИЙ                                      */
+/*  Був майже такий самий чорний і жирний, як заголовок.         */
+/* ------------------------------------------------------------ */
+.hero h2.hero-subtitle {
+    font-weight: 400 !important;
+    color: #4A4A44 !important;
+    letter-spacing: 0.015em !important;
+}
+
+
+/* ------------------------------------------------------------ */
+/*  4. ДРУГЕ РЕЧЕННЯ — ОКРЕМИМ ТИХИМ РЯДКОМ                      */
+/*  Потрібна одна правка в index.html (див. нижче в чаті).       */
+/*  Тонка риска зверху відділяє його від опису.                  */
+/* ------------------------------------------------------------ */
+.hero-range {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--text-muted);
+    max-width: 40ch;
+    margin: 0 auto 40px;
+    padding-top: 18px;
+    position: relative;
+}
+
+.hero-range::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 44px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.28;
+}
+
+
+/* ============================================================ */
+/*  ТЕЛЕФОН                                                      */
+/* ============================================================ */
 @media (max-width: 768px) {
 
-    /* 0. Верхній відступ віддаємо самому герою */
     .container {
         padding-top: 0;
     }
 
-    /* 1. ГОЛОВНЕ: рядок «*локус – місце...» більше не приклеєний
-          до точки «38px від верху», а стоїть у звичайному потоці.
-          Тепер він не може наїхати ні на картинку, ні на шапку. */
+    /* Рядок «*локус – місце...» у звичайному потоці:
+       раніше він був прибитий до точки «38px від верху»
+       і наїжджав на картинку. */
     .hero .hero-motto {
         position: static !important;
         transform: none !important;
         justify-content: center !important;
         text-align: center;
         width: auto !important;
-        margin: 0 auto 20px !important;
+        margin: 0 auto 18px !important;
         padding: 0 !important;
         font-size: 11.5px;
         line-height: 1.4;
         text-wrap: balance;
     }
 
-    /* 2. Вміст лягає зверху вниз, а не центрується «навколо себе».
-          box-sizing — щоб екран був рівно 100% висоти, а не +відступи.
-          svh замість dvh — щоб нічого не стрибало, коли в Safari
-          з’являється/зникає нижня панель. */
+    /* Вміст лягає зверху вниз від фіксованого відступу.
+       Це і є ліки від ривка в Instagram: коли їхня панель
+       зникає і екран стає вищим, нічого не переїжджає —
+       змінюється лише порожнє місце під стрілкою. */
     .section-fullscreen.hero {
         box-sizing: border-box;
         min-height: 100svh;
         justify-content: flex-start;
-        padding: 104px 20px 20px;
+        padding: 96px 20px 24px;
     }
 
-    /* 3. Картинка підлаштовується під висоту екрана */
     .hero-editorial-image {
-        max-width: 100%;
-        height: clamp(104px, 18vh, 150px);
-        margin: 0 auto 22px;
+        width: min(100%, 240px);
+        margin-bottom: 18px;
     }
 
-    /* 4. Заголовок: розмір «гумовий», рядки не злипаються,
-          хард-перенос <br> вимкнений — на вузькому екрані він
-          ламав фразу навпіл. */
     .hero h1.drift-text {
         font-size: clamp(26px, 7.8vw, 33px) !important;
         line-height: 1.14 !important;
         letter-spacing: -0.02em;
-        margin: 0 0 18px !important;
+        margin: 0 0 14px !important;
         text-wrap: balance;
     }
 
-    .hero h1 br {
-        display: none;
-    }
-
-    /* 5. Підзаголовок і опис */
     .hero h2.hero-subtitle {
-        font-size: 1.02rem !important;
-        line-height: 1.35 !important;
-        margin: 0 auto 12px !important;
-        max-width: 28ch;
+        font-size: 1.05rem !important;
+        line-height: 1.4 !important;
+        margin: 0 auto 16px !important;
+        max-width: 30ch;
         text-wrap: balance;
     }
 
     .hero p.hero-description {
-        font-size: 0.95rem !important;
+        font-size: 0.92rem !important;
         line-height: 1.55 !important;
-        margin: 10px auto 20px !important;
+        margin: 0 auto !important;
         max-width: 34ch !important;
         text-wrap: pretty;
     }
 
-    /* 6. Кнопка і стрілка тримаються низу екрана */
+    .hero .hero-range {
+        font-size: 0.95rem;
+        max-width: 32ch;
+        margin-bottom: 18px;
+        padding-top: 14px;
+    }
+
+    /* Стрілка на фіксованій відстані від кнопки.
+       Саме тут раніше стояло margin-top: auto — воно
+       притискало її до низу екрана, і при зміні висоти
+       вона стрибала найсильніше. */
     .hero .btn-quiet {
         margin-top: 0 !important;
     }
 
     .hero .scroll-indicator {
-        margin-top: auto !important;
-        padding-top: 14px;
-        margin-bottom: 15px;
+        margin: 20px auto 0 !important;
+        padding-top: 0;
     }
 
-    /* 7. Виправлення описки: у style.css стоїть 116px замість 16px */
+    /* Описка в style.css: там стоїть 116px замість 16px */
     .hero p {
         font-size: 16px !important;
     }
 }
 
-/* Низькі екрани (малі/старі телефони) — трохи ущільнюємо */
-@media (max-width: 768px) and (max-height: 700px) {
-    .section-fullscreen.hero {
-        padding-top: 96px;
-    }
 
-    .hero-editorial-image {
-        height: 96px;
-        margin-bottom: 16px;
-    }
-
+/* Дуже низькі екрани (малі телефони, горизонтальна орієнтація).
+   Поріг навмисно низький — 640px, щоб він не спрацьовував
+   при звичайному згортанні панелей браузера. */
+@media (max-width: 768px) and (max-height: 640px) {
     .hero .hero-motto {
         margin-bottom: 16px !important;
     }
 
+    .hero-editorial-image {
+        width: min(100%, 240px);
+        margin-bottom: 16px;
+    }
+
     .hero h1.drift-text {
-        margin-bottom: 14px !important;
+        margin-bottom: 12px !important;
     }
 
     .hero h2.hero-subtitle {
-        margin-bottom: 10px !important;
+        margin-bottom: 14px !important;
     }
 
+    .hero .hero-range {
+        margin-bottom: 20px;
+        padding-top: 14px;
+    }
+
+    .hero .scroll-indicator {
+        margin-top: 22px !important;
+    }
+}
+
+
+/* ------------------------------------------------------------ */
+/*  A. РИСКА СТОЇТЬ РІВНО ПОСЕРЕДИНІ ПРОМІЖКУ                    */
+/*  Було: під описом нуль відступу, а риска — одразу за ним.     */
+/*  Через це вона читалась як підкреслення слова «несвідомого»,  */
+/*  а не як роздільник. Тепер згори і знизу від неї однаково.    */
+/*  Застосувати в будь-якому разі.                               */
+/* ------------------------------------------------------------ */
+.hero p.hero-description {
+    margin: 0 auto 26px !important;
+}
+ 
+.hero-range {
+    padding-top: 26px;
+    margin: 0 auto 40px;
+}
+ 
+@media (max-width: 768px) {
     .hero p.hero-description {
-        font-size: 0.9rem !important;
-        margin-bottom: 14px !important;
+        margin: 0 auto 20px !important;
+    }
+ 
+    .hero .hero-range {
+        padding-top: 20px;
+        margin-bottom: 24px;
     }
 }
