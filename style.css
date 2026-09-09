@@ -95,6 +95,9 @@ button,
 
 
 
+
+
+
 /* @media (prefers-color-scheme: dark) {
     html:not([data-theme="light"]) {
         --bg-page: #151413;
@@ -3692,6 +3695,9 @@ html {
 
 
 
+
+
+
 /* ============================================================ */
 /*  ЛОКУС УЯВИ — СЕКЦІЯ «ЗНАЙОМСТВО»                             */
 /*  ЗАМІНЮЄ попередній файл about-section.css цілком.            */
@@ -3824,5 +3830,57 @@ html {
         transform: none;
         box-shadow: none;
         border-color: #EAEAEA;
+    }
+}
+
+
+
+/* ========================================= */
+/* ТЕГИ ЗАПИТІВ ДЛЯ ГОЛОВНОГО ЕКРАНА         */
+/* ========================================= */
+.hero-tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    max-width: 640px;
+    margin: 0 auto 40px;
+}
+
+.hero-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    border-radius: 100px;
+    border: 1px solid var(--border-color); /* Адаптивна рамка для обох тем */
+    background: var(--bg-card); /* Адаптивний фон */
+    color: var(--text-dark); /* Адаптивний текст */
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+    transition: var(--transition);
+    cursor: default; /* Щоб не виглядало як кнопка, яку обов'язково тиснути */
+}
+
+/* Легкий ховер-ефект, якщо людина наведе мишкою */
+@media (hover: hover) {
+    .hero-tag:hover {
+        border-color: var(--accent-green);
+        background: var(--bg-sage);
+        transform: translateY(-2px);
+    }
+}
+
+/* Адаптація для телефонів */
+@media (max-width: 768px) {
+    .hero-tags {
+        gap: 8px;
+        margin: 0 auto 32px;
+    }
+    
+    .hero-tag {
+        padding: 8px 16px;
+        font-size: 13px; /* Трохи менший шрифт для мобільного */
     }
 }
