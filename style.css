@@ -3736,8 +3736,8 @@ html {
         float: left;
         width: min(34%, 570px);
         margin: 64px 40px 28px 0;
-        shape-outside: inset(0 round 24px);
-        aspect-ratio: 3 / 4;
+       /* shape-outside: inset(0 round 24px); */
+      /*  aspect-ratio: 3 / 4; */
     }
 
     .about-content p {
